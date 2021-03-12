@@ -16,3 +16,10 @@ public class AccountController {
     // TODO Create account endpoint
 
 }
+
+@Controller
+@RequestMapping("/account/create")
+public class CreateAccount(@RequestBody String email, String password) {
+    System.out.println("Email: " + email);
+    System.out.println("Password: " + password);
+}

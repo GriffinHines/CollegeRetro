@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<style>
+body {font-family: Verdana, Helvetica, sans-serif;}
+* {box-sizing: border-box}
+
+input[type=text], input[type=password] {
+  padding: 15px;
+  margin: 5px 0 20px 0;
+  display: inline-block;
+  background: #f2f2f2;
+  width: 60%;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  width: 60%;
+  background-color: white;
+  outline: none;
+}
+
+hr {
+  border: 1px solid black;
+  margin-bottom: 25px;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: black;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  opacity: 0.9;
+}
+  
+button:hover {
+  opacity:1;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.signupbtn {
+  float: left;
+  width: 50%;
+}  
+  
+/* Add padding to container elements */
+.container {
+  padding: 16px;
+}
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+</style>
+<body>
+
+<form action="/submit_signup.php">
+  <div> Menu Bar to go here</div>
+  <br>
+  <div class="container">
+    <h1>Sign Up</h1>
+
+    <hr>
+
+    <label for="email"><b>Email</b></label>
+    <br>
+    <input type="text" placeholder="Email" name="email" required>
+    <br>
+
+    <label for="passsword"><b>Password</b></label>
+    <br>
+    <input type="password" placeholder="Password" name="password" required>
+    <br>
+    <button type="submit" class="signupbtn">Sign Up</button>
+  </div>
+</form>
+
+</body>
+</html>

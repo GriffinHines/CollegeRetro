@@ -20,5 +20,49 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    private String date;
+    private String status;
+    private String shippingCode;
+    private String items;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getData() {
+        return date;
+    }
+
+    public void setData(String date) {
+        this.date = date;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getShippingCode() {
+        return shippingCode;
+    }
+
+    public void setShippingCode(String shippingCode) {
+        this.shippingCode = shippingCode;
+    }
+
+    public String getItems() {
+        return items;
+    }
+
+    public void setItems(String items) {
+        this.items = items;
+    }
 }
 

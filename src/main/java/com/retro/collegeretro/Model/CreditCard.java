@@ -1,12 +1,10 @@
 package com.retro.collegeretro.Model;
 
+import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Belongs to one user. A user can have up to 3 cards saved.
@@ -17,58 +15,19 @@ import javax.persistence.Id;
 public class CreditCard {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long creditCardId;
+    @NotNull
     private String nameOnTheCard;
+    @NotNull
     private String cardIssuing;
+    @NotNull
     private long cardNumber;
+    @NotNull
     private int expiration;
+    @NotNull
     private int cvcNumber;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return nameOnTheCard;
-    }
-
-    public void setName(String nameOnTheCard) {
-        this.nameOnTheCard = nameOnTheCard;
-    }
-
-    public String getCardIssuing() {
-        return cardIssuing;
-    }
-
-    public void setCardIssuing(String cardIssuing) {
-        this.cardIssuing = cardIssuing;
-    }
-
-    public long getCardNumber() {
-        return cardNumber;
-    }
-
-    public void setCardNumber(long cardNumber) {
-        this.cardNumber = cardNumber;
-    }
-
-    public int getExpiration() {
-        return expiration;
-    }
-
-    public void setExpiration(int expiration) {
-        this.expiration = expiration;
-    }
-
-    public int getCvcNumber() {
-        return cvcNumber;
-    }
-
-    public void setCvcNumber(int cvcNumber) {
-        this.cvcNumber = cvcNumber;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
 }

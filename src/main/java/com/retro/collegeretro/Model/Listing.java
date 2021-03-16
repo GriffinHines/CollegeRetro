@@ -1,9 +1,11 @@
 package com.retro.collegeretro.Model;
 
+import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * A listing is an item which some user is trying to sell. A listing
@@ -17,58 +19,29 @@ import javax.persistence.*;
 public class Listing {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long listingId;
+    @NotNull
     private String category;
+    @NotNull
     private String listingName;
-    private double price;
+    @NotNull
+    private int pennies;
+    @NotNull
+    private boolean isOpen;
     private String description;
+    @NotNull
     private int quantity;
 
-    public int getQuantity() {
-        return quantity;
-    }
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cartId", nullable = false)
+    private List<Cart> carts;
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "transactionId", nullable = false)
+    private List<Transaction> transactions;
 
-    public long getId() {
-        return id;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getListingName() {
-        return listingName;
-    }
-
-    public void setListingName(String listingName) {
-        this.listingName = listingName;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

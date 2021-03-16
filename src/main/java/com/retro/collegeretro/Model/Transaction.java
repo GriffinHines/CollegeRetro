@@ -1,12 +1,12 @@
 package com.retro.collegeretro.Model;
 
+import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * A transaction is the purchase of a cart. The user is attained
@@ -19,50 +19,19 @@ import javax.persistence.Id;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    private String date;
+    private long transactionId;
+    @NotNull
+    private LocalDateTime date;
+    @NotNull
     private String status;
     private String shippingCode;
-    private String items;
 
-    public long getId() {
-        return id;
-    }
+    @OneToOne(fetch = FetchType.LAZY)
+    private Cart cart;
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
 
-    public String getData() {
-        return date;
-    }
-
-    public void setData(String date) {
-        this.date = date;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getShippingCode() {
-        return shippingCode;
-    }
-
-    public void setShippingCode(String shippingCode) {
-        this.shippingCode = shippingCode;
-    }
-
-    public String getItems() {
-        return items;
-    }
-
-    public void setItems(String items) {
-        this.items = items;
-    }
 }
 

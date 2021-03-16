@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ public class Listing {
     @NotNull
     private String listingName;
     @NotNull
-    private int pennies;
+    private int priceInCents;
     @NotNull
     private boolean isOpen;
     private String description;
@@ -34,11 +35,11 @@ public class Listing {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "cartId", nullable = false)
-    private List<Cart> carts;
+    private List<Cart> carts = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "transactionId", nullable = false)
-    private List<Transaction> transactions;
+    private List<Transaction> transactions = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)

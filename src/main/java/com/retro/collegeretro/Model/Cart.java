@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class Cart {
     private User user;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<Listing> listings;
+    private List<Listing> listings = new ArrayList<>();
 
 }
 

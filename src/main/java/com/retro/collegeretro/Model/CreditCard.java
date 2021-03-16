@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * Belongs to one user. A user can have up to 3 cards saved.
@@ -17,17 +18,39 @@ public class CreditCard {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long creditCardId;
     @NotNull
-    private String nameOnTheCard;
+    private String nameOnCard;
     @NotNull
-    private String cardIssuing;
+    private String cardNumber;
     @NotNull
-    private long cardNumber;
+    private int expMonth;
     @NotNull
-    private int expiration;
+    private int expYear;
     @NotNull
-    private int cvcNumber;
+    private int cvv;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
     private User user;
+
+    public CreditCard(String nameOnCard, String cardNumber, int expMonth, int expYear, int cvv, User user) {
+        this.nameOnCard = nameOnCard;
+        this.cardNumber = cardNumber;
+        this.expMonth = expMonth;
+        this.expYear = expYear;
+        this.cvv = cvv;
+        this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CreditCard that = (CreditCard) o;
+        return creditCardId == that.creditCardId && cardNumber == that.cardNumber && expMonth == that.expMonth && expYear == that.expYear && cvv == that.cvv && nameOnCard.equals(that.nameOnCard);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(creditCardId, nameOnCard, cardNumber, expMonth, expYear, cvv);
+    }
 }

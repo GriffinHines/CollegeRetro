@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * A cart is a list of listings belonging to a person who is trying to
@@ -15,23 +16,14 @@ import javax.persistence.*;
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    private int cartQuantity;
+    private long cartId;
 
-    public long getId() {
-        return id;
-    }
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Listing> listings;
 
-    public int getCartQuantity() {
-        return cartQuantity;
-    }
-
-    public void setCartQuantity(int cartQuantity) {
-        this.cartQuantity = cartQuantity;
-    }
 }
 

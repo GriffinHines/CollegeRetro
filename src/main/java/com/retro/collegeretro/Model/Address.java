@@ -1,5 +1,6 @@
 package com.retro.collegeretro.Model;
 
+import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,67 +18,19 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    private String name;
+    private long addressId;
+    @NotNull
     private String primaryLine;
     private String optionalLine;
-    private long zipCode;
+    @NotNull
+    private String zipCode;
+    @NotNull
     private String city;
+    @NotNull
     private String state;
 
-    public long getId() {
-        return id;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPrimaryLine() {
-        return primaryLine;
-    }
-
-    public void setPrimaryLine(String primaryLine) {
-        this.primaryLine = primaryLine;
-    }
-
-    public String getOptionalLine() {
-        return optionalLine;
-    }
-
-    public void setOptionalLine(String optionalLine) {
-        this.optionalLine = optionalLine;
-    }
-
-    public long getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(long zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
 }

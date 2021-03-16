@@ -1,5 +1,11 @@
-body {font-family: Verdana, Helvetica, sans-serif;}
-* {box-sizing: border-box}
+* {
+    box-sizing: border-box
+}
+
+body {
+    font-family: Verdana, Helvetica, sans-serif;
+}
+
 input {
     padding: 15px;
     margin: 5px 0 20px 0;
@@ -7,40 +13,35 @@ input {
     background: #f2f2f2;
     width: 60%;
 }
-input[type=text]:focus, input:focus {
+
+input:focus {
     width: 60%;
     background-color: white;
     outline: none;
 }
+
 hr {
     border: 1px solid black;
     margin-bottom: 25px;
 }
-/* Set a style for all buttons */
+
 button {
     background-color: black;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
-    cursor: pointer;
-    opacity: 0.9;
 }
 
-button:hover {
-    opacity:1;
-}
-/* Float cancel and signup buttons and add an equal width */
 #signupbtn {
     float: left;
     width: 50%;
 }
 
-/* Add padding to container elements */
 .container {
     padding: 16px;
 }
-/* Clear floats */
+
 .clearfix::after {
     content: "";
     clear: both;

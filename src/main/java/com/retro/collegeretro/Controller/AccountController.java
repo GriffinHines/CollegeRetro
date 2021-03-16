@@ -19,13 +19,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AccountController {
 
     @GetMapping("/create")
-    public String makeAccountPage(){
+    public String getCreateAccountPage() {
         return "create-account";
     }
 
     @PostMapping("/create")
-    public String makeAccount(@RequestParam String email, @RequestParam String username, @RequestParam String password){
+    public String makeAccount(@RequestParam String email, @RequestParam String username, @RequestParam String password) {
         return null;
+    }
+
+    @GetMapping("/login")
+    public String getLoginPage() {
+        return "login";
     }
 
 }

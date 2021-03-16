@@ -3,8 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <link rel="stylesheet" th:href="@{/create-account.css}">
 </head>
 <body>
-
+    <div> Menu Bar to go here</div>
+    <h1>Sign Up</h1>
+    <form action="/account/create" method="post">
+        <div class="container">
+            <hr>
+            <label for="email"><b>Email</b></label>
+            <br>
+            <input type="email" id="email" placeholder="Email" name="email" required>
+            <br>
+            <label for="username"><b>Username</b></label>
+            <br>
+            <input type="text" id="username" placeholder="Username" name="username" required>
+            <br>
+            <label for="password"><b>Password</b></label>
+            <br>
+            <input type="password" id="password" placeholder="Password" name="password" required>
+            <br>
+            <button type="submit" id="signupbtn">Sign Up</button>
+        </div>
+    </form>
 </body>
 </html>

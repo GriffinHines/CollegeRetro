@@ -20,6 +20,7 @@
             <form action="/account/user/username" method="post">
                 <input type="text" name="username" th:value="${userkey.getUsername()}">
                 <input type="submit" value="Submit">
+                <!-- <p th:if="${error}" class="error" th:text="${errorMessage}"></p> -->
             </form>
         </section>
         <section>

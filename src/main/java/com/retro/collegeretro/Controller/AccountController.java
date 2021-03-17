@@ -121,10 +121,19 @@ public class AccountController {
     } // getUserProfile
 
     @PostMapping("/user/username")
-    public RedirectView updateUsername(@RequestParam String username, @SessionAttribute User user) {
-        // TODO(michaelrehman): do not allow usernames that equal a preexisting username
-        user.setUsername(username);
-        userRepository.save(user);
+    public RedirectView updateUsername(@RequestParam String username, @SessionAttribute User user, Model model) {
+        if (userRepository.findByUsername(username) != null) {
+            // another user already has that username
+            model.addAttribute("error", true);
+            model.addAttribute("errorMessage", "A user already has that username.");
+        } else {
+            // username is not already taken
+            user.setUsername(username);
+            userRepository.save(user);
+            model.addAttribute("success", true);
+            model.addAttribute("successMessage", "Successfully changed username.");
+        } // if
+        // TODO(michaelrehman): Figure out how to get flash messages to the RediectView
         return new RedirectView("/account/user/myprofile");
     } // updateUsername
 

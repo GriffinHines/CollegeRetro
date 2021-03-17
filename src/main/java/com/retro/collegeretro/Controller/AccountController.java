@@ -89,11 +89,12 @@ public class AccountController {
 
         // If no user found for the token or the token is too short, don't verify
         if (user == null || token.length() <= 1) {
-            model.addAttribute("error");
-        }
+            model.addAttribute("error", true);
 
+        }
         // Verify user
-        else {
+         else {
+            model.addAttribute("error", false);
             user.setVerified(true);
             user.setVerificationToken("");
             userRepository.save(user);
@@ -104,7 +105,7 @@ public class AccountController {
 
     @GetMapping("/verification")
     public String getVerificationPromptPage(Model model, @SessionAttribute User user) {
-        model.addAttribute("email", user.getEmail());
+        model.addAttribute("userkey",user);
         return "verify-prompt";
     }
 

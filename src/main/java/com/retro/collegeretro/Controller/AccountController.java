@@ -114,4 +114,9 @@ public class AccountController {
         return "login";
     }
 
+    @GetMapping("/user/myprofile")
+    public String getUserProfile() {
+        return "myprofile";
+    } // getUserProfile
+
 }

@@ -7,6 +7,24 @@
     <title>CollegeRetro - My Profile</title>
 </head>
 <body>
-    <h1>My Profile</h1>
+    <main>
+        <h1>My Profile</h1>
+        <section>
+            <h2>Credit Cards</h2>
+        </section>
+        <section>
+            <h2>Addresses</h2>
+        </section>
+        <section>
+            <h2>Username</h2>
+            <form action="/account/user/username" method="post">
+                <input type="text" name="username" th:value="${userkey.getUsername()}">
+                <input type="submit" value="Submit">
+            </form>
+        </section>
+        <section>
+            <h2>Password</h2>
+        </section>
+    </main>
 </body>
 </html>

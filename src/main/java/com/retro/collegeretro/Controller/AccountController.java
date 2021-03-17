@@ -115,8 +115,17 @@ public class AccountController {
     }
 
     @GetMapping("/user/myprofile")
-    public String getUserProfile() {
+    public String getUserProfile(Model model, @SessionAttribute User user) {
+        model.addAttribute("userkey", user);
         return "myprofile";
     } // getUserProfile
+
+    @PostMapping("/user/username")
+    public RedirectView updateUsername(@RequestParam String username, @SessionAttribute User user) {
+        // TODO(michaelrehman): do not allow usernames that equal a preexisting username
+        user.setUsername(username);
+        userRepository.save(user);
+        return new RedirectView("/account/user/myprofile");
+    } // updateUsername
 
 }

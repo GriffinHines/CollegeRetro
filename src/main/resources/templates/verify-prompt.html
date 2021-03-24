@@ -2,12 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>CollegeRetro - Verify</title>
+    <title>CollegeRetro - Verify your account</title>
 </head>
 <body>
 <h1>Verify your email</h1>
-<h3>A verification email with your verification link has been sent to:</h3>
-<p th:text="${userkey.getEmail()}"></p>
+<p>A verification email has been sent to <span th:text="${userkey.getEmail()}"></span></p>
 
 </body>
 </html>

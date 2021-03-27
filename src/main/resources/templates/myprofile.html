@@ -8,23 +8,108 @@
 </head>
 <body>
     <main>
-        <h1>My Profile</h1>
+        <h1 th:text="${userkey.getUsername()} + '\'s Profile'"></h1>
+        <p th:if="${error}" class="error" th:text="${errorMessage}"></p>
+        <p th:if="${success}" class="error" th:text="${successMessage}"></p>
+        <!-- TODO(michaelrehman): add labels and update actions -->
+        <!-- TODO(michaelrehman): create unique `name`s to differentiate between each instance -->
         <section>
             <h2>Credit Cards</h2>
+            <form action="#">
+                <fieldset th:each="card : ${userkey.getCreditCards()}">
+                    <label>
+                        Name
+                        <input type="text" name="nameOnCard" th:value="${card.getNameOnCard()}" required>
+                    </label><br>
+                    <label>
+                        Card Number
+                        <input type="text" name="cardNumber" th:value="${card.getCardNumber()}" required>
+                    </label><br>
+                    <label>
+                        Expiration
+                        <!-- TODO(michaelrehman): pad month with left-leading 0's or else browser won't recognize it -->
+                        <input type="month" name="exp" th:value="${card.getExpYear()} + '-' + ${card.getExpMonth()}" required>
+                    </label><br>
+                    <label>
+                        CVV
+                        <input type="number" name="cvv" th:value="${card.getCvv()}" required>
+                    </label>
+                </fieldset>
+            </form>
         </section>
         <section>
             <h2>Addresses</h2>
+            <form action="#">
+                <fieldset th:each="address : ${userkey.getAddresses()}">
+                    <label>
+                        Address
+                        <input type="text" name="primaryLine" th:value="${address.getPrimaryLine()}" required>
+                        <input type="text" name="optionalLine" th:value="${address.getOptionalLine()}">
+                    </label><br>
+                    <label>
+                        Zip Code
+                        <input type="text" name="zipCode" th:value="${address.getZipCode()}" required>
+                    </label>
+                    <label>
+                        City
+                        <input type="text" name="city" th:value="${address.getCity()}" required>
+                    </label>
+                    <label>
+                        State
+                        <input type="text" name="state" th:value="${address.getState()}" required>
+                    </label>
+                </fieldset>
+            </form>
         </section>
         <section>
             <h2>Username</h2>
             <form action="/account/user/username" method="post">
-                <input type="text" name="username" th:value="${userkey.getUsername()}">
+                <label>
+                    Username
+                    <input type="text" name="username" th:value="${userkey.getUsername()}">
+                </label>
                 <input type="submit" value="Submit">
-                <!-- <p th:if="${error}" class="error" th:text="${errorMessage}"></p> -->
             </form>
         </section>
         <section>
             <h2>Password</h2>
+            <form action="#">
+                <label>
+                    New Password
+                    <input type="text" name="newPassword">
+                </label>
+                <label>
+                    Confirm Password
+                    <!-- TODO(michaelrehman): Make confirm required if new is non-empty -->
+                    <input type="text" name="confirmPassword">
+                </label>
+            </form>
+        </section>
+        <section>
+            <h2>Listings</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Category</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Open</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="listing : ${userkey.getListings()}">
+                        <td th:text="${listing.getCategory()}"></td>
+                        <td th:text="${listing.getListingName()}"></td>
+                        <!-- TODO(michaelrehman): convert to dollar value -->
+                        <td th:text="${listing.getPriceInCents()}"></td>
+                        <td th:text="${listing.isOpen()}"></td>
+                        <td th:text="${listing.getDescription()}"></td>
+                        <td th:text="${listing.getQuantity()}"></td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
     </main>
 </body>

@@ -1,5 +1,8 @@
 package com.retro.collegeretro.Controller;
 
+import com.retro.collegeretro.Model.Address;
+import com.retro.collegeretro.Model.CreditCard;
+import com.retro.collegeretro.Model.Listing;
 import com.retro.collegeretro.Model.User;
 import com.retro.collegeretro.Repository.UserRepository;
 import com.retro.collegeretro.Service.MyEmailSender;
@@ -19,6 +22,12 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
@@ -115,25 +124,39 @@ public class AccountController {
     }
 
     @GetMapping("/user/myprofile")
+    @Transactional
     public String getUserProfile(Model model, @SessionAttribute User user) {
+        // sample test code (not saved to database)
+        Set<CreditCard> cards = new HashSet<>();
+        cards.add(new CreditCard("Test", "489498489", 3, 8151, 555, user));
+        cards.add(new CreditCard("Test", "489498480", 11, 8151, 555, user));
+        user.setCreditCards(cards);
+        Set<Address> addresses = new HashSet<>();
+        addresses.add(new Address("123 Imaginary Lane", "12345", "City", "State", user));
+        addresses.add(new Address("1234 Imaginary Lane", "12345", "City", "State", user));
+        user.setAddresses(addresses);
+        Listing listing = new Listing();
+        listing.setListingName("name");
+        listing.setCategory("cate");
+        listing.setDescription("some desc");
+        listing.setOpen(true);
+        listing.setPriceInCents(123);
+        listing.setQuantity(12);
+        List<Listing> listings = new ArrayList<>();
+        listings.add(listing);
+        user.setListings(listings);
+
         model.addAttribute("userkey", user);
         return "myprofile";
     } // getUserProfile
 
     @PostMapping("/user/username")
-    public RedirectView updateUsername(@RequestParam String username, @SessionAttribute User user, Model model) {
-        if (userRepository.findByUsername(username) != null) {
-            // another user already has that username
-            model.addAttribute("error", true);
-            model.addAttribute("errorMessage", "A user already has that username.");
-        } else {
-            // username is not already taken
+    public RedirectView updateUsername(@RequestParam String username, @SessionAttribute User user) {
+        if (userRepository.findByUsername(username) == null) {
+            // change only if username is not already taken
             user.setUsername(username);
             userRepository.save(user);
-            model.addAttribute("success", true);
-            model.addAttribute("successMessage", "Successfully changed username.");
         } // if
-        // TODO(michaelrehman): Figure out how to get flash messages to the RediectView
         return new RedirectView("/account/user/myprofile");
     } // updateUsername
 

@@ -12,20 +12,33 @@
     <form action="/account/create" method="post">
         <div class="container">
             <hr>
-            <label for="email"><b>Email</b></label>
+            <label for="email">Email</label>
             <br>
             <input type="email" id="email" placeholder="Email" name="email" required>
+            <br><br>
+            <label for="username">Username</label>
+            <br><br>
+            <input type="text" id="username" placeholder="Username" name="username" minlength="6" required>
+            <br><br>
+            <label for="password">Password</label>
             <br>
-            <label for="username"><b>Username</b></label>
+            <input type="password" id="password" placeholder="Password" name="password" minlength="8" required>
             <br>
-            <input type="text" id="username" placeholder="Username" name="username" required>
+            <label>Confirm Password</label>
             <br>
-            <label for="password"><b>Password</b></label>
-            <br>
-            <input type="password" id="password" placeholder="Password" name="password" required>
-            <br>
+            <input required placeholder="Confirm Password" type="password" id="password_confirm" oninput="check(this)"/>
+            <br><br>
             <button type="submit" id="signupbtn">Sign Up</button>
         </div>
     </form>
+    <script language='javascript' type='text/javascript'>
+        function check(input){
+            if (input.value != document.getElementById('password').value) {
+                input.setCustomValidity('Passwords must match');
+            } else {
+                input.setCustomValidity('');
+            }
+        }
+    </script>
 </body>
 </html>

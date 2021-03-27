@@ -9,8 +9,6 @@
 <body>
     <main>
         <h1 th:text="${userkey.getUsername()} + '\'s Profile'"></h1>
-        <p th:if="${error}" class="error" th:text="${errorMessage}"></p>
-        <p th:if="${success}" class="error" th:text="${successMessage}"></p>
         <!-- TODO(michaelrehman): add labels and update actions -->
         <!-- TODO(michaelrehman): create unique `name`s to differentiate between each instance -->
         <section>

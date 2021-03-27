@@ -12,34 +12,42 @@
     <form action="/account/create" method="post">
         <div class="container">
             <hr>
-            <label for="email"><b>Email</b></label>
+            <label for="email">Email</label>
             <br>
             <input type="email" id="email" placeholder="Email" name="email" required>
             <br><br>
-            <label for="username"><b>Username</b></label>
+            <label for="username">Username</label>
             <br><br>
             <input type="text" id="username" placeholder="Username" name="username" minlength="6" required>
             <br><br>
-            <label for="password"><b>Password</b></label>
+            <label for="password">Password</label>
             <br>
             <input type="password" id="password" placeholder="Password" name="password" minlength="8" required>
             <br>
-            <label><b>Confirm Password</b></label>
+            <label>Confirm Password</label>
             <br>
-            <input name="password_confirm" required="required" placeholder="Confirm Password" type="password" id="password_confirm" oninput="check(this)" />
-            <script language='javascript' type='text/javascript'>
-                function check(input){
-                    if (input.value != document.getElementById('password').value) {
-                        input.setCustomValidity('Password Must be Matching.');
-                    } else {
-                        // input is valid -- reset the error message
-                        input.setCustomValidity('');
-                    }
-                }
-            </script>
+            <input required placeholder="Confirm Password" type="password" id="password_confirm" oninput="check(this)"/>
             <br><br>
             <button type="submit" id="signupbtn">Sign Up</button>
         </div>
     </form>
 </body>
 </html>
+
+<script language='javascript' type='text/javascript'>
+    function check(input){
+        if (input.value != document.getElementById('password').value) {
+            input.setCustomValidity('Passwords must match');
+        } else {
+            input.setCustomValidity('');
+        }
+    }
+
+    document.getElementById('password').addEventListener("input", function(input){
+        if (input.value != document.getElementById('password_confirm').value) {
+            input.setCustomValidity('Passwords must match');
+        } else {
+            input.setCustomValidity('');
+        }
+    });
+</script>

@@ -43,11 +43,11 @@
         }
     }
 
-    document.getElementById('password').addEventListener("input", function(input){
-        if (input.value != document.getElementById('password_confirm').value) {
-            input.setCustomValidity('Passwords must match');
+    document.getElementById('password').addEventListener("input", function(){
+        if (document.getElementById('password').value != document.getElementById('password_confirm').value) {
+            document.getElementById('password').input.setCustomValidity('Passwords must match');
         } else {
-            input.setCustomValidity('');
+            document.getElementById('password').input.setCustomValidity('');
         }
     });
 </script>

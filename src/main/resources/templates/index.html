@@ -3,8 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>CollegeRetro</title>
+    <link rel="stylesheet" th:href="@{/style/index.css}">
 </head>
 <body>
-
+    <nav class="nav-bar">
+        <div class="logo">
+            <a href="/"><img src="img/logo.png" id="logo"></a>
+        </div>
+        <div class="actions">
+            <div class="search">
+                <input type="text" placeholder="Search...">
+                <a><img src="img/search.png" id="search"></a>
+            </div>
+            <div class="account">
+                <div th:unless="${session.containsKey('user')}">
+                    <a href="/account/login">Login/Sign Up</a>
+                </div>
+                <div th:if="${session.containsKey('user')}">
+                    <a href="/account/user/myprofile">Account</a>
+                </div>
+            </div>
+        </div>
+    </nav>
 </body>
 </html>

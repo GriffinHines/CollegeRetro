@@ -42,14 +42,20 @@
         <p>Your Sign Up connection with CollegeRetro is secured.</p>
         <p>For customer service help with Sign Up, call 1-800-123-1234</p>
     </div>
-
     <script language='javascript' type='text/javascript'>
-        function check(input){
+        function checkPW(input){
             if (input.value != document.getElementById('password').value) {
                 input.setCustomValidity('Passwords must match');
             } else {
                 input.setCustomValidity('');
             }
+        }
+        function checkEmail(input){
+            //Need to create errorRequest parameter
+            if($#request.param("error") != null)
+                input.setCustomValidity('Invalid email');
+            else
+                input.setCustomValidity('');
         }
     </script>
 </body>

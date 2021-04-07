@@ -1,22 +1,67 @@
 body {
+    margin: 0;
     background-color: white;
     font-family: Calibri, serif;
     text-align: center;
 }
 
-div {
-    border: 3px solid deepskyblue;
+.login-box {
+    color: white;
+    background-image: linear-gradient(to bottom right, #428BCA, black);
+    box-shadow: 5px 5px 20px #222222;
+    border: 3px solid black;
     width: 50%;
-    margin: 5% auto;
-    padding: 15px;
-    text-align: center;
-    background-color: white;
-    border-radius: 15px;
+    margin: 15% auto;
 }
 
-img {
-    max-width: 60%;
-    vertical-align: middle;
-    margin: 5px auto;
+form {
+    width: 70%;
+    margin: 50px auto;
+}
+
+.title h2 {
     text-align: center;
+    font-size: 30px;
+    margin: 0 0 15px;
+}
+
+.input {
+    margin: 25px 0;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 25px 0;
+}
+
+.note {
+    color: white;
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+}
+
+.login-box a {
+    text-decoration: white underline;
+}
+
+.login-box a:link {
+    color: white;
+}
+
+.login-box a:visited {
+    color: white;
+}
+
+#mountains {
+    z-index: -1;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
 }

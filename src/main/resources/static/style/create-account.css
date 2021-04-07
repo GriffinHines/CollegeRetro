@@ -1,49 +1,70 @@
-* {
-    box-sizing: border-box
-}
-
 body {
-    font-family: Verdana, Helvetica, sans-serif;
+    text-align: center;
 }
 
-input {
-    padding: 15px;
-    margin: 5px 0 20px 0;
-    display: inline-block;
-    background: #f2f2f2;
-    width: 60%;
+.signup-box {
+    color: white;
+    background-image: linear-gradient(to bottom right, #428BCA, black);
+    box-shadow: 5px 5px 20px #222222;
+    border: 3px solid black;
+    width: 50%;
+    margin: 15% auto;
+}
+
+form {
+    width: 70%;
+    margin: 50px auto;
+}
+
+.title h2 {
+    text-align: center;
+    font-size: 30px;
+    margin: 0 0 20px;
+}
+
+.input {
+    display: flex;
+    flex-display: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.input input {
+    width: 65%;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 30px 0;
 }
 
 input:focus {
-    width: 60%;
     background-color: white;
     outline: none;
-}
-
-hr {
-    border: 1px solid black;
-    margin-bottom: 25px;
-}
-
-button {
-    background-color: black;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-}
-
-#signupbtn {
-    float: left;
-    width: 50%;
-}
-
-.container {
-    padding: 16px;
 }
 
 .clearfix::after {
     content: "";
     clear: both;
     display: table;
+}
+
+#mountains {
+    z-index: -1;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+
+.note {
+    color: white;
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    right: 0;
 }

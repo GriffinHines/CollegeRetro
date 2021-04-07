@@ -1,0 +1,27 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="navbar">
+    <nav class="navbar">
+        <div class="search">
+            <input type="text" class="form-control" placeholder="Search...">
+            <a><img th:src="@{/img/search.png}" id="search"></a>
+        </div>
+        <div class="logo">
+            <a href="/"><img th:src="@{/img/logo.svg}" alt="CollegeRetro Logo" id="logo"></a>
+        </div>
+        <div class="options">
+            <div th:if="${session.user == null}">
+                <a class="btn btn-info" href="/account/login">Login</a>
+            </div>
+            <div th:if="${session.user != null}">
+                <a class="btn btn-info" href="/account/user/myprofile">Account</a>
+            </div>
+            <div th:if="${session.user != null}">
+                <a class="btn btn-info" href="/account/login">Cart</a>
+            </div>
+            <div th:if="${session.user != null}">
+                <a class="btn btn-info" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+</div>
+</html>

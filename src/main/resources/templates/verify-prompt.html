@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>CollegeRetro - Verify your account</title>
+    <link rel="stylesheet" th:href="@{/style/core.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
-<h1>Verify your email</h1>
-<p>A verification email has been sent to <span th:text="${userkey.getEmail()}"></span></p>
+
+<nav th:replace="fragments/topnav :: navbar"></nav>
+
+<div class="card bg-light p-2 mt-5 mx-auto w-25">
+    <h1 class="card-title">Account Created</h1>
+    <br>
+    <p>A verification email has been sent to <span th:text="${session.user.getEmail()}"></span></p>
+</div>
 
 </body>
 </html>

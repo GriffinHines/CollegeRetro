@@ -1,27 +1,22 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div th:fragment="navbar">
-    <nav class="navbar">
-        <div class="search">
-            <input type="text" class="form-control" placeholder="Search...">
-            <a><img th:src="@{/img/search.png}" id="search"></a>
+<nav class="navbar" th:fragment="navbar">
+    <div class="search">
+        <input type="text" class="form-control" placeholder="Search...">
+        <a><img th:src="@{/img/search.png}" id="search"></a>
+    </div>
+    <div class="logo">
+        <a href="/"><img th:src="@{/img/logo.svg}" alt="CollegeRetro Logo" id="logo"></a>
+    </div>
+    <div class="options">
+        <div th:if="${session.user == null}" class="inline-flex">
+            <a class="btn btn-primary" href="/account/create">Create Account</a>
+            <a class="btn btn-primary ml-2" href="/account/login">Login</a>
         </div>
-        <div class="logo">
-            <a href="/"><img th:src="@{/img/logo.svg}" alt="CollegeRetro Logo" id="logo"></a>
+        <div th:if="${session.user != null}" class="inline-flex">
+            <a class="btn btn-info" href="/account/profile" th:text="${session.user.getUsername()}"></a>
+            <a class="btn btn-info ml-2" href="/account/login" th:text="'Cart (' + ${session.user.getCart().getListings().size()} + ')'"></a>
+            <a class="btn btn-info ml-2" href="/logout">Logout</a>
         </div>
-        <div class="options">
-            <div th:if="${session.user == null}">
-                <a class="btn btn-info" href="/account/login">Login</a>
-            </div>
-            <div th:if="${session.user != null}">
-                <a class="btn btn-info" href="/account/user/myprofile">Account</a>
-            </div>
-            <div th:if="${session.user != null}">
-                <a class="btn btn-info" href="/account/login">Cart</a>
-            </div>
-            <div th:if="${session.user != null}">
-                <a class="btn btn-info" href="/logout">Logout</a>
-            </div>
-        </div>
-    </nav>
-</div>
+    </div>
+</nav>
 </html>

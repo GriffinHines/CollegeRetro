@@ -6,57 +6,57 @@
 
     <link rel="stylesheet" th:href="@{/style/create-account.css}">
     <link rel="stylesheet" th:href="@{/style/core.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div th:replace="fragments/topnav :: navbar"></div>
-    <div class="signup-box">
-        <form action="/account/create" method="post">
-            <div class="title">
-                <h2>Sign Up</h2>
-            </div>
-            <div class="input">
-                <label for="email">Email:</label>
-                <input class="form-control" type="email" id="email" name="email" required>
-            </div>
-            <div class="input">
-                <label for="username">Username:</label>
-                <input class="form-control" type="text" id="username" name="username" minlength="6" required>
-            </div>
-            <div class="input">
-                <label for="password">Password:</label>
-                <input class="form-control" type="password" id="password"name="password" minlength="8" required>
-            </div>
-            <div class="input">
-                <label>Confirm Password:</label>
-                <input class="form-control" required type="password" id="password_confirm" oninput="check(this)"/>
-            </div>
-            <div class="actions">
-                <button class="btn btn-primary" type="submit">Sign Up</button>
-            </div>
-        </form>
-    </div>
-    <div>
-        <img th:src="@{/img/mountain.png}" id="mountains">
-    </div>
-    <div class="note">
-        <p>Your Sign Up connection with CollegeRetro is secured.</p>
-        <p>For customer service help with Sign Up, call 1-800-123-1234</p>
-    </div>
-    <script language='javascript' type='text/javascript'>
-        function checkPW(input){
-            if (input.value != document.getElementById('password').value) {
-                input.setCustomValidity('Passwords must match');
-            } else {
-                input.setCustomValidity('');
-            }
+
+<div th:replace="fragments/topnav :: navbar"></div>
+
+<div class="signup-box">
+    <p th:if="${param.containsKey('error')}" th:text="${param.get('errorMsg')}" class="mt-2"></p>
+    <form action="/account/create" method="post">
+        <div class="title">
+            <h1>Sign Up</h1>
+        </div>
+        <div class="input">
+            <label for="email">Email:</label>
+            <input class="form-control" type="email" id="email" name="email" required>
+        </div>
+        <div class="input">
+            <label for="username">Username:</label>
+            <input class="form-control" type="text" id="username" name="username" minlength="6" required>
+        </div>
+        <div class="input">
+            <label for="password">Password:</label>
+            <input class="form-control" type="password" id="password" name="password" minlength="8" required>
+        </div>
+        <div class="input">
+            <label>Confirm Password:</label>
+            <input class="form-control" required type="password" id="password_confirm" oninput="checkPW(this)"/>
+        </div>
+        <div class="actions">
+            <button class="btn btn-primary" type="submit">Sign Up</button>
+        </div>
+    </form>
+</div>
+
+<div>
+    <img th:src="@{/img/mountain.png}" id="mountains" alt="">
+</div>
+
+<div class="note">
+    <p>Your Sign Up connection with CollegeRetro is secured.</p>
+    <p>For customer service help with Sign Up, call 1-800-123-1234</p>
+</div>
+
+<script type='text/javascript'>
+    function checkPW(input) {
+        if (input.value !== document.getElementById('password').value) {
+            input.setCustomValidity('Passwords must match');
+        } else {
+            input.setCustomValidity('');
         }
-        function checkEmail(input){
-            //Need to create errorRequest parameter
-            if($#request.param("error") != null)
-                input.setCustomValidity('Invalid email');
-            else
-                input.setCustomValidity('');
-        }
-    </script>
+    }
+</script>
 </body>
 </html>

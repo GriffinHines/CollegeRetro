@@ -16,7 +16,7 @@ form {
     margin: 50px auto;
 }
 
-.title h2 {
+.title h1 {
     text-align: center;
     font-size: 30px;
     margin: 0 0 20px;
@@ -24,7 +24,6 @@ form {
 
 .input {
     display: flex;
-    flex-display: row;
     justify-content: space-between;
     align-items: center;
     margin: 10px 0;
@@ -54,7 +53,7 @@ input:focus {
 
 #mountains {
     z-index: -1;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
@@ -63,8 +62,8 @@ input:focus {
 
 .note {
     color: white;
-    position: absolute;
-    bottom: 30px;
+    position: fixed;
+    bottom: 20px;
     left: 0;
     right: 0;
 }

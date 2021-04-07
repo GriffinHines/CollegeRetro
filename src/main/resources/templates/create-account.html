@@ -14,7 +14,7 @@
             <hr>
             <label for="email">Email</label>
             <br>
-            <input type="email" id="email" placeholder="Email" name="email" required>
+            <input type="email" id="email" placeholder="Email" name="email" oninput="checkEmail(this)" required>
             <br><br>
             <label for="username">Username</label>
             <br><br>
@@ -26,18 +26,25 @@
             <br>
             <label>Confirm Password</label>
             <br>
-            <input required placeholder="Confirm Password" type="password" id="password_confirm" oninput="check(this)"/>
+            <input required placeholder="Confirm Password" type="password" id="password_confirm" oninput="checkPW(this)"/>
             <br><br>
             <button type="submit" id="signupbtn">Sign Up</button>
         </div>
     </form>
     <script language='javascript' type='text/javascript'>
-        function check(input){
+        function checkPW(input){
             if (input.value != document.getElementById('password').value) {
                 input.setCustomValidity('Passwords must match');
             } else {
                 input.setCustomValidity('');
             }
+        }
+        function checkEmail(input){
+            //Need to create errorRequest parameter
+            if($#request.param("error") != null)
+                input.setCustomValidity('Invalid email');
+            else
+                input.setCustomValidity('');
         }
     </script>
 </body>

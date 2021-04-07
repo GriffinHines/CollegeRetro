@@ -11,9 +11,6 @@ public class HomepageController {
 
     @GetMapping("/")
     public String getHomepage(@SessionAttribute(required = false) User user) {
-        if (user != null) {
-            System.out.println(user.getFName());
-        } // if
         return "index";
     }
 

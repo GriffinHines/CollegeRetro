@@ -33,7 +33,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<CreditCard> creditCards = new HashSet<>();
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Cart cart;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -53,6 +53,8 @@ public class User {
     public User() {
         roleList.add(new UserRole(this, Role.USER));
         setNewVerificationToken();
+        cart = new Cart();
+        cart.setUser(this);
     }
 
     @Override

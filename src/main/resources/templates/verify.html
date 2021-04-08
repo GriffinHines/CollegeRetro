@@ -3,11 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>CollegeRetro - Verify</title>
+    <link rel="stylesheet" th:href="@{/style/core.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
-<p th:if="${error}"> An error has occurred and verification is unsuccessful!</p>
-<p th:if="${!error}">Your email has been successfully verified! </p>
-<a href="/">-> Go Back to homepage</a>
-<a th:if="${!error}" href="/account/user/myprofile">-> Go to your profile</a>
+
+<nav th:replace="fragments/topnav :: navbar"></nav>
+
+<div class="card bg-light p-2 mt-5 mx-auto w-25">
+    <h1 th:if="${error}" class="card-title">Error!</h1>
+    <h1 th:unless="${error}" class="card-title">Success!</h1>
+    <br>
+    <p th:if="${error}">An error has occurred and verification is unsuccessful!</p>
+    <p th:unless="${error}">Your email has been successfully verified!</p>
+    <a th:unless="${error}" th:if="${session.user == null}" class="btn btn-primary mx-auto mt-2" href="/account/login">Login</a>
+    <a th:unless="${error}" th:if="${session.user != null}" class="btn btn-primary mx-auto mt-2" href="/">Return</a>
+</div>
+
 </body>
 </html>

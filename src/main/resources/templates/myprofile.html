@@ -2,11 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CollegeRetro - My Profile</title>
+    <link rel="stylesheet" th:href="@{/style/myprofile.css}">
+    <link rel="stylesheet" th:href="@{/style/core.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
+    <div th:replace="fragments/topnav :: navbar"></div>
     <main>
         <h1 th:text="${userkey.getUsername()} + '\'s Profile'"></h1>
         <!-- TODO(michaelrehman): add labels and update actions -->
@@ -15,23 +18,23 @@
             <h2>Credit Cards</h2>
             <form action="#">
                 <fieldset th:each="card : ${userkey.getCreditCards()}">
-                    <label>
-                        Name
-                        <input type="text" name="nameOnCard" th:value="${card.getNameOnCard()}" required>
-                    </label><br>
-                    <label>
-                        Card Number
-                        <input type="text" name="cardNumber" th:value="${card.getCardNumber()}" required>
-                    </label><br>
-                    <label>
-                        Expiration
+                    <div class="input-section">
+                        <label>Name:</label>
+                        <input class="form-control" type="text" name="nameOnCard" th:value="${card.getNameOnCard()}" required>
+                    </div>
+                    <div class="input-section">
+                        <label>Card Number:</label>
+                        <input class="form-control" type="text" name="cardNumber" th:value="${card.getCardNumber()}" required>
+                    </div>
+                    <div class="input-section">
+                        <label>Expiration:</label>
                         <!-- TODO(michaelrehman): pad month with left-leading 0's or else browser won't recognize it -->
-                        <input type="month" name="exp" th:value="${card.getExpYear()} + '-' + ${card.getExpMonth()}" required>
-                    </label><br>
-                    <label>
-                        CVV
-                        <input type="number" name="cvv" th:value="${card.getCvv()}" required>
-                    </label>
+                        <input class="form-control"type="month" name="exp" th:value="${card.getExpYear()} + '-' + ${card.getExpMonth()}" required>
+                    </div>
+                    <div class="input-section">
+                        <label>CVV:</label>
+                        <input class="form-control" type="number" name="cvv" th:value="${card.getCvv()}" required>
+                    </div>
                 </fieldset>
             </form>
         </section>
@@ -39,49 +42,56 @@
             <h2>Addresses</h2>
             <form action="#">
                 <fieldset th:each="address : ${userkey.getAddresses()}">
-                    <label>
-                        Address
-                        <input type="text" name="primaryLine" th:value="${address.getPrimaryLine()}" required>
-                        <input type="text" name="optionalLine" th:value="${address.getOptionalLine()}">
-                    </label><br>
-                    <label>
-                        Zip Code
-                        <input type="text" name="zipCode" th:value="${address.getZipCode()}" required>
-                    </label>
-                    <label>
-                        City
-                        <input type="text" name="city" th:value="${address.getCity()}" required>
-                    </label>
-                    <label>
-                        State
-                        <input type="text" name="state" th:value="${address.getState()}" required>
-                    </label>
+                    <div class="input-section">
+                        <label>Address:</label>
+                        <input class="form-control" type="text" name="primaryLine" th:value="${address.getPrimaryLine()}" required>
+                    </div>
+                    <div class="input-section">
+                        <input class="form-control" type="text" name="optionalLine" th:value="${address.getOptionalLine()}">
+                    </div>
+                    <div class="input-section">
+                        <label>Zip Code:</label>
+                        <input class="form-control" type="text" name="zipCode" th:value="${address.getZipCode()}" required>
+                    </div>
+                    <div class="input-section">
+                        <label>City:</label>
+                        <input class="form-control" type="text" name="city" th:value="${address.getCity()}" required>
+                    </div>
+                    <div class="input-section">
+                        <label>State:</label>
+                        <input class="form-control" type="text" name="state" th:value="${address.getState()}" required>
+                    </div>
                 </fieldset>
             </form>
         </section>
         <section>
-            <h2>Username</h2>
-            <form action="/account/user/username" method="post">
-                <label>
-                    Username
-                    <input type="text" name="username" th:value="${userkey.getUsername()}">
-                </label>
-                <input type="submit" value="Submit">
-            </form>
-        </section>
-        <section>
-            <h2>Password</h2>
-            <form action="#">
-                <label>
-                    New Password
-                    <input type="text" name="newPassword">
-                </label>
-                <label>
-                    Confirm Password
-                    <!-- TODO(michaelrehman): Make confirm required if new is non-empty -->
-                    <input type="text" name="confirmPassword">
-                </label>
-            </form>
+            <div class="info-section">
+                <div>
+                    <h2>Username</h2>
+                    <form action="/account/user/username" method="post" class="user-form">
+                        <div class="input-section">
+                            <label>Username</label>
+                            <input class="form-control" type="text" name="username" th:value="${userkey.getUsername()}">
+                        </div>
+                        <input class="btn btn-primary" type="submit" value="Submit">
+                    </form>
+                </div>
+                <div>
+                    <h2>Password</h2>
+                    <form action="#" class="password-form">
+                        <div class="input-section">
+                            <label>New Password</label>
+                            <input class="form-control" type="text" name="newPassword">
+                        </div>
+                        <div class="input-section">
+                            <label>Confirm Password</label>
+                            <!-- TODO(michaelrehman): Make confirm required if new is non-empty -->
+                            <input class="form-control" type="text" name="confirmPassword">
+                        </div>
+                        <input class="btn btn-primary" type="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
         </section>
         <section>
             <h2>Listings</h2>

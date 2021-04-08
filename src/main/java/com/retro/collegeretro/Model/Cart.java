@@ -4,8 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * A cart is a list of listings belonging to a person who is trying to
@@ -23,8 +22,28 @@ public class Cart {
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Listing> listings = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Listing> listings = new HashSet<>();
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cart cart = (Cart) o;
+        return cartId == cart.cartId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cartId);
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "cartId=" + cartId +
+                ", listings=" + listings +
+                '}';
+    }
 }
 

@@ -3,27 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>CollegeRetro</title>
+    <link rel="stylesheet" th:href="@{/style/core.css}">
     <link rel="stylesheet" th:href="@{/style/index.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <nav class="nav-bar">
-        <div class="logo">
-            <a href="/"><img src="img/logo.png" id="logo"></a>
-        </div>
-        <div class="actions">
-            <div class="search">
-                <input type="text" placeholder="Search...">
-                <a><img src="img/search.png" id="search"></a>
-            </div>
-            <div class="account">
-                <div th:unless="${session.containsKey('user')}">
-                    <a href="/account/login">Login/Sign Up</a>
-                </div>
-                <div th:if="${session.containsKey('user')}">
-                    <a href="/account/user/myprofile">Account</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+<div th:replace="fragments/topnav :: navbar"></div>
 </body>
 </html>

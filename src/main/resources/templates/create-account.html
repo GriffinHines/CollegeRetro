@@ -5,40 +5,58 @@
     <title>CollegeRetro - Create Account</title>
 
     <link rel="stylesheet" th:href="@{/style/create-account.css}">
+    <link rel="stylesheet" th:href="@{/style/core.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div> Menu Bar to go here</div>
-    <h1>Sign Up</h1>
+
+<div th:replace="fragments/topnav :: navbar"></div>
+
+<div class="signup-box">
+    <p th:if="${param.containsKey('error')}" th:text="${param.get('errorMsg')}" class="mt-2"></p>
     <form action="/account/create" method="post">
-        <div class="container">
-            <hr>
-            <label for="email">Email</label>
-            <br>
-            <input type="email" id="email" placeholder="Email" name="email" required>
-            <br><br>
-            <label for="username">Username</label>
-            <br><br>
-            <input type="text" id="username" placeholder="Username" name="username" minlength="6" required>
-            <br><br>
-            <label for="password">Password</label>
-            <br>
-            <input type="password" id="password" placeholder="Password" name="password" minlength="8" required>
-            <br>
-            <label>Confirm Password</label>
-            <br>
-            <input required placeholder="Confirm Password" type="password" id="password_confirm" oninput="check(this)"/>
-            <br><br>
-            <button type="submit" id="signupbtn">Sign Up</button>
+        <div class="title">
+            <h1>Sign Up</h1>
+        </div>
+        <div class="input">
+            <label for="email">Email:</label>
+            <input class="form-control" type="email" id="email" name="email" required>
+        </div>
+        <div class="input">
+            <label for="username">Username:</label>
+            <input class="form-control" type="text" id="username" name="username" minlength="6" required>
+        </div>
+        <div class="input">
+            <label for="password">Password:</label>
+            <input class="form-control" type="password" id="password" name="password" minlength="8" required>
+        </div>
+        <div class="input">
+            <label>Confirm Password:</label>
+            <input class="form-control" required type="password" id="password_confirm" oninput="checkPW(this)"/>
+        </div>
+        <div class="actions">
+            <button class="btn btn-primary" type="submit">Sign Up</button>
         </div>
     </form>
-    <script language='javascript' type='text/javascript'>
-        function check(input){
-            if (input.value != document.getElementById('password').value) {
-                input.setCustomValidity('Passwords must match');
-            } else {
-                input.setCustomValidity('');
-            }
+</div>
+
+<div>
+    <img th:src="@{/img/mountain.png}" id="mountains" alt="">
+</div>
+
+<div class="note">
+    <p>Your Sign Up connection with CollegeRetro is secured.</p>
+    <p>For customer service help with Sign Up, call 1-800-123-1234</p>
+</div>
+
+<script type='text/javascript'>
+    function checkPW(input) {
+        if (input.value !== document.getElementById('password').value) {
+            input.setCustomValidity('Passwords must match');
+        } else {
+            input.setCustomValidity('');
         }
-    </script>
+    }
+</script>
 </body>
 </html>

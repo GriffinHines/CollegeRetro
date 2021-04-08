@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.ServletException;
@@ -67,9 +68,21 @@ public class AccountController {
                                     @RequestParam String username,
                                     @RequestParam String password,
                                     @SessionAttribute(required = false) User user,
-                                    HttpServletRequest request) {
+                                    HttpServletRequest request,
+                                    RedirectAttributes attributes) {
         // Can't make an account if logged in
         if (user != null) return new RedirectView("/");
+
+        // Make sure email and username are unique
+        if (userRepository.findByUsername(username) != null) {
+            attributes.addAttribute("error", true);
+            attributes.addAttribute("errorMsg", "Error: There is already an account with that username.");
+            return new RedirectView("/account/create");
+        } else if (userRepository.findByEmail(email) != null) {
+            attributes.addAttribute("error", true);
+            attributes.addAttribute("errorMsg", "Error: There is already an account with that email.");
+            return new RedirectView("/account/create");
+        }
 
         // Create the account
         User newUser = new User();
@@ -123,7 +136,7 @@ public class AccountController {
         return "login";
     }
 
-    @GetMapping("/user/myprofile")
+    @GetMapping("/profile")
     @Transactional
     public String getUserProfile(Model model, @SessionAttribute User user) {
         // sample test code (not saved to database)

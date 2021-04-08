@@ -4,26 +4,37 @@
     <meta charset="UTF-8">
     <title>CollegeRetro - Log In</title>
     <link rel="stylesheet" th:href="@{/style/login.css}">
+    <link rel="stylesheet" th:href="@{/style/core.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
-
+<nav th:replace="fragments/topnav :: navbar"></nav>
 <div class="login-box">
     <form id="login-form" action="/account/login" method="post">
-        <img th:src="@{/img/logo.png}" alt="CollegeRetro Logo">
-        <h1>CR Secure Sign-On</h1>
-        <label for="username">Username or E-Mail:</label><br>
-        <input type="text" name="username" id="username" required autofocus><br><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
-        <button type="submit">Login</button><br>
-        <a href="/account/forgot">Forgot your password?</a>
-        <br><br>
-        <p>New to CollegeRetro? Click here to sign up!</p>
+        <div class="title">
+            <h2>Login</h2>
+        </div>
+        <div class="input">
+            <input class="form-control" type="text" name="username" id="username" placeholder="Username/Email" required autofocus>
+        </div>
+        <div class="input">
+            <input class="form-control" type="password" id="password" name="password" placeholder="Password" required>
+        </div>
+        <div class="actions">
+            <a href="/account/forgot">Forgot your password?</a>
+            <button class="btn btn-primary" type="submit">Login</button>
+        </div>
+        <div>
+            <p>New to CollegeRetro? Click <a href="/account/create">here</a> to sign up!</p>
+        </div>
     </form>
 </div>
-
-<p>Your login connection with CollegeRetro is secured.</p>
-<p>For customer service help with login, call 1-800-123-1234</p>
-
+<div>
+    <img th:src="@{/img/mountain.png}" id="mountains">
+</div>
+<div class="note">
+    <p>Your login connection with CollegeRetro is secured.</p>
+    <p>For customer service help with login, call 1-800-123-1234</p>
+</div>
 </body>
 </html>

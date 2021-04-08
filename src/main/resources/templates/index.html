@@ -10,5 +10,31 @@
 </head>
 <body>
 <div th:replace="fragments/topnav :: navbar"></div>
+    <main>
+        <section>
+            <header>
+                <h2>Search by Category</h2>
+                <!-- TODO(mihcaelrehman): populate with categories after they've been decided -->
+                <ul>
+                    <!-- Use this as a template once categories are known -->
+                    <li><a href="/search?cat=TODO">TODO</a></li>
+                </ul>
+            </header>
+        </section>
+
+        <section>
+            <header>
+                <h2>Recent Listings</h2>
+            </header>
+            <!-- TODO(michaelrehman): display more information more -->
+            <div class="card bg-light p-1 w-25 mx-auto" th:each="listing : ${listings}">
+                <p class="card-title" th:text="${listing.getListingName()} + ' ($' + ${listing.getPriceInCents() / 100} + '.' + ${listing.getPriceInCents() % 100} + ')'"></p>
+                <p th:text="${listing.getDescription()}"></p>
+                <br>
+                <p th:text="'Remaining: ' +  ${listing.getQuantity()}"></p>
+                <p th:text="'Category: ' +  ${listing.getCategory()}"></p>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

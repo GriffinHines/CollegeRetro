@@ -1,5 +1,6 @@
 package com.retro.collegeretro.Controller;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.retro.collegeretro.Model.Address;
 import com.retro.collegeretro.Model.CreditCard;
 import com.retro.collegeretro.Model.Listing;
@@ -7,6 +8,7 @@ import com.retro.collegeretro.Model.User;
 import com.retro.collegeretro.Repository.UserRepository;
 import com.retro.collegeretro.Service.MyEmailSender;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -138,28 +140,12 @@ public class AccountController {
 
     @GetMapping("/profile")
     @Transactional
-    public String getUserProfile(Model model, @SessionAttribute User user) {
-        // sample test code (not saved to database)
-        Set<CreditCard> cards = new HashSet<>();
-        cards.add(new CreditCard("Test", "489498489", 3, 8151, 555, user));
-        cards.add(new CreditCard("Test", "489498480", 11, 8151, 555, user));
-        user.setCreditCards(cards);
-        Set<Address> addresses = new HashSet<>();
-        addresses.add(new Address("123 Imaginary Lane", "12345", "City", "State", user));
-        addresses.add(new Address("1234 Imaginary Lane", "12345", "City", "State", user));
-        user.setAddresses(addresses);
-        Listing listing = new Listing();
-        listing.setListingName("name");
-        listing.setCategory("cate");
-        listing.setDescription("some desc");
-        listing.setOpen(true);
-        listing.setPriceInCents(123);
-        listing.setQuantity(12);
-        List<Listing> listings = new ArrayList<>();
-        listings.add(listing);
-        user.setListings(listings);
-
-        model.addAttribute("userkey", user);
+    public String getUserProfile(@SessionAttribute User user, Model model) {
+        // Accommodate lazy fetching
+        user = userRepository.findById(user.getUserId()).get();
+        model.addAttribute("addresses", user.getAddresses());
+        model.addAttribute("cards", user.getCreditCards());
+        model.addAttribute("listings", user.getListings());
         return "myprofile";
     } // getUserProfile
 
@@ -170,7 +156,7 @@ public class AccountController {
             user.setUsername(username);
             userRepository.save(user);
         } // if
-        return new RedirectView("/account/user/myprofile");
+        return new RedirectView("/account/profile");
     } // updateUsername
 
 }

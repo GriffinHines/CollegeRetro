@@ -14,7 +14,9 @@
         </div>
         <div th:if="${session.user != null}" class="inline-flex">
             <a class="btn btn-info" href="/account/profile" th:text="${session.user.getUsername()}"></a>
-            <a class="btn btn-info ml-2" href="/account/login" th:text="'Cart (' + ${session.user.getCart().getListings().size()} + ')'"></a>
+            <!-- FIXME(michaelrehman): see error log posted in discord -->
+<!--            <a class="btn btn-info ml-2" href="/account/login" th:text="'Cart (' + ${session.user.getCart().getListings().size()} + ')'"></a>-->
+            <a class="btn btn-info ml-2" href="/account/cart" th:text="'Cart (0)'"></a>
             <a class="btn btn-info ml-2" href="/logout">Logout</a>
         </div>
     </div>

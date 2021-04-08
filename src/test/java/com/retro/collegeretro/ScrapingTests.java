@@ -4,6 +4,7 @@ import com.retro.collegeretro.Model.Listing;
 import com.retro.collegeretro.Repository.ListingRepository;
 import junit.framework.Assert;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +54,8 @@ public class ScrapingTests {
             Element categoryHeader = subDoc.getElementById("vi-VR-brumb-lnkLst");
             Elements categories = categoryHeader.getElementsByAttributeValue("itemprop", "name");
             String category = "";
-            for(Element item : categories) {
-                category+=item.text() + "/";
+            for (Element item : categories) {
+                category += item.text() + "/";
             }
             listing.setCategory(category);
             //ListingName
@@ -62,11 +64,11 @@ public class ScrapingTests {
             listing.setListingName(title);
             //Price
             Element priceElement = subDoc.getElementById("prcIsum");
-            if(priceElement == null)
+            if (priceElement == null)
                 priceElement = subDoc.getElementById("prcIsum_bidPrice");
-            String price = priceElement.text();
+            //String price = priceElement.text();
             // TODO convert price to int
-
+            listing.setPriceInCents(1);
             //Is Open
             // TODO is this necessary? I can't find any closed auctions to check against
 
@@ -76,10 +78,17 @@ public class ScrapingTests {
             listing.setDescription(description);
             //Quantity, couldn't find this listed on ebay
             listing.setQuantity(1);
+            //Image
+            Element imageElement = subDoc.getElementById("icImg");
+            //Open a URL Stream
+            Connection.Response resultImageResponse = Jsoup.connect(imageElement.attr("src")).ignoreContentType(true).execute();
 
+            // output here
+            FileOutputStream out = (new FileOutputStream(new java.io.File("src/main/resources/images/image_" + id +".jpg")));
+            out.write(resultImageResponse.bodyAsBytes());  // resultImageResponse.body() is where the image's contents are.
+            out.close();
             //listing = listingRepository.save(listing);
         }
-        
 
 
         // Return object

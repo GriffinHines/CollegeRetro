@@ -6,6 +6,7 @@ import com.retro.collegeretro.Model.Listing;
 import com.retro.collegeretro.Model.User;
 import com.retro.collegeretro.Repository.ListingRepository;
 import com.retro.collegeretro.Repository.UserRepository;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.FileOutputStream;
 import java.util.*;
 
 import java.io.IOException;
@@ -147,7 +149,8 @@ public class AdminController {
             Element priceElement = subDoc.getElementById("prcIsum");
             if(priceElement == null)
                 priceElement = subDoc.getElementById("prcIsum_bidPrice");
-            String price = priceElement.text();
+            //String price = priceElement.text();
+            listing.setPriceInCents(1);
                 // TODO convert price to int
             //Is Open
                 // TODO is this necessary? I can't find any closed auctions to check against
@@ -157,6 +160,12 @@ public class AdminController {
             listing.setDescription(description);
             //Quantity, couldn't find this listed on ebay
             listing.setQuantity(1);
+            //Image
+            Element imageElement = subDoc.getElementById("icImg");
+            Connection.Response resultImageResponse = Jsoup.connect(imageElement.attr("src")).ignoreContentType(true).execute();
+            FileOutputStream out = (new FileOutputStream(new java.io.File("src/main/resources/images/image_" + id +".jpg")));
+            out.write(resultImageResponse.bodyAsBytes());  // resultImageResponse.body() is where the image's contents are.
+            out.close();
 
             //Save listing
             listing = listingRepository.save(listing);

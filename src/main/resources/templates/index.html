@@ -28,7 +28,7 @@
                 <h2>Recent Listings</h2>
             </header>
             <!-- TODO(michaelrehman): display more information more -->
-            <div class="card bg-light p-1 w-25 mx-auto" th:each="listing : ${listings}">
+            <div class="card bg-light p-1 w-25 mx-auto" th:each="listing : ${listings.toList()}">
                 <p class="card-title" th:text="${listing.getListingName()} + ' ($' + ${listing.getPriceInCents() / 100} + '.' + ${listing.getPriceInCents() % 100} + ')'"></p>
                 <p th:text="${listing.getDescription()}"></p>
                 <br>

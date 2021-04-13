@@ -9,6 +9,29 @@
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
-<div th:replace="fragments/topnav :: navbar"></div>
+    <div th:replace="fragments/topnav :: navbar"></div>
+    <main>
+        <section>
+            <header>
+                <h2>Search by Category</h2>
+            </header>
+            <ul>
+                <li><a href="/search?cat=Books">Books</a></li>
+                <li><a href="/search?cat=Dorm+Furniture">Dorm Furniture</a></li>
+                <li><a href="/search?cat=Dorm+Appliances">Dorm Appliances</a></li>
+                <li><a href="/search?cat=Computing">Computing Devices & Accessories</a></li>
+            </ul>
+        </section>
+
+        <section>
+            <header>
+                <h2>Featured Listings</h2>
+            </header>
+            <!-- Can't use `replace` on something with `each` -->
+            <div th:each="listing : ${listings.toList()}" >
+                <div th:replace="fragments/listing :: listingCard(${listing})"></div>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

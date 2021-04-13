@@ -10,6 +10,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
     User findByVerificationToken(String token);
     User findByEmail(String email);
+    void deleteByUsername(String username);
 
     @Query(value = "select * from user where username = ?1 or email = ?1", nativeQuery = true)
     User findByUsernameOrEmail(String usernameOrEmail);

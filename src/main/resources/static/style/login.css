@@ -14,7 +14,7 @@ body {
     margin: 15% auto;
 }
 
-form {
+#login-form {
     width: 70%;
     margin: 50px auto;
 }

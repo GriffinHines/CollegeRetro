@@ -2,7 +2,7 @@ package com.retro.collegeretro;
 
 import com.retro.collegeretro.Model.Listing;
 import com.retro.collegeretro.Repository.ListingRepository;
-import junit.framework.Assert;
+
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;

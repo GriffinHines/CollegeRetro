@@ -11,13 +11,13 @@
 <body>
     <div th:replace="fragments/topnav :: navbar"></div>
     <main>
-        <h1 th:text="${userkey.getUsername()} + '\'s Profile'"></h1>
+        <h1 th:text="${session.user.getUsername()} + '\'s Profile'"></h1>
         <!-- TODO(michaelrehman): add labels and update actions -->
         <!-- TODO(michaelrehman): create unique `name`s to differentiate between each instance -->
         <section>
             <h2>Credit Cards</h2>
             <form action="#">
-                <fieldset th:each="card : ${userkey.getCreditCards()}">
+                <fieldset th:each="card : ${cards}">
                     <div class="input-section">
                         <label>Name:</label>
                         <input class="form-control" type="text" name="nameOnCard" th:value="${card.getNameOnCard()}" required>
@@ -41,7 +41,7 @@
         <section>
             <h2>Addresses</h2>
             <form action="#">
-                <fieldset th:each="address : ${userkey.getAddresses()}">
+                <fieldset th:each="address : ${addresses}">
                     <div class="input-section">
                         <label>Address:</label>
                         <input class="form-control" type="text" name="primaryLine" th:value="${address.getPrimaryLine()}" required>
@@ -71,7 +71,7 @@
                     <form action="/account/user/username" method="post" class="user-form">
                         <div class="input-section">
                             <label>Username</label>
-                            <input class="form-control" type="text" name="username" th:value="${userkey.getUsername()}">
+                            <input class="form-control" type="text" name="username" th:value="${session.user.getUsername()}">
                         </div>
                         <input class="btn btn-primary" type="submit" value="Submit">
                     </form>
@@ -85,7 +85,7 @@
                         </div>
                         <div class="input-section">
                             <label>Confirm Password</label>
-                            <!-- TODO(michaelrehman): Make confirm required if new is non-empty -->
+                            <!-- TODO(michaelrehman): JS check if passwords match -->
                             <input class="form-control" type="text" name="confirmPassword">
                         </div>
                         <input class="btn btn-primary" type="submit" value="Submit">
@@ -107,7 +107,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="listing : ${userkey.getListings()}">
+                    <tr th:each="listing : ${listings}">
                         <td th:text="${listing.getCategory()}"></td>
                         <td th:text="${listing.getListingName()}"></td>
                         <!-- TODO(michaelrehman): convert to dollar value -->

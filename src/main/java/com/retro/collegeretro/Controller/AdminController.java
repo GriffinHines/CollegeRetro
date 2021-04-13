@@ -6,7 +6,7 @@ import com.retro.collegeretro.Model.Listing;
 import com.retro.collegeretro.Model.User;
 import com.retro.collegeretro.Repository.ListingRepository;
 import com.retro.collegeretro.Repository.UserRepository;
-import org.jsoup.Connection;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.io.FileOutputStream;
+import javax.transaction.Transactional;
 import java.util.*;
 
 import java.io.IOException;
@@ -27,6 +27,7 @@ import static java.lang.Integer.parseInt;
 import static java.lang.String.valueOf;
 
 @Controller
+@Slf4j
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired
@@ -39,10 +40,12 @@ public class AdminController {
     /**
      * Deletes previously generated users, creates five users with an address
      * and a credit card, and for each user, scrapes 10 listings from ebay.
+     *
      * @return Redirects to homepage.
      */
     @GetMapping("/scrape")
-    public RedirectView generateUsersAndScrapeListings() {
+    @Transactional
+    public RedirectView generateUsersAndScrapeListings() throws IOException {
         // Do nothing if shouldn't scrape (Set by properties)
         if (!shouldScrape) {
             return new RedirectView("/");
@@ -51,11 +54,11 @@ public class AdminController {
         // Remove all users that this method might have generated in the past
         // ex. userRepository.delete(userRepository.findByUsername("BigYoshi123"));
         //     if you make a user named BigYoshi123
-        userRepository.delete(userRepository.findByUsername("Bob"));
-        userRepository.delete(userRepository.findByUsername("Alice"));
-        userRepository.delete(userRepository.findByUsername("Steve"));
-        userRepository.delete(userRepository.findByUsername("Stacy"));
-        userRepository.delete(userRepository.findByUsername("Molly"));
+        userRepository.deleteByUsername("Bob");
+        userRepository.deleteByUsername("Alice");
+        userRepository.deleteByUsername("Steve");
+        userRepository.deleteByUsername("Stacy");
+        userRepository.deleteByUsername("Molly");
 
         // Generate five users with credit cards
         //Generate 5 credit cards
@@ -64,19 +67,22 @@ public class AdminController {
         int randomInt;
         Set<CreditCard> creditCards;
         User[] user = new User[5];
+        for (int i = 0; i < user.length; i++) {
+            user[i] = new User();
+        }
         user[0].setUsername("Bob");
         user[1].setUsername("Alice");
         user[2].setUsername("Steve");
         user[3].setUsername("Stacy");
         user[3].setUsername("Molly");
-        for(int k=1; k<=5; k++) {
+        for (int k = 1; k <= 5; k++) {
             creditCards = new HashSet<>();
-            for (int i=0; i<15; i++) {
+            for (int i = 0; i < 15; i++) {
                 randomInt = random.nextInt(10);
                 cardNumber += randomInt;
             }
-            creditCards.add(new CreditCard("user"+k, cardNumber, random.nextInt(13), parseInt("202"+valueOf(random.nextInt(10))), random.nextInt(1000), user[k-1]));
-            user[k-1].setCreditCards(creditCards);
+            creditCards.add(new CreditCard("user" + k, cardNumber, random.nextInt(13), parseInt("202" + valueOf(random.nextInt(10))), random.nextInt(1000), user[k - 1]));
+            user[k - 1].setCreditCards(creditCards);
         }
         //Generate 5 addresses
         Set<Address> addresses = new HashSet<>();
@@ -102,21 +108,27 @@ public class AdminController {
         userRepository.save(user[3]);
         userRepository.save(user[4]);
         // For each user, scrape 10 listings from eBay
-        // TODO
         // Use a college related search term for each user, like textbook or fridge.
+        List<Listing> bookListings = scrapeNListings(10, "book");
+        user[0].setListings(bookListings);
+        bookListings.forEach((listing) -> listing.setUser(user[0]));
+        userRepository.save(user[0]);
+        log.info("Done scraping");
 
         return new RedirectView("/");
     }
 
     /**
      * Scrapes some listings from eBay given a search term.
-     * @param n number of listings to scrape
+     *
+     * @param n           number of listings to scrape
      * @param searchQuery search term for eBay
      * @return list of listings generated from eBay
      * @throws IOException if something messes up with Jsoup
      */
     private List<Listing> scrapeNListings(int n, String searchQuery) throws IOException {
-        String url = "https://www.ebay.com/sch/i.html?_nkw=" + searchQuery;
+        List<Listing> listings = new ArrayList<>();
+        String url = "https://www.ebay.com/sch/i.html?_nkw=" + searchQuery + "&rt=nc&LH_BIN=1";
 
         Document document = Jsoup.connect(url).get();
         Element centerList = document.getElementById("mainContent");
@@ -136,24 +148,31 @@ public class AdminController {
             //Category
             Element categoryHeader = subDoc.getElementById("vi-VR-brumb-lnkLst");
             Elements categories = categoryHeader.getElementsByAttributeValue("itemprop", "name");
-            String category = "";
-            for(Element item : categories) {
-                category+=item.text() + "/";
-            }
-            listing.setCategory(category);
+            try {
+                // Just the most basic category
+                listing.setCategory(categories.get(0).text());
+            } catch (IndexOutOfBoundsException ioobe) {
+                continue;
+            } // try
             //ListingName
             Element titleElement = subDoc.getElementById("itemTitle");
             String title = titleElement.text().substring(14);
             listing.setListingName(title);
             //Price
             Element priceElement = subDoc.getElementById("prcIsum");
-            if(priceElement == null)
-                priceElement = subDoc.getElementById("prcIsum_bidPrice");
-            //String price = priceElement.text();
-            listing.setPriceInCents(1);
-                // TODO convert price to int
+            if (priceElement == null)
+                continue;
+            String priceText = priceElement.text();
+            double price = 0.0;
+            try {
+                price = Double.parseDouble(priceText.substring(priceText.indexOf('$') + 1));
+            } catch (Exception e) {
+                continue;
+            } // try
+            int cents = (int) (price * 100);
+            listing.setPriceInCents(cents);
             //Is Open
-                // TODO is this necessary? I can't find any closed auctions to check against
+            listing.setOpen(true); // default to `true`
             //Description
             Element descriptionElement = subDoc.getElementById("desc_ifr");
             String description = descriptionElement.text();
@@ -162,17 +181,15 @@ public class AdminController {
             listing.setQuantity(1);
             //Image
             Element imageElement = subDoc.getElementById("icImg");
-            Connection.Response resultImageResponse = Jsoup.connect(imageElement.attr("src")).ignoreContentType(true).execute();
-            FileOutputStream out = (new FileOutputStream(new java.io.File("src/main/resources/images/image_" + id +".jpg")));
-            out.write(resultImageResponse.bodyAsBytes());  // resultImageResponse.body() is where the image's contents are.
-            out.close();
+            listing.setImageURL(imageElement.attr("src"));
+//            Connection.Response resultImageResponse = Jsoup.connect(imageElement.attr("src")).ignoreContentType(true).execute();
+//            FileOutputStream out = (new FileOutputStream( id + ".jpg"));
+//            out.write(resultImageResponse.bodyAsBytes());  // resultImageResponse.body() is where the image's contents are.
+//            out.close();
 
             //Save listing
-            listing = listingRepository.save(listing);
+            listings.add(listing);
         }
-
-        // Return object
-        List<Listing> listings = new ArrayList<>();
 
         return listings;
     }

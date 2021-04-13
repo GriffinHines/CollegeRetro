@@ -32,6 +32,7 @@ public class Listing {
     private String description;
     @NotNull
     private int quantity;
+    private String imageURL;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "cartId", nullable = false)

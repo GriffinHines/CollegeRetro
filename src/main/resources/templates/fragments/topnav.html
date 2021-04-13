@@ -1,8 +1,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <nav class="navbar" th:fragment="navbar">
-    <form class="search" action="/search?page=1&size=20" method="get">
+    <form class="search" action="/search" method="get">
         <input type="text" class="form-control" placeholder="Search..." name="cat">
-        <button type="submit"><img th:src="@{/img/search.png}" id="search"></button>
+        <button class="btn" type="submit"><img th:src="@{/img/search.png}" id="search"></button>
     </form>
     <div class="logo">
         <a href="/"><img th:src="@{/img/logo.svg}" alt="CollegeRetro Logo" id="logo"></a>

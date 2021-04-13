@@ -14,7 +14,7 @@ section h2 {
     padding: 30px 0 0;
 }
 
-form {
+form:not(form.search) {
     display: flex;
     flex-direction: row;
     justify-content: space-around;

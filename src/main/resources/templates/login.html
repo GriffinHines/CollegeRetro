@@ -10,8 +10,7 @@
 <body>
 <nav th:replace="fragments/topnav :: navbar"></nav>
 <div class="login-box">
-    <p th:if="${param.containsKey('error')}" class="mt-2">Invalid username or password!</p>
-    <p th:unless="${param.containsKey('error')}" class="mt-2">No invalid username or password!</p>
+    <p th:if="${param.error != null}" class="mt-2">Invalid username or password!</p>
     <form id="login-form" action="/account/login" method="post">
         <h2 class="text-title mx-auto">Login</h2>
         <input class="form-control w-50 mt-3 mx-auto" type="text" name="username" id="username" placeholder="Username/Email" required autofocus>

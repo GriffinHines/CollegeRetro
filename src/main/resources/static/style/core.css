@@ -59,6 +59,8 @@
 .flex { display: flex; }
 .inline-flex { display: inline-flex; }
 
+/* Text size and color */
+.text-title { font-size: 24pt; }
 
 /* Buttons */
 .btn {
@@ -100,14 +102,6 @@
 /* Link */
 a {
 	text-decoration: none;
-}
-
-a:link {
-	color: white;
-}
-
-a:visited {
-	color: white;
 }
 
 /* Background colors */
@@ -159,34 +153,25 @@ a:visited {
 
 /* Inputs */
 .form-control {
-	margin: 0;
 	border: 1px solid gray;
 	border-radius: 5px;
 	padding: 5px;
-	width: 100%;
 	background-color: white;
+	display: block;
 }
 
 /* Navbar */
 .navbar {
-	background-color: white;
 	margin: 0;
 	padding: 20px;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-}
-
-.search {
-	background-color: white;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
+	height: 60px;
 }
 
 .options {
-	background-color: white;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;

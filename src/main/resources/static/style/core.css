@@ -58,9 +58,11 @@
 .w-100 { width: 100%; }
 .flex { display: flex; }
 .inline-flex { display: inline-flex; }
+.text-center { text-align: center; }
 
 /* Text size and color */
 .text-title { font-size: 24pt; }
+.text-subtitle { font-size: 14pt; }
 
 /* Buttons */
 .btn {

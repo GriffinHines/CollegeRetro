@@ -127,6 +127,7 @@ a {
 /* Containers */
 .card {
 	border: 1px solid #777;
+	border-radius: 5px;
 }
 .card-title {
 	font-size: 18pt;
@@ -152,6 +153,8 @@ a {
 .modal-content {
 	z-index: 2;
 }
+.modal-close {}
+.modal-toggle {}
 
 /* Inputs */
 .form-control {

@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CollegeRetro - My Profile</title>
     <link rel="stylesheet" th:href="@{/style/core.css}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script th:src="@{/script/core.js}"></script>
 </head>
 <body>
 
@@ -14,56 +16,74 @@
     <h1 class="text-title mt-3 text-center" th:text="${session.user.getUsername()} + '\'s Profile'"></h1>
     <div class="card bg-light p-2 w-25 mt-3 mx-auto">
         <h2 class="card-title">Credit Cards</h2>
-<!--            <form action="#">-->
-<!--                <div class="input-section">-->
-<!--                    <label>Name:</label>-->
-<!--                    <input class="form-control" type="text" name="nameOnCard" required>-->
-<!--                </div>-->
-<!--                <div class="input-section">-->
-<!--                    <label>Card Number:</label>-->
-<!--                    <input class="form-control" type="text" name="cardNumber" required>-->
-<!--                </div>-->
-<!--                <div class="input-section">-->
-<!--                    <label>Expiration:</label>-->
-<!--                    &lt;!&ndash; TODO(michaelrehman): pad month with left-leading 0's or else browser won't recognize it &ndash;&gt;-->
-<!--                    <input class="form-control" type="month" name="exp" required>-->
-<!--                </div>-->
-<!--                <div class="input-section">-->
-<!--                    <label>CVV:</label>-->
-<!--                    <input class="form-control" type="number" name="cvv" required>-->
-<!--                </div>-->
-<!--            </form>-->
+
+        <!-- Form modal -->
+        <modal id="card-modal" class="modal">
+            <div class="modal-content card w-25 mx-auto bg-dark p-2">
+                <p class="card-title">Add a Credit Card</p>
+                <form action="/account/user/card/add" method="post" class="mt-2">
+                    <label for="card-name">Full Name</label>
+                    <input id="card-name" class="form-control" type="text" name="name" placeholder="Name on card" required>
+                    <label for="card-num" class="mt-2">Card Number</label>
+                    <input id="card-num" class="form-control" type="text" name="num" placeholder="Card Number" required>
+                    <label for="card-exp" class="mt-2">Expiration</label>
+                    <div id="card-exp" class="flex">
+                        <input class="form-control w-25" type="number" name="month" step="1" min="1" max="12" placeholder="Month" required>
+                        <input class="form-control w-25" type="number" name="year" step="1" min="2021" max="2100" placeholder="Year" required>
+                    </div>
+                    <label for="card-cvv" class="mt-2">CVV</label>
+                    <input id="card-cvv" class="form-control" type="number" name="cvv" placeholder="CVV" minlength="3" maxlength="4" required>
+                    <div class="flex mt-2">
+                        <button type="submit" class="btn btn-primary">Add Card</button>
+                        <button class="btn modal-close ml-2">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </modal>
+
+        <!-- List of cards -->
+        <ul class="mt-2">
+            <li th:each="card : ${cards}">
+                Card ending in <span th:text="${card.getCardNumber().substring(12)}"></span>
+                <span class="ml-5"><a th:href="'/account/user/card/delete?id=' + ${card.getCreditCardId()}" style="color: red">Remove</a></span>
+            </li>
+        </ul>
+
+        <!-- New card button -->
+        <button class="btn btn-primary mt-2 modal-toggle" data-modal-selector="#card-modal">New card</button>
+
     </div>
     <div class="card bg-light p-2 w-25 mt-3 mx-auto">
         <h2 class="card-title">Addresses</h2>
-<!--            <form action="#">-->
-<!--                <div class="input-section">-->
-<!--                    <label>Address:</label>-->
-<!--                    <input class="form-control" type="text" name="primaryLine" required>-->
-<!--                </div>-->
-<!--                <div class="input-section">-->
-<!--                    <input class="form-control" type="text" name="optionalLine">-->
-<!--                </div>-->
-<!--                <div class="input-section">-->
-<!--                    <label>Zip Code:</label>-->
-<!--                    <input class="form-control" type="text" name="zipCode" required>-->
-<!--                </div>-->
-<!--                <div class="input-section">-->
-<!--                    <label>City:</label>-->
-<!--                    <input class="form-control" type="text" name="city" required>-->
-<!--                </div>-->
-<!--                <div class="input-section">-->
-<!--                    <label>State:</label>-->
-<!--                    <input class="form-control" type="text" name="state" required>-->
-<!--                </div>-->
-<!--            </form>-->
+        <!--            <form action="#">-->
+        <!--                <div class="input-section">-->
+        <!--                    <label>Address:</label>-->
+        <!--                    <input class="form-control" type="text" name="primaryLine" required>-->
+        <!--                </div>-->
+        <!--                <div class="input-section">-->
+        <!--                    <input class="form-control" type="text" name="optionalLine">-->
+        <!--                </div>-->
+        <!--                <div class="input-section">-->
+        <!--                    <label>Zip Code:</label>-->
+        <!--                    <input class="form-control" type="text" name="zipCode" required>-->
+        <!--                </div>-->
+        <!--                <div class="input-section">-->
+        <!--                    <label>City:</label>-->
+        <!--                    <input class="form-control" type="text" name="city" required>-->
+        <!--                </div>-->
+        <!--                <div class="input-section">-->
+        <!--                    <label>State:</label>-->
+        <!--                    <input class="form-control" type="text" name="state" required>-->
+        <!--                </div>-->
+        <!--            </form>-->
     </div>
     <div class="card bg-light p-2 w-25 mt-3 mx-auto">
         <h2 class="card-title">User Info</h2>
         <h3 class="text-subtitle mt-2">Change Username</h3>
         <form action="/account/user/username" method="post" class="mt-1">
             <label for="username">New Username</label>
-            <input class="form-control" type="text" name="username" id="username" th:value="${session.user.getUsername()}">
+            <input class="form-control" type="text" name="username" id="username"
+                   th:value="${session.user.getUsername()}">
             <button class="btn btn-primary mt-1" type="submit">Update</button>
         </form>
         <h2 class="text-subtitle mt-3">Change Password</h2>

@@ -1,5 +1,6 @@
 package com.retro.collegeretro.Controller;
 
+import com.retro.collegeretro.Model.CreditCard;
 import com.retro.collegeretro.Model.User;
 import com.retro.collegeretro.Repository.UserRepository;
 import com.retro.collegeretro.Service.MyEmailSender;
@@ -140,5 +141,23 @@ public class AccountController {
         } // if
         return new RedirectView("/account/profile");
     } // updateUsername
+
+    @PostMapping("/user/card/add")
+    public RedirectView addCard(@RequestParam String name, @RequestParam String num,
+                                @RequestParam int month, @RequestParam int year, @RequestParam int cvv,
+                                @SessionAttribute User user) {
+        user = userRepository.findById(user.getUserId()).get();
+        CreditCard card = new CreditCard();
+        card.setNameOnCard(name);
+        card.setCardNumber(num);
+        card.setExpMonth(month);
+        card.setExpYear(year);
+        card.setCvv(cvv);
+        card.setUser(user);
+        user.getCreditCards().add(card);
+        userRepository.save(user);
+        log.info("Saved credit card!");
+        return new RedirectView("/account/profile");
+    }
 
 }

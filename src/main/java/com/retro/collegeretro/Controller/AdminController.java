@@ -32,6 +32,7 @@ import static java.lang.String.valueOf;
 public class AdminController {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
     private ListingRepository listingRepository;
 
     @Value("${retro.scrape}")
@@ -100,33 +101,52 @@ public class AdminController {
         addresses = new HashSet<>();
         addresses.add(new Address("Candy Island", null, "60601", "Candy Island", "Candy Island", user[4]));
         user[4].setAddresses(addresses);
-        // Create a user object, create a credit card, create an address, set the
-        // user's address and credit card, and userRepository.save(theUser). 5 times.
+
         userRepository.save(user[0]);
         userRepository.save(user[1]);
         userRepository.save(user[2]);
         userRepository.save(user[3]);
         userRepository.save(user[4]);
+
         // For each user, scrape 10 listings from eBay
         // Use a college related search term for each user, like textbook or fridge.
-        List<Listing> bookListings = scrapeNListings(10, "book");
+        List<Listing> bookListings = scrapeListings(10, "textbooks");
         user[0].setListings(bookListings);
         bookListings.forEach((listing) -> listing.setUser(user[0]));
         userRepository.save(user[0]);
-        log.info("Done scraping");
+        log.info("Scraped textbooks");
 
+        List<Listing> furnitureListings = scrapeListings(10, "furniture");
+        user[1].setListings(furnitureListings);
+        furnitureListings.forEach((listing) -> listing.setUser(user[1]));
+        userRepository.save(user[1]);
+        log.info("Scraped furniture");
+
+        List<Listing> appliancesListings = scrapeListings(10, "appliances");
+        user[2].setListings(appliancesListings);
+        appliancesListings.forEach((listing) -> listing.setUser(user[2]));
+        userRepository.save(user[2]);
+        log.info("Scraped appliances");
+
+        List<Listing> computingListings = scrapeListings(10, "computing");
+        user[3].setListings(computingListings);
+        computingListings.forEach((listing) -> listing.setUser(user[3]));
+        userRepository.save(user[3]);
+        log.info("Scraped computing");
+
+        log.info("Done scraping");
         return new RedirectView("/");
     }
 
     /**
      * Scrapes some listings from eBay given a search term.
      *
-     * @param n           number of listings to scrape
+     * @param maxItems    maximum number of listings to scrape
      * @param searchQuery search term for eBay
      * @return list of listings generated from eBay
      * @throws IOException if something messes up with Jsoup
      */
-    private List<Listing> scrapeNListings(int n, String searchQuery) throws IOException {
+    private List<Listing> scrapeListings(int maxItems, String searchQuery) throws IOException {
         List<Listing> listings = new ArrayList<>();
         String url = "https://www.ebay.com/sch/i.html?_nkw=" + searchQuery + "&rt=nc&LH_BIN=1";
 
@@ -135,25 +155,18 @@ public class AdminController {
         Elements individualItems = centerList.getElementsByClass("s-item__link");
 
         //Follow links to item pages
-        int id = 0;
+        int itemsScraped = 0;
         for (Element link : individualItems) {
-            id++;
+            if (itemsScraped >= maxItems) {
+                break;
+            } // if
             String linkHref = link.attr("href");
             Document subDoc = Jsoup.connect(linkHref).get();
 
             //Set listing parameters according to ebay item's scraped data
             Listing listing = new Listing();
-            //ID
-            listing.setListingId(id);
-            //Category
-            Element categoryHeader = subDoc.getElementById("vi-VR-brumb-lnkLst");
-            Elements categories = categoryHeader.getElementsByAttributeValue("itemprop", "name");
-            try {
-                // Just the most basic category
-                listing.setCategory(categories.get(0).text());
-            } catch (IndexOutOfBoundsException ioobe) {
-                continue;
-            } // try
+            //Category (ignore ebay's version and just use the search term)
+            listing.setCategory(searchQuery);
             //ListingName
             Element titleElement = subDoc.getElementById("itemTitle");
             String title = titleElement.text().substring(14);
@@ -174,21 +187,18 @@ public class AdminController {
             //Is Open
             listing.setOpen(true); // default to `true`
             //Description
-            Element descriptionElement = subDoc.getElementById("desc_ifr");
-            String description = descriptionElement.text();
-            listing.setDescription(description);
+//            Element descriptionElement = subDoc.getElementById("desc_ifr");
+//            String description = descriptionElement.text();
+            listing.setDescription("");
             //Quantity, couldn't find this listed on ebay
             listing.setQuantity(1);
             //Image
             Element imageElement = subDoc.getElementById("icImg");
             listing.setImageURL(imageElement.attr("src"));
-//            Connection.Response resultImageResponse = Jsoup.connect(imageElement.attr("src")).ignoreContentType(true).execute();
-//            FileOutputStream out = (new FileOutputStream( id + ".jpg"));
-//            out.write(resultImageResponse.bodyAsBytes());  // resultImageResponse.body() is where the image's contents are.
-//            out.close();
 
             //Save listing
             listings.add(listing);
+            itemsScraped++;
         }
 
         return listings;

@@ -55,27 +55,39 @@
     </div>
     <div class="card bg-light p-2 w-25 mt-3 mx-auto">
         <h2 class="card-title">Addresses</h2>
-        <!--            <form action="#">-->
-        <!--                <div class="input-section">-->
-        <!--                    <label>Address:</label>-->
-        <!--                    <input class="form-control" type="text" name="primaryLine" required>-->
-        <!--                </div>-->
-        <!--                <div class="input-section">-->
-        <!--                    <input class="form-control" type="text" name="optionalLine">-->
-        <!--                </div>-->
-        <!--                <div class="input-section">-->
-        <!--                    <label>Zip Code:</label>-->
-        <!--                    <input class="form-control" type="text" name="zipCode" required>-->
-        <!--                </div>-->
-        <!--                <div class="input-section">-->
-        <!--                    <label>City:</label>-->
-        <!--                    <input class="form-control" type="text" name="city" required>-->
-        <!--                </div>-->
-        <!--                <div class="input-section">-->
-        <!--                    <label>State:</label>-->
-        <!--                    <input class="form-control" type="text" name="state" required>-->
-        <!--                </div>-->
-        <!--            </form>-->
+
+        <!-- Form modal -->
+        <modal id="address-modal" class="modal">
+            <div class="modal-content card w-25 mx-auto bg-dark p-2">
+                <p class="card-title">Add a Credit Card</p>
+                <form action="/account/user/address/add" method="post" class="mt-2">
+                    <label for="line-1">Address</label>
+                    <input id="line-1" class="form-control" type="text" name="line1" placeholder="Address Line 1" required>
+                    <input id="line-2" class="form-control" type="text" name="line2" placeholder="Address Line 2 (optional)">
+                    <label for="city" class="mt-2">City</label>
+                    <input id="city" class="form-control" type="text" name="city" placeholder="City" required>
+                    <label for="state" class="mt-2">State</label>
+                    <input id="state" class="form-control" type="text" name="state" placeholder="State (Abbreviation)" minlength="2" maxlength="2" required>
+                    <label for="zip" class="mt-2">ZIP</label>
+                    <input id="zip" class="form-control" type="text" name="zip" placeholder="ZIP Code" minlength="5" maxlength="10" required>
+                    <div class="flex mt-2">
+                        <button type="submit" class="btn btn-primary">Add Address</button>
+                        <button class="btn modal-close ml-2">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </modal>
+
+        <!-- List of addresses -->
+        <div class="mt-2" th:each="address : ${addresses}">
+            <p th:text="${address.getPrimaryLine()}"></p>
+            <p th:if="${address.getOptionalLine() != null}" th:text="${address.getOptionalLine()}"></p>
+            <p th:text="${address.getCity()} + ', ' + ${address.getState()} + ' ' + ${address.getZipCode()}"></p>
+            <a th:href="'/account/user/address/delete?id=' + ${address.getAddressId()}" style="color: red;">Remove</a>
+        </div>
+
+        <!-- New address button -->
+        <button class="btn btn-primary mt-2 modal-toggle" data-modal-selector="#address-modal">New address</button>
     </div>
     <div class="card bg-light p-2 w-25 mt-3 mx-auto">
         <h2 class="card-title">User Info</h2>
@@ -91,9 +103,8 @@
             <label>New Password</label>
             <input class="form-control" type="password" id="password" name="newPassword" required>
             <label>Confirm Password</label>
-            <!-- TODO(michaelrehman): JS check if passwords match -->
             <input class="form-control" type="password" oninput="checkPW(this)" required>
-            <button class="btn btn-primary mt-1" type="submit">Update</button>
+            <button class="btn mt-1" type="submit">Update (Not implemented yet)</button>
         </form>
     </div>
 </main>

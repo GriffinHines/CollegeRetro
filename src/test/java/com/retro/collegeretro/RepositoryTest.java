@@ -39,7 +39,7 @@ public class RepositoryTest {
         User user = new User();
         user.setEmail("1234@uga.edu");
         user.setPassword("helloWorld");
-        user.getAddresses().add(new Address("1234 Memory Lane", "12345-5678", "Athens", "GA", user));
+        user.getAddresses().add(new Address("1234 Memory Lane", null, "12345-5678", "Athens", "GA", user));
         userRepository.save(user);
         assert addressRepository.findAll().size() == 1;
     }
@@ -59,7 +59,7 @@ public class RepositoryTest {
         User user = new User();
         user.setEmail("1234@uga.edu");
         user.setPassword("helloWorld");
-        user.getAddresses().add(new Address("1234 Memory Lane", "12345-5678", "Athens", "GA", user));
+        user.getAddresses().add(new Address("1234 Memory Lane", null, "12345-5678", "Athens", "GA", user));
         user = userRepository.save(user);
         userRepository.deleteById(user.getUserId());
         assert addressRepository.findAll().size() == 0;

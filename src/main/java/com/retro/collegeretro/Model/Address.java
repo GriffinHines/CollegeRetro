@@ -35,8 +35,9 @@ public class Address {
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 
-    public Address(String primaryLine, String zipCode, String city, String state, User user) {
+    public Address(String primaryLine, String optionalLine, String zipCode, String city, String state, User user) {
         this.primaryLine = primaryLine;
+        this.optionalLine = optionalLine;
         this.zipCode = zipCode;
         this.city = city;
         this.state = state;

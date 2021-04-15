@@ -1,5 +1,6 @@
 package com.retro.collegeretro.Controller;
 
+import com.retro.collegeretro.Model.Address;
 import com.retro.collegeretro.Model.CreditCard;
 import com.retro.collegeretro.Model.User;
 import com.retro.collegeretro.Repository.UserRepository;
@@ -147,24 +148,35 @@ public class AccountController {
                                 @RequestParam int month, @RequestParam int year, @RequestParam int cvv,
                                 @SessionAttribute User user) {
         user = userRepository.findById(user.getUserId()).get();
-        CreditCard card = new CreditCard();
-        card.setNameOnCard(name);
-        card.setCardNumber(num);
-        card.setExpMonth(month);
-        card.setExpYear(year);
-        card.setCvv(cvv);
-        card.setUser(user);
+        CreditCard card = new CreditCard(name, num, month, year, cvv, user);
         user.getCreditCards().add(card);
         userRepository.save(user);
-        log.info("Saved credit card!");
+        return new RedirectView("/account/profile");
+    }
+
+    @PostMapping("/user/address/add")
+    public RedirectView addAddress(@RequestParam String line1, @RequestParam(required = false) String line2,
+                                   @RequestParam String city, @RequestParam String state, @RequestParam String zip,
+                                   @SessionAttribute User user) {
+        user = userRepository.findById(user.getUserId()).get();
+        Address address = new Address(line1, line2, zip, city, state, user);
+        user.getAddresses().add(address);
+        userRepository.save(user);
         return new RedirectView("/account/profile");
     }
 
     @GetMapping("/user/card/delete")
     public RedirectView deleteCard(@RequestParam Long id, @SessionAttribute User user) {
         user = userRepository.findById(user.getUserId()).get();
-        boolean removed = user.getCreditCards().removeIf(creditCard -> creditCard.getCreditCardId() == id);
-        log.info("Removed? " + removed);
+        user.getCreditCards().removeIf(creditCard -> creditCard.getCreditCardId() == id);
+        userRepository.save(user);
+        return new RedirectView("/account/profile");
+    }
+
+    @GetMapping("/user/address/delete")
+    public RedirectView deleteAddress(@RequestParam Long id, @SessionAttribute User user) {
+        user = userRepository.findById(user.getUserId()).get();
+        user.getAddresses().removeIf(addr -> addr.getAddressId() == id);
         userRepository.save(user);
         return new RedirectView("/account/profile");
     }

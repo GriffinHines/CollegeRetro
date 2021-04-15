@@ -1,10 +1,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div class="listing card bg-light p-1 w-25" th:fragment="listingCard(listing)">
-    <p class="card-title" th:text="${listing.getListingName()} + ' ($' + ${listing.getPriceInCents() / 100} + '.' + ${listing.getPriceInCents() % 100} + ')'"></p>
+<div class="listing" th:fragment="listingCard(listing)">
     <img th:src="${listing.getImageURL()}" th:alt="'Image of ' + ${listing.getListingName()}">
-    <p th:text="${listing.getDescription()}"></p>
-    <br>
-    <p th:text="'Remaining: ' +  ${listing.getQuantity()}"></p>
-    <p th:text="'Category: ' +  ${listing.getCategory()}"></p>
+    <div class="listing__details">
+        <p class="text-title" th:text="${listing.getListingName()}"></p>
+        <a class="text-subtitle" th:href="'/search?cat=' + ${listing.getCategory()}" th:text="${listing.getCategory()}"></a>
+    </div>
 </div>
 </html>

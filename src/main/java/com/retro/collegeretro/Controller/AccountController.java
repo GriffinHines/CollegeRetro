@@ -160,4 +160,13 @@ public class AccountController {
         return new RedirectView("/account/profile");
     }
 
+    @GetMapping("/user/card/delete")
+    public RedirectView deleteCard(@RequestParam Long id, @SessionAttribute User user) {
+        user = userRepository.findById(user.getUserId()).get();
+        boolean removed = user.getCreditCards().removeIf(creditCard -> creditCard.getCreditCardId() == id);
+        log.info("Removed? " + removed);
+        userRepository.save(user);
+        return new RedirectView("/account/profile");
+    }
+
 }

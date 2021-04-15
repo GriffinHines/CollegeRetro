@@ -81,24 +81,24 @@ public class AdminController {
                 randomInt = random.nextInt(10);
                 cardNumber += randomInt;
             }
-            creditCards.add(new CreditCard("user" + k, cardNumber, random.nextInt(13), parseInt("202" + valueOf(random.nextInt(10))), random.nextInt(1000), user[k - 1]));
+            creditCards.add(new CreditCard("user" + k, cardNumber, random.nextInt(13), parseInt("202" + random.nextInt(10)), random.nextInt(1000), user[k - 1]));
             user[k - 1].setCreditCards(creditCards);
         }
         //Generate 5 addresses
         Set<Address> addresses = new HashSet<>();
-        addresses.add(new Address("P Sherman Wallaby Way", "2021", "Syndey", "New South Wales", user[0]));
+        addresses.add(new Address("P Sherman Wallaby Way", null, "2021", "Syndey", "New South Wales", user[0]));
         user[0].setAddresses(addresses);
         addresses = new HashSet<>();
-        addresses.add(new Address("Mordor", "30338", "Mordor", "Mordor", user[1]));
+        addresses.add(new Address("Mordor", null, "30338", "Mordor", "Mordor", user[1]));
         user[1].setAddresses(addresses);
         addresses = new HashSet<>();
-        addresses.add(new Address("Townsville", "10128", "Townsville", "New York", user[2]));
+        addresses.add(new Address("Townsville", null, "10128", "Townsville", "New York", user[2]));
         user[2].setAddresses(addresses);
         addresses = new HashSet<>();
-        addresses.add(new Address("Dooblerville", "60771", "Doubleston", "Dorglerbrook", user[3]));
+        addresses.add(new Address("Dooblerville", null, "60771", "Doubleston", "Dorglerbrook", user[3]));
         user[3].setAddresses(addresses);
         addresses = new HashSet<>();
-        addresses.add(new Address("Candy Island", "60601", "Candy Island", "Candy Island", user[4]));
+        addresses.add(new Address("Candy Island", null, "60601", "Candy Island", "Candy Island", user[4]));
         user[4].setAddresses(addresses);
         // Create a user object, create a credit card, create an address, set the
         // user's address and credit card, and userRepository.save(theUser). 5 times.

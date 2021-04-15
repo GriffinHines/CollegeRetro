@@ -10,23 +10,14 @@
 <body>
 <nav th:replace="fragments/topnav :: navbar"></nav>
 <div class="login-box">
+    <p th:if="${param.error != null}" class="mt-2">Invalid username or password!</p>
     <form id="login-form" action="/account/login" method="post">
-        <div class="title">
-            <h2>Login</h2>
-        </div>
-        <div class="input">
-            <input class="form-control" type="text" name="username" id="username" placeholder="Username/Email" required autofocus>
-        </div>
-        <div class="input">
-            <input class="form-control" type="password" id="password" name="password" placeholder="Password" required>
-        </div>
-        <div class="actions">
-            <a href="/account/forgot">Forgot your password?</a>
-            <button class="btn btn-primary" type="submit">Login</button>
-        </div>
-        <div>
-            <p>New to CollegeRetro? Click <a href="/account/create">here to sign up!</a></p>
-        </div>
+        <h2 class="text-title mx-auto">Login</h2>
+        <input class="form-control w-50 mt-3 mx-auto" type="text" name="username" id="username" placeholder="Username/Email" required autofocus>
+        <input class="form-control w-50 mt-1 mx-auto" type="password" id="password" name="password" placeholder="Password" required>
+        <button class="btn btn-primary w-50 mt-1 mb-3 mx-auto" type="submit">Login</button>
+        <a class="mx-auto" href="/account/forgot">Forgot your password?</a>
+        <p class="mx-auto mt-1">New to CollegeRetro? Click <a href="/account/create">here</a> to sign up!</p>
     </form>
 </div>
 <div>

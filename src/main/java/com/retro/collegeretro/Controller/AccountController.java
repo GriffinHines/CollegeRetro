@@ -1,20 +1,12 @@
 package com.retro.collegeretro.Controller;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.retro.collegeretro.Model.Address;
 import com.retro.collegeretro.Model.CreditCard;
-import com.retro.collegeretro.Model.Listing;
 import com.retro.collegeretro.Model.User;
 import com.retro.collegeretro.Repository.UserRepository;
 import com.retro.collegeretro.Service.MyEmailSender;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,15 +16,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
 /**
  * This controller contains the endpoints for anything a user
@@ -134,7 +118,7 @@ public class AccountController {
     }
 
     @GetMapping("/login")
-    public String getLoginPage() {
+    public String getLoginPage(Model model) {
         return "login";
     }
 
@@ -146,7 +130,7 @@ public class AccountController {
         model.addAttribute("addresses", user.getAddresses());
         model.addAttribute("cards", user.getCreditCards());
         model.addAttribute("listings", user.getListings());
-        return "myprofile";
+        return "profile";
     } // getUserProfile
 
     @PostMapping("/user/username")
@@ -158,5 +142,43 @@ public class AccountController {
         } // if
         return new RedirectView("/account/profile");
     } // updateUsername
+
+    @PostMapping("/user/card/add")
+    public RedirectView addCard(@RequestParam String name, @RequestParam String num,
+                                @RequestParam int month, @RequestParam int year, @RequestParam int cvv,
+                                @SessionAttribute User user) {
+        user = userRepository.findById(user.getUserId()).get();
+        CreditCard card = new CreditCard(name, num, month, year, cvv, user);
+        user.getCreditCards().add(card);
+        userRepository.save(user);
+        return new RedirectView("/account/profile");
+    }
+
+    @PostMapping("/user/address/add")
+    public RedirectView addAddress(@RequestParam String line1, @RequestParam(required = false) String line2,
+                                   @RequestParam String city, @RequestParam String state, @RequestParam String zip,
+                                   @SessionAttribute User user) {
+        user = userRepository.findById(user.getUserId()).get();
+        Address address = new Address(line1, line2, zip, city, state, user);
+        user.getAddresses().add(address);
+        userRepository.save(user);
+        return new RedirectView("/account/profile");
+    }
+
+    @GetMapping("/user/card/delete")
+    public RedirectView deleteCard(@RequestParam Long id, @SessionAttribute User user) {
+        user = userRepository.findById(user.getUserId()).get();
+        user.getCreditCards().removeIf(creditCard -> creditCard.getCreditCardId() == id);
+        userRepository.save(user);
+        return new RedirectView("/account/profile");
+    }
+
+    @GetMapping("/user/address/delete")
+    public RedirectView deleteAddress(@RequestParam Long id, @SessionAttribute User user) {
+        user = userRepository.findById(user.getUserId()).get();
+        user.getAddresses().removeIf(addr -> addr.getAddressId() == id);
+        userRepository.save(user);
+        return new RedirectView("/account/profile");
+    }
 
 }

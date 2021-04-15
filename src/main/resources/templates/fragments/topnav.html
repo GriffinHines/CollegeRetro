@@ -1,8 +1,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<nav class="navbar" th:fragment="navbar">
-    <form class="search" action="/search" method="get">
+<nav class="navbar bg-light" th:fragment="navbar">
+    <form class="flex search" action="/search" method="get">
         <input type="text" class="form-control" placeholder="Search..." name="cat">
-        <button class="btn" type="submit"><img th:src="@{/img/search.png}" id="search"></button>
+        <button class="btn btn-info ml-2" type="submit">Search</button>
     </form>
     <div class="logo">
         <a href="/"><img th:src="@{/img/logo.svg}" alt="CollegeRetro Logo" id="logo"></a>
@@ -14,9 +14,7 @@
         </div>
         <div th:if="${session.user != null}" class="inline-flex">
             <a class="btn btn-info" href="/account/profile" th:text="${session.user.getUsername()}"></a>
-            <!-- FIXME(michaelrehman): see error log posted in discord -->
-<!--            <a class="btn btn-info ml-2" href="/account/login" th:text="'Cart (' + ${session.user.getCart().getListings().size()} + ')'"></a>-->
-            <a class="btn btn-info ml-2" href="/account/cart" th:text="'Cart (0)'"></a>
+            <a class="btn btn-info ml-2" href="/account/cart">Cart</a>
             <a class="btn btn-info ml-2" href="/logout">Logout</a>
         </div>
     </div>

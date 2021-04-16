@@ -5,33 +5,54 @@
     <title>CollegeRetro</title>
     <link rel="stylesheet" th:href="@{/style/core.css}">
     <link rel="stylesheet" th:href="@{/style/index.css}">
-    <link rel="stylesheet" th:href="@{/style/listing.css}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
     <div th:replace="fragments/topnav :: navbar"></div>
     <main>
-        <section>
+        <section class="card">
             <header>
-                <h2>Search by Category</h2>
+                <h2 class="card-title"><a href="/search?cat=textbooks">Textbooks</a></h2>
             </header>
-            <ul>
-                <li><a href="/search?cat=textbooks">Textbooks</a></li>
-                <li><a href="/search?cat=furniture">Dorm Furniture</a></li>
-                <li><a href="/search?cat=appliances">Dorm Appliances</a></li>
-                <li><a href="/search?cat=computing">Computing Devices & Accessories</a></li>
-            </ul>
+
+            <article th:each="textbook : ${textbooks}">
+                <p th:text="${textbook.getListingName()}"></p>
+                <img th:src="${textbook.getImageURL()}" th:alt="'Image of ' + ${textbook.getListingName()}">
+            </article>
         </section>
 
-        <section>
+        <section class="card">
             <header>
-                <h2>Featured Listings</h2>
+                <h2 class="card-title"><a href="/search?cat=furniture">Dorm Furniture</a></h2>
             </header>
-            <!-- Can't use `replace` on something with `each` -->
-            <div th:each="listing : ${listings.toList()}" >
-                <div th:replace="fragments/listing :: listingCard(${listing})"></div>
-            </div>
+
+            <article th:each="furnitureItem : ${furniture}">
+                <p th:text="${furnitureItem.getListingName()}"></p>
+                <img th:src="${furnitureItem.getImageURL()}" th:alt="'Image of ' + ${furnitureItem.getListingName()}">
+            </article>
+        </section>
+
+        <section class="card">
+            <header>
+                <h2 class="card-title"><a href="/search?cat=appliances">Dorm Appliances</a></h2>
+            </header>
+
+            <article th:each="appliance : ${appliances}">
+                <p th:text="${appliance.getListingName()}"></p>
+                <img th:src="${appliance.getImageURL()}" th:alt="'Image of ' + ${appliance.getListingName()}">
+            </article>
+        </section>
+
+        <section class="card">
+            <header>
+                <h2 class="card-title"><a href="/search?cat=computing">Computing Devices & Accessories</a></h2>
+            </header>
+
+            <article th:each="computingItem : ${computing}">
+                <p th:text="${computingItem.getListingName()}"></p>
+                <img th:src="${computingItem.getImageURL()}" th:alt="'Image of ' + ${computingItem.getListingName()}">
+            </article>
         </section>
     </main>
 </body>

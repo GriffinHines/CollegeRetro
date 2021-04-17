@@ -7,6 +7,7 @@
     <link rel="stylesheet" th:href="@{/style/core.css}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/591fc9484d.js" crossorigin="anonymous"></script>
     <script th:src="@{/script/core.js}"></script>
 </head>
 <body>
@@ -34,8 +35,8 @@
                     <label for="card-cvv" class="mt-2">CVV</label>
                     <input id="card-cvv" class="form-control" type="number" name="cvv" placeholder="CVV" minlength="3" maxlength="4" required>
                     <div class="flex mt-2">
-                        <button type="submit" class="btn btn-primary">Add Card</button>
-                        <button class="btn modal-close ml-2">Cancel</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Add Card</button>
+                        <button class="btn modal-close ml-2"><i class="fas fa-times"></i> Cancel</button>
                     </div>
                 </form>
             </div>
@@ -50,7 +51,7 @@
         </ul>
 
         <!-- New card button -->
-        <button class="btn btn-primary mt-2 modal-toggle" data-modal-selector="#card-modal">New card</button>
+        <button class="btn btn-primary mt-2 modal-toggle" data-modal-selector="#card-modal"><i class="fas fa-credit-card"></i> New card</button>
 
     </div>
     <div class="card bg-light p-2 w-25 mt-3 mx-auto">
@@ -71,8 +72,8 @@
                     <label for="zip" class="mt-2">ZIP</label>
                     <input id="zip" class="form-control" type="text" name="zip" placeholder="ZIP Code" minlength="5" maxlength="10" required>
                     <div class="flex mt-2">
-                        <button type="submit" class="btn btn-primary">Add Address</button>
-                        <button class="btn modal-close ml-2">Cancel</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Add Address</button>
+                        <button class="btn modal-close ml-2"><i class="fas fa-times"></i> Cancel</button>
                     </div>
                 </form>
             </div>
@@ -87,7 +88,7 @@
         </div>
 
         <!-- New address button -->
-        <button class="btn btn-primary mt-2 modal-toggle" data-modal-selector="#address-modal">New address</button>
+        <button class="btn btn-primary mt-2 modal-toggle" data-modal-selector="#address-modal"><i class="fas fa-address-book"></i> New address</button>
     </div>
     <div class="card bg-light p-2 w-25 mt-3 mx-auto">
         <h2 class="card-title">User Info</h2>
@@ -96,7 +97,7 @@
             <label for="username">New Username</label>
             <input class="form-control" type="text" name="username" id="username"
                    th:value="${session.user.getUsername()}">
-            <button class="btn btn-primary mt-1" type="submit">Update</button>
+            <button class="btn btn-primary mt-1" type="submit"><i class="fas fa-edit"></i> Update</button>
         </form>
         <h2 class="text-subtitle mt-3">Change Password</h2>
         <form action="#" class="mt-1">
@@ -104,7 +105,7 @@
             <input class="form-control" type="password" id="password" name="newPassword" required>
             <label>Confirm Password</label>
             <input class="form-control" type="password" oninput="checkPW(this)" required>
-            <button class="btn mt-1" type="submit">Update (Not implemented yet)</button>
+            <button class="btn mt-1" type="submit"><i class="fas fa-edit"></i> Update (Not implemented yet)</button>
         </form>
     </div>
 </main>

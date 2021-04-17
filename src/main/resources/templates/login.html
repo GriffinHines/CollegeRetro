@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/style/login.css}">
     <link rel="stylesheet" th:href="@{/style/core.css}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/591fc9484d.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <nav th:replace="fragments/topnav :: navbar"></nav>
@@ -15,7 +16,7 @@
         <h2 class="text-title mx-auto">Login</h2>
         <input class="form-control w-50 mt-3 mx-auto" type="text" name="username" id="username" placeholder="Username/Email" required autofocus>
         <input class="form-control w-50 mt-1 mx-auto" type="password" id="password" name="password" placeholder="Password" required>
-        <button class="btn btn-primary w-50 mt-1 mb-3 mx-auto" type="submit">Login</button>
+        <button class="btn btn-primary w-50 mt-1 mb-3 mx-auto" type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
         <a class="mx-auto" href="/account/forgot">Forgot your password?</a>
         <p class="mx-auto mt-1">New to CollegeRetro? Click <a href="/account/create">here</a> to sign up!</p>
     </form>

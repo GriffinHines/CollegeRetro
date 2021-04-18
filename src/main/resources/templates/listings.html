@@ -16,9 +16,9 @@
             <th>Mark Closed</th>
         </tr>
         <tr th:each="listing : ${listings}">
-            <td>listing.getListingId()</td>
-            <td>listing.getListingName()</td>
-            <td>listing.getCategory()</td>
+            <td th:text="${listing.getListingId()}"></td>
+            <td th:text="${listing.getListingName()}"></td>
+            <td th:text="${listing.getCategory()}"></td>
             <td>
                 <input type="checkbox" id=listing.getListingID() value="Closed">
             </td>

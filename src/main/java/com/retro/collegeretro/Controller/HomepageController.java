@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class HomepageController {
 
@@ -22,8 +25,15 @@ public class HomepageController {
 
     @GetMapping("/")
     public String getHomepage(@SessionAttribute(required = false) User user, Model model) {
-        Page<Listing> all = listingRepository.findAll(PageRequest.of(0, 5));
-        model.addAttribute("listings", all);
+        Page<Listing> textbooks = listingRepository.findAllByCategory(PageRequest.of(0, 5), "textbooks");
+        Page<Listing> furniture = listingRepository.findAllByCategory(PageRequest.of(0, 5), "furniture");
+        Page<Listing> appliances = listingRepository.findAllByCategory(PageRequest.of(0, 5), "appliances");
+        Page<Listing> computing = listingRepository.findAllByCategory(PageRequest.of(0, 5), "computing");
+
+        model.addAttribute("textbooks", textbooks);
+        model.addAttribute("furniture", furniture);
+        model.addAttribute("appliances", appliances);
+        model.addAttribute("computing", computing);
 
         return "index";
     }

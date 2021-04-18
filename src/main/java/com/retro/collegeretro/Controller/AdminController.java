@@ -37,6 +37,11 @@ public class AdminController {
     @Value("${retro.scrape}")
     private boolean shouldScrape;
 
+    @GetMapping("/listings")
+    public RedirectView listings() {
+        return new RedirectView("/listings");
+    }
+
     /**
      * Deletes previously generated users, creates five users with an address
      * and a credit card, and for each user, scrapes 10 listings from ebay.

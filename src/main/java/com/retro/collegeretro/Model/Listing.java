@@ -34,6 +34,17 @@ public class Listing {
     private int quantity;
     private String imageURL;
 
+    public Listing(String category, String listingName, int priceInCents, String description, int quantity, String imageURL, User user) {
+        this.category = category;
+        this.listingName = listingName;
+        this.priceInCents = priceInCents;
+        this.description = description;
+        this.quantity = quantity;
+        this.imageURL = imageURL;
+        this.user = user;
+        this.isOpen = true;
+    }
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "cartId", nullable = false)
     private List<Cart> carts = new ArrayList<>();

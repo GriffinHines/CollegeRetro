@@ -10,42 +10,33 @@
 <body>
 <nav th:replace="fragments/topnav :: navbar"></nav>
 <div class="new-listing-box">
-    <form action="" enctype="multipart/form-data" method="post">
-        <h2>Create a New Listing</h2>
-        <div class="input">
-            Title of listing <br>
-            <input class="form-control" type="text" name="title" placeholder="Title of your listing" required autofocus>
-        </div>
-        <div class="input">
-            Selling Price <br>
-            <input class="form-control" type="number" name="price" placeholder="Price in USD" step="0.01" required>
-        </div>
-        <div class="input">
-            Quantity available for sell <br>
-            <input class="form-control" type="number" name="quantity" placeholder="Quantity available" required>
-        </div>
-        <div class="input">
-            Select category: <br>
-            <select name="category" required>
+    <div class="card bg-light w-25 mt-3 mx-auto p-2">
+        <h1 class="card-title">Create a new listing</h1>
+        <form action="/account/listing" enctype="multipart/form-data" method="post">
+            <label for="title" class="mt-1" style="display: inline-block">Product Name</label>
+            <input class="form-control w-100" type="text" id="title" name="title" placeholder="Title of your listing" required autofocus>
+            <label for="price" class="mt-1" style="display: inline-block">Price</label>
+            <input class="form-control w-100" type="number" id="price" name="price" placeholder="Price in USD" step="0.01" min="0.01" required>
+            <label for="quantity" class="mt-1" style="display: inline-block">How many items do you have?</label>
+            <input class="form-control w-100" type="number" id="quantity" name="quantity" placeholder="Quantity available" step="1" min="1" required>
+            <label for="category" class="mt-1" style="display: inline-block">Pick a category</label>
+            <select class="w-100" id="category" name="category" style="display: block" required>
                 <option value="" selected hidden disabled>Select a product category</option>
                 <option value="textbooks">Textbooks</option>
                 <option value="furniture">Dorm Furniture</option>
                 <option value="appliances">Dorm Appliances</option>
                 <option value="computing">Computing Devices & Accessories</option>
             </select>
-        </div>
-        <div class="input">
-            Listing Description <br>
-            <textarea name="description" placeholder="Enter listing description" required></textarea>
-        </div>
-        <div class="input">
-            Upload a product image:<br>
-            <input type="file" name="image" accept="image/jpeg, image/png" required>
-        </div>
-        <div class="actions">
-            <button class="btn btn-primary" type="submit"><i class="fas fa-check"></i> Publish</button>
-        </div>
-    </form>
+            <label for="description" class="mt-1" style="display: inline-block">Description</label>
+            <textarea class="w-100" id="description" name="description" placeholder="Enter listing description" style="display: block" required></textarea>
+            <label for="image" class="mt-1" style="display: inline-block">Image</label>
+            <input class="form-control w-100" type="text" id="image" name="image" placeholder="Enter a link to an image of the product" required>
+            <div class="actions mt-3">
+                <button class="btn btn-primary" type="submit"><i class="fas fa-check"></i> Publish</button>
+            </div>
+        </form>
+    </div>
+
 </div>
 </body>
 </html>

@@ -15,6 +15,21 @@
 <div th:replace="fragments/topnav :: navbar"></div>
 <main>
     <h1 class="text-title mt-3 text-center" th:text="${session.user.getUsername()} + '\'s Profile'"></h1>
+    <div class="card bg-dark p-2 w-25 mt-3 mx-auto" id="listings">
+        <p class="card-title">Listings</p>
+        <p class="mt-2" th:if="${listings.size() == 0}">You currently have no listings.</p>
+        <p class="mt-2" style="color: forestgreen" th:if="${param.newListing != null}">Your new listing was created successfully!</p>
+        <p class="mt-2" style="color: orangered" th:if="${param.closeListing != null}">You closed the listing successfully.</p>
+        <hr>
+        <div class="mt-1 mb-1" th:each="listing : ${listings}">
+            <a th:href="'/listing/' + ${listing.getListingId()}" th:text="${listing.getListingName()}"></a>
+            <p th:text="'Status: ' + ${listing.isOpen() ? 'Open' : 'Closed'}"></p>
+            <p th:text="'There are ' + ${listing.getQuantity()} + ' items left.'" th:if="${listing.isOpen()}"></p>
+            <a class="btn btn-danger w-25" th:href="'/account/listing/close/' + ${listing.getListingId()}" th:if="${listing.isOpen()}">Close Listing</a>
+        </div>
+        <hr>
+        <a class="btn btn-success mt-2" href="/account/listing">Create a Listing</a>
+    </div>
     <div class="card bg-light p-2 w-25 mt-3 mx-auto">
         <h2 class="card-title">Credit Cards</h2>
 
@@ -24,16 +39,20 @@
                 <p class="card-title">Add a Credit Card</p>
                 <form action="/account/user/card/add" method="post" class="mt-2">
                     <label for="card-name">Full Name</label>
-                    <input id="card-name" class="form-control" type="text" name="name" placeholder="Name on card" required>
+                    <input id="card-name" class="form-control" type="text" name="name" placeholder="Name on card"
+                           required>
                     <label for="card-num" class="mt-2">Card Number</label>
                     <input id="card-num" class="form-control" type="text" name="num" placeholder="Card Number" required>
                     <label for="card-exp" class="mt-2">Expiration</label>
                     <div id="card-exp" class="flex">
-                        <input class="form-control w-25" type="number" name="month" step="1" min="1" max="12" placeholder="Month" required>
-                        <input class="form-control w-25" type="number" name="year" step="1" min="2021" max="2100" placeholder="Year" required>
+                        <input class="form-control w-25" type="number" name="month" step="1" min="1" max="12"
+                               placeholder="Month" required>
+                        <input class="form-control w-25" type="number" name="year" step="1" min="2021" max="2100"
+                               placeholder="Year" required>
                     </div>
                     <label for="card-cvv" class="mt-2">CVV</label>
-                    <input id="card-cvv" class="form-control" type="number" name="cvv" placeholder="CVV" minlength="3" maxlength="4" required>
+                    <input id="card-cvv" class="form-control" type="number" name="cvv" placeholder="CVV" minlength="3"
+                           maxlength="4" required>
                     <div class="flex mt-2">
                         <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Add Card</button>
                         <button class="btn modal-close ml-2"><i class="fas fa-times"></i> Cancel</button>
@@ -46,12 +65,15 @@
         <ul class="mt-2">
             <li th:each="card : ${cards}">
                 Card ending in <span th:text="${card.getCardNumber().substring(12)}"></span>
-                <span class="ml-5"><a th:href="'/account/user/card/delete?id=' + ${card.getCreditCardId()}" style="color: red">Remove</a></span>
+                <span class="ml-5"><a th:href="'/account/user/card/delete?id=' + ${card.getCreditCardId()}"
+                                      style="color: red">Remove</a></span>
             </li>
         </ul>
 
         <!-- New card button -->
-        <button class="btn btn-primary mt-2 modal-toggle" data-modal-selector="#card-modal"><i class="fas fa-credit-card"></i> New card</button>
+        <button class="btn btn-primary mt-2 modal-toggle" data-modal-selector="#card-modal"><i
+                class="fas fa-credit-card"></i> New card
+        </button>
 
     </div>
     <div class="card bg-light p-2 w-25 mt-3 mx-auto">
@@ -63,14 +85,18 @@
                 <p class="card-title">Add a Credit Card</p>
                 <form action="/account/user/address/add" method="post" class="mt-2">
                     <label for="line-1">Address</label>
-                    <input id="line-1" class="form-control" type="text" name="line1" placeholder="Address Line 1" required>
-                    <input id="line-2" class="form-control" type="text" name="line2" placeholder="Address Line 2 (optional)">
+                    <input id="line-1" class="form-control" type="text" name="line1" placeholder="Address Line 1"
+                           required>
+                    <input id="line-2" class="form-control" type="text" name="line2"
+                           placeholder="Address Line 2 (optional)">
                     <label for="city" class="mt-2">City</label>
                     <input id="city" class="form-control" type="text" name="city" placeholder="City" required>
                     <label for="state" class="mt-2">State</label>
-                    <input id="state" class="form-control" type="text" name="state" placeholder="State (Abbreviation)" minlength="2" maxlength="2" required>
+                    <input id="state" class="form-control" type="text" name="state" placeholder="State (Abbreviation)"
+                           minlength="2" maxlength="2" required>
                     <label for="zip" class="mt-2">ZIP</label>
-                    <input id="zip" class="form-control" type="text" name="zip" placeholder="ZIP Code" minlength="5" maxlength="10" required>
+                    <input id="zip" class="form-control" type="text" name="zip" placeholder="ZIP Code" minlength="5"
+                           maxlength="10" required>
                     <div class="flex mt-2">
                         <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Add Address</button>
                         <button class="btn modal-close ml-2"><i class="fas fa-times"></i> Cancel</button>
@@ -88,7 +114,9 @@
         </div>
 
         <!-- New address button -->
-        <button class="btn btn-primary mt-2 modal-toggle" data-modal-selector="#address-modal"><i class="fas fa-address-book"></i> New address</button>
+        <button class="btn btn-primary mt-2 modal-toggle" data-modal-selector="#address-modal"><i
+                class="fas fa-address-book"></i> New address
+        </button>
     </div>
     <div class="card bg-light p-2 w-25 mt-3 mx-auto">
         <h2 class="card-title">User Info</h2>

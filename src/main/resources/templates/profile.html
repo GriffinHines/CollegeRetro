@@ -18,17 +18,17 @@
     <div class="card bg-dark p-2 w-25 mt-3 mx-auto" id="listings">
         <p class="card-title">Listings</p>
         <p class="mt-2" th:if="${listings.size() == 0}">You currently have no listings.</p>
-        <p class="mt-2" style="color: forestgreen" th:if="${param.newListing != null}">Your new listing was created successfully!</p>
-        <p class="mt-2" style="color: orangered" th:if="${param.closeListing != null}">You closed the listing successfully.</p>
+        <p class="mt-2" style="color: forestgreen" th:if="${param.newListing != null}"><i class="fas fa-check-circle"></i> Your new listing was created successfully!</p>
+        <p class="mt-2" style="color: orangered" th:if="${param.closeListing != null}"><i class="fas fa-check-circle"></i> You closed the listing successfully.</p>
         <hr>
         <div class="mt-1 mb-1" th:each="listing : ${listings}">
             <a th:href="'/listing/' + ${listing.getListingId()}" th:text="${listing.getListingName()}"></a>
             <p th:text="'Status: ' + ${listing.isOpen() ? 'Open' : 'Closed'}"></p>
             <p th:text="'There are ' + ${listing.getQuantity()} + ' items left.'" th:if="${listing.isOpen()}"></p>
-            <a class="btn btn-danger w-25" th:href="'/account/listing/close/' + ${listing.getListingId()}" th:if="${listing.isOpen()}">Close Listing</a>
+            <a class="btn btn-danger w-25" th:href="'/account/listing/close/' + ${listing.getListingId()}" th:if="${listing.isOpen()}"><i class="fas fa-store-alt-slash"></i> Close Listing</a>
             <hr class="mt-1">
         </div>
-        <a class="btn btn-success mt-2" href="/account/listing">Create a Listing</a>
+        <a class="btn btn-success mt-2" href="/account/listing"><i class="fas fa-plus"></i> Create a Listing</a>
     </div>
     <div class="card bg-light p-2 w-25 mt-3 mx-auto">
         <h2 class="card-title">Credit Cards</h2>
@@ -66,7 +66,7 @@
             <li th:each="card : ${cards}">
                 Card ending in <span th:text="${card.getCardNumber().substring(12)}"></span>
                 <span class="ml-5"><a th:href="'/account/user/card/delete?id=' + ${card.getCreditCardId()}"
-                                      style="color: red">Remove</a></span>
+                                      style="color: red"><i class="fas fa-trash-alt"></i> Remove</a></span>
             </li>
         </ul>
 
@@ -82,7 +82,7 @@
         <!-- Form modal -->
         <modal id="address-modal" class="modal">
             <div class="modal-content card w-25 mx-auto bg-dark p-2">
-                <p class="card-title">Add a Credit Card</p>
+                <p class="card-title">Add an Address</p>
                 <form action="/account/user/address/add" method="post" class="mt-2">
                     <label for="line-1">Address</label>
                     <input id="line-1" class="form-control" type="text" name="line1" placeholder="Address Line 1"
@@ -110,7 +110,7 @@
             <p th:text="${address.getPrimaryLine()}"></p>
             <p th:if="${address.getOptionalLine() != null}" th:text="${address.getOptionalLine()}"></p>
             <p th:text="${address.getCity()} + ', ' + ${address.getState()} + ' ' + ${address.getZipCode()}"></p>
-            <a th:href="'/account/user/address/delete?id=' + ${address.getAddressId()}" style="color: red;">Remove</a>
+            <a th:href="'/account/user/address/delete?id=' + ${address.getAddressId()}" style="color: red;"><i class="fas fa-trash-alt"></i> Remove</a>
         </div>
 
         <!-- New address button -->

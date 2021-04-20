@@ -27,7 +27,7 @@
                         <p class="mt-1"><strong th:text="${#numbers.formatCurrency(item.getPriceInCents() / 100.0)}"></strong></p>
                     </div>
 
-                    <button class="btn btn-danger">Remove Item</button>
+                    <button class="btn btn-danger"><i class="fas fa-trash"></i> Remove Item</button>
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
                 <p class="mt-1" th:text="'Taxes: ' + ${#numbers.formatCurrency(subtotal * 0.07)}"></p>
                 <hr />
                 <p class="mt-1"><strong th:text="'Total: ' + ${#numbers.formatCurrency(subtotal * 1.07)}"></strong></p>
-                <a class="btn btn-primary mt-4" href="/account/checkout">Continue to checkout</a>
+                <a class="btn btn-primary mt-4" href="/account/checkout">Continue to checkout <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
     </div>

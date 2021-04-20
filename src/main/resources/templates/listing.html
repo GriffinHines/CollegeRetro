@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CollegeRetro - Item</title>
+    <link rel="stylesheet" th:href="@{/style/core.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/591fc9484d.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div th:replace="fragments/topnav :: navbar"></div>
+<div class="w-50 mx-auto">
+    <img class="mt-5" th:src="${listing.getImageURL()}" height="300">
+    <h1 class="text-title" th:text="${listing.getListingName()}"></h1>
+    <p class="text-subtitle" th:text="${#numbers.formatCurrency(listing.getPriceInCents() / 100)}"></p>
+    <a th:text="'Category: ' + ${listing.getCategory()}" th:href="'/search?cat=' + ${listing.getCategory()}"></a>
+    <p th:text="'Qty. ' + ${listing.getQuantity()}"></p>
+    <p th:text="'Seller: ' + ${listing.getUser().getUsername()}"></p>
+    <p class="mt-4" th:text="${listing.getDescription()}"></p>
+</div>
+
+</body>
+</html>

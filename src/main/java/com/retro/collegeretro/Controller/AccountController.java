@@ -2,6 +2,7 @@ package com.retro.collegeretro.Controller;
 
 import com.retro.collegeretro.Model.Address;
 import com.retro.collegeretro.Model.CreditCard;
+import com.retro.collegeretro.Model.Listing;
 import com.retro.collegeretro.Model.User;
 import com.retro.collegeretro.Repository.UserRepository;
 import com.retro.collegeretro.Service.MyEmailSender;
@@ -179,6 +180,35 @@ public class AccountController {
         user.getAddresses().removeIf(addr -> addr.getAddressId() == id);
         userRepository.save(user);
         return new RedirectView("/account/profile");
+    }
+
+    @GetMapping("/listing")
+    public String getNewListingPage() {
+        return "new-listing";
+    }
+
+    @PostMapping("/listing")
+    public RedirectView makeNewListing(@RequestParam String title, @RequestParam double price,
+                                 @RequestParam Integer quantity, @RequestParam String category,
+                                 @RequestParam String description, @RequestParam String image,
+                                 @SessionAttribute User user) {
+        user = userRepository.findById(user.getUserId()).get();
+        Listing listing = new Listing(category, title, (int)(price * 100), description, quantity, image, user);
+        user.getListings().add(listing);
+        userRepository.save(user);
+        return new RedirectView("/account/profile?newListing#listings");
+    }
+
+    @GetMapping("/listing/close/{listingId}")
+    public RedirectView closeListing(@PathVariable Long listingId, @SessionAttribute User user) {
+        user = userRepository.findById(user.getUserId()).get();
+        user.getListings().forEach(listing -> {
+            if (listing.getListingId() == listingId) {
+                listing.setOpen(false);
+            }
+        });
+        userRepository.save(user);
+        return new RedirectView("/account/profile?closeListing#listings");
     }
 
 }

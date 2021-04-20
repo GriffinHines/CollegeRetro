@@ -21,15 +21,18 @@ public class SearchController {
     } // SearchController
 
     @GetMapping("/search")
-    public String getListings(Model model, @RequestParam String cat, @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
-        if (page == null) {
-            page = 0;
-        } // if
-        if (size == null) {
-            size = 20;
-        } // if
-        Page<Listing> allByCategory = listingRepository.findAllByCategory(PageRequest.of(page, size), cat);
-        model.addAttribute("listings", allByCategory);
+    public String getListings(Model model,
+                              @RequestParam(required = false) String query,
+                              @RequestParam(required = false) String cat,
+                              @RequestParam(required = false, defaultValue = "0") Integer page,
+                              @RequestParam(required = false, defaultValue = "20") Integer size) {
+        if (cat != null) {
+            Page<Listing> allByCategory = listingRepository.findAllByCategory(PageRequest.of(page, size), cat);
+            model.addAttribute("listings", allByCategory);
+        } else {
+            Page<Listing> allByQuery = listingRepository.findAllByListingNameLike(PageRequest.of(page, size), "%" + query + "%");
+            model.addAttribute("listings", allByQuery);
+        }
         return "search";
     } //getListings
 

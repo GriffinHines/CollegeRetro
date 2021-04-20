@@ -10,51 +10,51 @@
     <script src="https://kit.fontawesome.com/591fc9484d.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div th:replace="fragments/topnav :: navbar"></div>
-    <main>
-        <section class="card">
-            <header>
-                <h2 class="card-title"><a href="/search?cat=textbooks">Textbooks</a></h2>
-            </header>
+<div th:replace="fragments/topnav :: navbar"></div>
+<main>
+    <section class="card">
+        <header>
+            <h2 class="card-title"><a href="/search?cat=textbooks">Textbooks</a></h2>
+        </header>
 
-            <article th:each="textbook : ${textbooks}">
-                <p th:text="${textbook.getListingName()}"></p>
-                <img th:src="${textbook.getImageURL()}" th:alt="'Image of ' + ${textbook.getListingName()}">
-            </article>
-        </section>
+        <article th:each="textbook : ${textbooks}">
+            <a th:text="${textbook.getListingName()}" th:href="'/listing/' + ${textbook.getListingId()}"></a>
+            <img th:src="${textbook.getImageURL()}" th:alt="'Image of ' + ${textbook.getListingName()}">
+        </article>
+    </section>
 
-        <section class="card">
-            <header>
-                <h2 class="card-title"><a href="/search?cat=furniture">Dorm Furniture</a></h2>
-            </header>
+    <section class="card">
+        <header>
+            <h2 class="card-title"><a href="/search?cat=furniture">Dorm Furniture</a></h2>
+        </header>
 
-            <article th:each="furnitureItem : ${furniture}">
-                <p th:text="${furnitureItem.getListingName()}"></p>
-                <img th:src="${furnitureItem.getImageURL()}" th:alt="'Image of ' + ${furnitureItem.getListingName()}">
-            </article>
-        </section>
+        <article th:each="furnitureItem : ${furniture}">
+            <a th:text="${furnitureItem.getListingName()}" th:href="'/listing/' + ${furnitureItem.getListingId()}"></a>
+            <img th:src="${furnitureItem.getImageURL()}" th:alt="'Image of ' + ${furnitureItem.getListingName()}">
+        </article>
+    </section>
 
-        <section class="card">
-            <header>
-                <h2 class="card-title"><a href="/search?cat=appliances">Dorm Appliances</a></h2>
-            </header>
+    <section class="card">
+        <header>
+            <h2 class="card-title"><a href="/search?cat=appliances">Dorm Appliances</a></h2>
+        </header>
 
-            <article th:each="appliance : ${appliances}">
-                <p th:text="${appliance.getListingName()}"></p>
-                <img th:src="${appliance.getImageURL()}" th:alt="'Image of ' + ${appliance.getListingName()}">
-            </article>
-        </section>
+        <article th:each="appliance : ${appliances}">
+            <a th:text="${appliance.getListingName()}" th:href="'/listing/' + ${appliance.getListingId()}"></a>
+            <img th:src="${appliance.getImageURL()}" th:alt="'Image of ' + ${appliance.getListingName()}">
+        </article>
+    </section>
 
-        <section class="card">
-            <header>
-                <h2 class="card-title"><a href="/search?cat=computing">Computing Devices & Accessories</a></h2>
-            </header>
+    <section class="card">
+        <header>
+            <h2 class="card-title"><a href="/search?cat=computing">Computing Devices & Accessories</a></h2>
+        </header>
 
-            <article th:each="computingItem : ${computing}">
-                <p th:text="${computingItem.getListingName()}"></p>
-                <img th:src="${computingItem.getImageURL()}" th:alt="'Image of ' + ${computingItem.getListingName()}">
-            </article>
-        </section>
-    </main>
+        <article th:each="computingItem : ${computing}">
+            <a th:text="${computingItem.getListingName()}" th:href="'/listing/' + ${computingItem.getListingId()}"></a>
+            <img th:src="${computingItem.getImageURL()}" th:alt="'Image of ' + ${computingItem.getListingName()}">
+        </article>
+    </section>
+</main>
 </body>
 </html>

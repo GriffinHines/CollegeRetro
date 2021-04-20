@@ -3,11 +3,13 @@
     <script src="https://kit.fontawesome.com/591fc9484d.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="listing card bg-light p-1 w-25" th:fragment="listingCard(listing)">
-    <p class="card-title" th:text="${listing.getListingName()} + ' ($' + ${listing.getPriceInCents() / 100} + '.' + ${listing.getPriceInCents() % 100} + ')'"></p>
-    <img th:src="${listing.getImageURL()}" th:alt="'Image of ' + ${listing.getListingName()}">
+<div class="listing card mx-auto bg-light p-1 w-50 mt-2" th:fragment="listingCard(listing)">
+    <a class="card-title"
+       th:href="'/listing/' + ${listing.getListingId()}"
+       th:text="${listing.getListingName()} + ' (' + ${#numbers.formatCurrency(listing.getPriceInCents() / 100)} + ')'"></a>
+    <img class="mt-2" th:src="${listing.getImageURL()}" th:alt="'Image of ' + ${listing.getListingName()}" height="300" style="display: block">
     <div class="listing__details">
-        <p class="text-title" th:text="${listing.getListingName()}"></p>
+        <p th:text="${listing.getDescription()}"></p>
         <a class="text-subtitle" th:href="'/search?cat=' + ${listing.getCategory()}" th:text="${listing.getCategory()}"></a>
     </div>
 </div>

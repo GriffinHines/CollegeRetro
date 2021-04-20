@@ -22,10 +22,10 @@ public class HomepageController {
 
     @GetMapping("/")
     public String getHomepage(@SessionAttribute(required = false) User user, Model model) {
-        Page<Listing> textbooks = listingRepository.findAllByCategory(PageRequest.of(0, 5), "textbooks");
-        Page<Listing> furniture = listingRepository.findAllByCategory(PageRequest.of(0, 5), "furniture");
-        Page<Listing> appliances = listingRepository.findAllByCategory(PageRequest.of(0, 5), "appliances");
-        Page<Listing> computing = listingRepository.findAllByCategory(PageRequest.of(0, 5), "computing");
+        Page<Listing> textbooks = listingRepository.findAllByCategoryAndIsOpenTrue(PageRequest.of(0, 5), "textbooks");
+        Page<Listing> furniture = listingRepository.findAllByCategoryAndIsOpenTrue(PageRequest.of(0, 5), "furniture");
+        Page<Listing> appliances =listingRepository.findAllByCategoryAndIsOpenTrue(PageRequest.of(0, 5), "appliances");
+        Page<Listing> computing = listingRepository.findAllByCategoryAndIsOpenTrue(PageRequest.of(0, 5), "computing");
 
         model.addAttribute("textbooks", textbooks);
         model.addAttribute("furniture", furniture);

@@ -13,17 +13,35 @@
             <th>Listing ID</th>
             <th>Listing Title</th>
             <th>Category</th>
-            <th>Mark Closed</th>
+            <th>Closed</th>
         </tr>
         <tr th:each="listing : ${listings}">
             <td th:text="${listing.getListingId()}"></td>
             <td th:text="${listing.getListingName()}"></td>
             <td th:text="${listing.getCategory()}"></td>
             <td>
-                <input type="checkbox" id=listing.getListingID() value="Closed">
+                <input th:if="${listing.isOpen()}" type="checkbox" th:name="${listing.getListingId()}">
+                <input th:unless="${listing.isOpen()}" type="checkbox" th:name="${listing.getListingId()}" checked>
             </td>
         </tr>
-
     </table>
+
+    <script>
+        const handleStatusChange = (event) => {
+            event.target.setAttribute("disabled", "");
+
+            const formData = new FormData();
+            formData.append("listingId", event.target.getAttribute("name"));
+            formData.append("isOpen", String(!event.target.checked));
+
+            const request = new XMLHttpRequest();
+            request.onload = () => event.target.removeAttribute("disabled");
+            request.open("POST", "/admin/listing/markStatus");
+            request.send(formData);
+        };
+
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach((checkbox) => checkbox.addEventListener("change", handleStatusChange));
+    </script>
 </body>
 </html>

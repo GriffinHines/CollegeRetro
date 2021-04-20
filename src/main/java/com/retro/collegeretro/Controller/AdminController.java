@@ -13,10 +13,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.transaction.Transactional;
@@ -25,7 +25,6 @@ import java.util.*;
 import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
-import static java.lang.String.valueOf;
 
 @Controller
 @Slf4j
@@ -44,6 +43,14 @@ public class AdminController {
         List<Listing> listings = listingRepository.findAll();
         model.addAttribute("listings", listings);
         return "listings";
+    }
+
+    @PostMapping("/listing/markStatus")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void markStatus(@RequestParam Long listingId, @RequestParam Boolean isOpen) {
+        Listing listing = listingRepository.findById(listingId).get();
+        listing.setOpen(isOpen);
+        listingRepository.save(listing);
     }
 
     /**

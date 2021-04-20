@@ -27,10 +27,10 @@ public class SearchController {
                               @RequestParam(required = false, defaultValue = "0") Integer page,
                               @RequestParam(required = false, defaultValue = "20") Integer size) {
         if (cat != null) {
-            Page<Listing> allByCategory = listingRepository.findAllByCategory(PageRequest.of(page, size), cat);
+            Page<Listing> allByCategory = listingRepository.findAllByCategoryAndIsOpenTrue(PageRequest.of(page, size), cat);
             model.addAttribute("listings", allByCategory);
         } else {
-            Page<Listing> allByQuery = listingRepository.findAllByListingNameLike(PageRequest.of(page, size), "%" + query + "%");
+            Page<Listing> allByQuery = listingRepository.findAllByListingNameLikeAndIsOpenTrue(PageRequest.of(page, size), "%" + query + "%");
             model.addAttribute("listings", allByQuery);
         }
         return "search";

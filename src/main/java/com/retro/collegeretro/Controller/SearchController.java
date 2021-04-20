@@ -29,9 +29,11 @@ public class SearchController {
         if (cat != null) {
             Page<Listing> allByCategory = listingRepository.findAllByCategoryAndIsOpenTrue(PageRequest.of(page, size), cat);
             model.addAttribute("listings", allByCategory);
+            model.addAttribute("headerText", "Showing all for " + cat);
         } else {
             Page<Listing> allByQuery = listingRepository.findAllByListingNameLikeAndIsOpenTrue(PageRequest.of(page, size), "%" + query + "%");
             model.addAttribute("listings", allByQuery);
+            model.addAttribute("headerText", "Showing results for " + query);
         }
         return "search";
     } //getListings

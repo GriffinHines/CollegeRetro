@@ -10,13 +10,23 @@
 <body>
 <div th:replace="fragments/topnav :: navbar"></div>
 <div class="w-50 mx-auto">
+    <!-- Basic info -->
     <img class="mt-5" th:src="${listing.getImageURL()}" height="300">
     <h1 class="text-title" th:text="${listing.getListingName()}"></h1>
+    <div class="card bg-success w-100 mx-auto mt-2 p-2" th:if="${param.cart != null}">Item added to cart successfully!</div>
     <p class="text-subtitle" th:text="${#numbers.formatCurrency(listing.getPriceInCents() / 100)}"></p>
     <a th:text="'Category: ' + ${listing.getCategory()}" th:href="'/search?cat=' + ${listing.getCategory()}"></a>
     <p th:text="'Qty. ' + ${listing.getQuantity()}"></p>
     <p th:text="'Seller: ' + ${listing.getUser().getUsername()}"></p>
-    <p class="mt-4" th:text="${listing.getDescription()}"></p>
+
+    <!-- Cart stuff -->
+    <p class="mt-2" th:if="${session.user == null}"><strong><a href="/account/login">Login</a> to add this to your cart.</strong></p>
+    <a class="mt-2 btn btn-primary" th:href="'/listing/add/' + ${listing.getListingId()}" th:if="${session.user != null && !inCart}">Add to Cart</a>
+    <p class="mt-2" th:if="${session.user != null && inCart}"><strong>This item is already in your cart!</strong></p>
+
+    <!-- Description -->
+    <p class="mt-4" th:text="${listing.getDescription()}" th:if="${listing.getDescription().length() > 0}"></p>
+    <p class="mt-4" th:if="${listing.getDescription().length() == 0}">This product has no description</p>
 </div>
 
 </body>

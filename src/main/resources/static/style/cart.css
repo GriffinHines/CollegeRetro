@@ -1,0 +1,13 @@
+#grid {
+    display: grid;
+    grid-template-areas: 'items price';
+    grid-gap: 35px;
+}
+
+#items {
+    grid-area: items;
+}
+
+#price {
+    grid-area: price;
+}

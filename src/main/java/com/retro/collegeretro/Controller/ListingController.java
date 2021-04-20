@@ -36,7 +36,6 @@ public class ListingController {
             model.addAttribute("inCart", false);
             if (user != null) {
                 user = userRepository.findById(user.getUserId()).get();
-                System.out.println("CART: " + user.getCart().getListings().size());
                 if (user.getCart().getListings().contains(listing)) {
                     model.addAttribute("inCart", true);
                 }

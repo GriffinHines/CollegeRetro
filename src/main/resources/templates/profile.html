@@ -26,8 +26,8 @@
             <p th:text="'Status: ' + ${listing.isOpen() ? 'Open' : 'Closed'}"></p>
             <p th:text="'There are ' + ${listing.getQuantity()} + ' items left.'" th:if="${listing.isOpen()}"></p>
             <a class="btn btn-danger w-25" th:href="'/account/listing/close/' + ${listing.getListingId()}" th:if="${listing.isOpen()}">Close Listing</a>
+            <hr class="mt-1">
         </div>
-        <hr>
         <a class="btn btn-success mt-2" href="/account/listing">Create a Listing</a>
     </div>
     <div class="card bg-light p-2 w-25 mt-3 mx-auto">

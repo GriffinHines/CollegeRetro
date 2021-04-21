@@ -38,11 +38,16 @@ public class AdminController {
     @Value("${retro.scrape}")
     private boolean shouldScrape;
 
+    @GetMapping("")
+    public String home() {
+        return "admin/home";
+    }
+
     @GetMapping("/listings")
     public String listings(Model model) {
         List<Listing> listings = listingRepository.findAll();
         model.addAttribute("listings", listings);
-        return "listings";
+        return "admin/listings";
     }
 
     @PostMapping("/listing/markStatus")

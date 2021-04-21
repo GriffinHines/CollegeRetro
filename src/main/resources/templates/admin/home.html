@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CollegeRetro - Admin</title>
+    <link rel="stylesheet" th:href="@{/style/core.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/591fc9484d.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div th:replace="fragments/topnav :: navbar"></div>
+    <a href="/admin/scrape" class="btn btn-primary w-25 mx-auto mt-2">Scrape Listings</a>
+    <a href="/admin/listings" class="btn btn-primary w-25 mx-auto mt-2">View Listings</a>
+</body>
+</html>

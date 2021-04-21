@@ -7,7 +7,7 @@
     <a class="card-title"
        th:href="'/listing/' + ${listing.getListingId()}"
        th:text="${listing.getListingName()} + ' (' + ${#numbers.formatCurrency(listing.getPriceInCents() / 100)} + ')'"></a>
-    <img class="mt-2" th:src="${listing.getImageURL()}" th:alt="'Image of ' + ${listing.getListingName()}" height="300" style="display: block">
+    <img class="mt-2" th:src="${listing.getImageURL()}" th:alt="'Image of ' + ${listing.getListingName()}" height="150" style="display: block">
     <div class="listing__details">
         <p th:text="${listing.getDescription()}"></p>
         <a class="text-subtitle" th:href="'/search?cat=' + ${listing.getCategory()}" th:text="${listing.getCategory()}"></a>

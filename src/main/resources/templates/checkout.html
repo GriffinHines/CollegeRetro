@@ -30,17 +30,7 @@
 <div class="card bg-light w-25 my-3 mx-auto p-2">
     <h1 class="card-title">Checkout</h1>
 
-    <!-- Shipping -->
-    <h2 class="text-subtitle mt-2">Shipping</h2>
-    <label class="mt-1 ml-2 block" for="shipping">Select a shipping address</label>
-    <select class="form-control ml-2" name="shipping" id="shipping">
-        <option th:each="address : ${addresses}" th:value="${address.getAddressId()}" th:text="${address.getPrimaryLine()}"></option>
-    </select>
-    <!-- New address button -->
-    <button class="btn btn-secondary mt-1 ml-2 modal-toggle" data-modal-selector="#address-modal">
-        <i class="fas fa-address-book"></i> New address
-    </button>
-    <!-- Form modal -->
+    <!-- New address modal -->
     <modal id="address-modal" class="modal">
         <div class="modal-content card w-25 mx-auto bg-dark p-2">
             <p class="card-title">Add an Address</p>
@@ -66,22 +56,7 @@
             </form>
         </div>
     </modal>
-
-    <!-- Payment -->
-    <h2 class="text-subtitle mt-2">Payment</h2>
-    <label class="mt-1 ml-2 block" for="card">Select a credit card to pay with</label>
-    <select class="form-control ml-2" name="card" id="card">
-        <option th:each="card : ${cards}" th:value="${card.getCreditCardId()}" th:text="'**** **** **** ' + ${card.getCardNumber().substring(12)}"></option>
-    </select>
-    <label class="mt-1 ml-2 block" for="card-addr">Select an address associated with the card</label>
-    <select class="form-control ml-2" name="cardAddr" id="card-addr">
-        <option th:each="address : ${addresses}" th:value="${address.getAddressId()}" th:text="${address.getPrimaryLine()}"></option>
-    </select>
-    <!-- New card button -->
-    <button class="btn btn-secondary mt-1 ml-2 modal-toggle" data-modal-selector="#card-modal">
-        <i class="fas fa-credit-card"></i> New card
-    </button>
-    <!-- Form modal -->
+    <!-- New card modal -->
     <modal id="card-modal" class="modal">
         <div class="modal-content card w-25 mx-auto bg-dark p-2">
             <p class="card-title">Add a Credit Card</p>
@@ -91,7 +66,8 @@
                 <input id="card-name" class="form-control" type="text" name="name" placeholder="Name on card"
                        required>
                 <label for="card-num" class="mt-2">Card Number</label>
-                <input id="card-num" class="form-control" type="number" name="num" placeholder="Card Number" step="1" onchange="validateCardNumber(this)">
+                <input id="card-num" class="form-control" type="number" name="num" placeholder="Card Number"
+                       step="1" onchange="validateCardNumber(this)">
                 <label for="card-exp" class="mt-2">Expiration</label>
                 <div id="card-exp" class="flex">
                     <input class="form-control w-25" type="number" name="month" step="1" min="1" max="12"
@@ -110,18 +86,50 @@
         </div>
     </modal>
 
-    <!-- Price -->
-    <h2 class="text-subtitle mt-2">Totals</h2>
-    <div class="mt-2 ml-2 w-50">
-        <p class="flex space-between"><span>Subtotal</span><span th:text="${#numbers.formatCurrency(subtotal)}"></span></p>
-        <p class="flex space-between"><span>Taxes</span><span th:text="${#numbers.formatCurrency(subtotal * 0.07)}"></span></p>
-        <hr>
-        <p class="flex space-between"><strong>Total</strong><span th:text="${#numbers.formatCurrency(subtotal * 1.07)}"></span></p>
-    </div>
-    <div class="flex mt-2">
-        <button class="btn btn-primary">Place Order</button>
-        <a class="btn ml-2" href="/account/cart">Return to cart</a>
-    </div>
+    <form action="/account/cart/checkout" method="post">
+        <!-- Shipping -->
+        <h2 class="text-subtitle mt-2">Shipping</h2>
+        <label class="mt-1 ml-2 block" for="shipping">Select a shipping address</label>
+        <select class="form-control ml-2" name="shipping" id="shipping">
+            <option th:each="address : ${addresses}" th:value="${address.getAddressId()}"
+                    th:text="${address.getPrimaryLine()}"></option>
+        </select>
+        <button class="btn btn-secondary mt-1 ml-2 modal-toggle" data-modal-selector="#address-modal">
+            <i class="fas fa-address-book"></i> New address
+        </button>
+
+        <!-- Payment -->
+        <h2 class="text-subtitle mt-2">Payment</h2>
+        <label class="mt-1 ml-2 block" for="card">Select a credit card to pay with</label>
+        <select class="form-control ml-2" name="card" id="card">
+            <option th:each="card : ${cards}" th:value="${card.getCreditCardId()}"
+                    th:text="'**** **** **** ' + ${card.getCardNumber().substring(12)}"></option>
+        </select>
+        <label class="mt-1 ml-2 block" for="card-addr">Select an address associated with the card</label>
+        <select class="form-control ml-2" name="cardAddr" id="card-addr">
+            <option th:each="address : ${addresses}" th:value="${address.getAddressId()}"
+                    th:text="${address.getPrimaryLine()}"></option>
+        </select>
+        <button class="btn btn-secondary mt-1 ml-2 modal-toggle" data-modal-selector="#card-modal">
+            <i class="fas fa-credit-card"></i> New card
+        </button>
+
+        <!-- Price -->
+        <h2 class="text-subtitle mt-2">Totals</h2>
+        <div class="mt-2 ml-2 w-50">
+            <p class="flex space-between"><span>Subtotal</span><span
+                    th:text="${#numbers.formatCurrency(subtotal)}"></span></p>
+            <p class="flex space-between"><span>Taxes</span><span
+                    th:text="${#numbers.formatCurrency(subtotal * 0.07)}"></span></p>
+            <hr>
+            <p class="flex space-between"><strong>Total</strong><span
+                    th:text="${#numbers.formatCurrency(subtotal * 1.07)}"></span></p>
+        </div>
+        <div class="flex mt-2">
+            <button type="submit" class="btn btn-primary">Place Order</button>
+            <a class="btn ml-2" href="/account/cart">Return to cart</a>
+        </div>
+    </form>
 </div>
 
 </body>

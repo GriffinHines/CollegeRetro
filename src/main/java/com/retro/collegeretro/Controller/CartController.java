@@ -8,10 +8,7 @@ import com.retro.collegeretro.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
@@ -51,6 +48,7 @@ public class CartController {
 
         Listing listing = listingRepository.findById(listingId).get();
         listing.setQuantity(listing.getQuantity() + 1);
+        listing.getCarts().remove(user.getCart());
         listingRepository.save(listing);
 
         return new RedirectView("/account/cart?remove");
@@ -73,6 +71,26 @@ public class CartController {
         model.addAttribute("addresses", user.getAddresses());
 
         return "checkout";
+    }
+
+    @PostMapping("/checkout")
+    public RedirectView doCheckout(@SessionAttribute User user) {
+        user = userRepository.findById(user.getUserId()).get();
+
+        // Mark listings as inactive if the last one is bought
+        for (Listing listing : user.getCart().getListings()) {
+            if (listing.getCarts().size() == 1) {
+                listing.setOpen(false);
+            }
+            listing.getCarts().remove(user.getCart());
+            listingRepository.save(listing);
+        }
+
+        // Clear the user's cart
+        user.getCart().getListings().clear();
+        userRepository.save(user);
+
+        return new RedirectView("/");
     }
 
 }

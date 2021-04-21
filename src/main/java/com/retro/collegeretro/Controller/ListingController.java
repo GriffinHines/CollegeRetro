@@ -60,6 +60,7 @@ public class ListingController {
 
         Listing listing = listingRepository.findById(listingId).get();
         listing.setQuantity(listing.getQuantity() - 1);
+        listing.getCarts().add(user.getCart());
         listingRepository.save(listing);
 
         return new RedirectView("/listing/" + listingId + "?cart");

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -53,6 +54,25 @@ public class CartController {
         listingRepository.save(listing);
 
         return new RedirectView("/account/cart?remove");
+    }
+
+    @GetMapping("/checkout")
+    public String getCheckoutPage(Model model, @SessionAttribute User user) {
+        user = userRepository.findById(user.getUserId()).get();
+        Set<Listing> listings = user.getCart().getListings();
+
+        // Add subtotal
+        int subtotalCents = 0;
+        for (Listing listing : listings) {
+            subtotalCents += listing.getPriceInCents();
+        }
+        model.addAttribute("subtotal", (double)(subtotalCents) / 100);
+
+        // Add cards and addresses
+        model.addAttribute("cards", user.getCreditCards());
+        model.addAttribute("addresses", user.getAddresses());
+
+        return "checkout";
     }
 
 }

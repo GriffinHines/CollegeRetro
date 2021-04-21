@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CollegeRetro - My Profile</title>
+    <link rel="stylesheet" th:href="@{/style/core.css}">
+    <link rel="stylesheet" th:href="@{/style/cart.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/591fc9484d.js" crossorigin="anonymous"></script>
+    <script th:src="@{/script/core.js}"></script>
+</head>
+<body>
+
+<div th:replace="fragments/topnav :: navbar"></div>
+
+<div class="card bg-light w-25 my-3 mx-auto p-2">
+    <h1 class="card-title">Checkout</h1>
+
+    <!-- Shipping -->
+    <h2 class="text-subtitle mt-2">Shipping</h2>
+    <label class="mt-1 block" for="shipping">Select a shipping address</label>
+    <select class="form-control" name="shipping" id="shipping">
+        <option th:each="address : ${addresses}" th:value="${address.getAddressId()}" th:text="${address.getPrimaryLine()}"></option>
+    </select>
+
+    <!-- Payment -->
+    <h2 class="text-subtitle mt-2">Payment</h2>
+    <label class="mt-1 block" for="card">Select a credit card to pay with</label>
+    <select class="form-control" name="card" id="card">
+        <option th:each="card : ${cards}" th:value="${card.getCreditCardId()}" th:text="'**** **** **** ' + ${card.getCardNumber().substring(12)}"></option>
+    </select>
+    <label class="mt-1 block" for="card-addr">Select an address associated with the card</label>
+    <select class="form-control" name="cardAddr" id="card-addr">
+        <option th:each="address : ${addresses}" th:value="${address.getAddressId()}" th:text="${address.getPrimaryLine()}"></option>
+    </select>
+
+    <!-- Price -->
+    <h2 class="text-subtitle mt-2">Totals</h2>
+    <div class="mt-2 ml-2 w-50">
+        <p class="flex space-between"><span>Subtotal</span><span th:text="${#numbers.formatCurrency(subtotal)}"></span></p>
+        <p class="flex space-between"><span>Taxes</span><span th:text="${#numbers.formatCurrency(subtotal * 0.07)}"></span></p>
+        <hr>
+        <p class="flex space-between"><strong>Total</strong><span th:text="${#numbers.formatCurrency(subtotal * 1.07)}"></span></p>
+    </div>
+    <div class="flex mt-2">
+        <button class="btn btn-primary">Place Order</button>
+        <a class="btn ml-2" href="/account/cart">Return to cart</a>
+    </div>
+</div>
+
+</body>
+</html>

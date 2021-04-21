@@ -13,15 +13,16 @@
     <!-- Basic info -->
     <img class="mt-5" th:src="${listing.getImageURL()}" height="300">
     <h1 class="text-title" th:text="${listing.getListingName()}"></h1>
-    <div class="card bg-success w-100 mx-auto mt-2 p-2" th:if="${param.cart != null}"><i class="fas fa-check"></i> Item added to cart successfully!</div>
+    <div class="card bg-success w-100 mx-auto mt-2 mb-2 p-2" th:if="${param.cart != null}"><i class="fas fa-check"></i> Item added to cart successfully!</div>
     <p class="text-subtitle" th:text="${#numbers.formatCurrency(listing.getPriceInCents() / 100)}"></p>
     <a th:text="'Category: ' + ${listing.getCategory()}" th:href="'/search?cat=' + ${listing.getCategory()}"></a>
-    <p th:text="'Qty. ' + ${listing.getQuantity()}"></p>
+    <p th:text="'Qty. ' + ${listing.getQuantity()}" th:if="${listing.getQuantity() > 0}"></p>
+    <p th:if="${listing.getQuantity() == 0}" style="color: red">This item is sold out! <span th:if="${inCart}">Don't worry, it's still in your cart.</span></p>
     <p th:text="'Seller: ' + ${listing.getUser().getUsername()}"></p>
 
     <!-- Cart stuff -->
-    <p class="mt-2" th:if="${session.user == null}"><strong><a href="/account/login">Login</a> to add this to your cart.</strong></p>
-    <a class="mt-2 btn btn-primary" th:href="'/listing/add/' + ${listing.getListingId()}" th:if="${session.user != null && !inCart}"><i class="fas fa-cart-plus"></i> Add to Cart</a>
+    <p class="mt-2" th:if="${session.user == null && listing.getQuantity() > 0}"><strong><a href="/account/login">Login</a> to add this to your cart.</strong></p>
+    <a class="mt-2 btn btn-primary" th:href="'/listing/add/' + ${listing.getListingId()}" th:if="${session.user != null && !inCart && listing.getQuantity() > 0}"><i class="fas fa-cart-plus"></i> Add to Cart</a>
     <p class="mt-2" th:if="${session.user != null && inCart}"><strong>This item is already in your cart!</strong></p>
 
     <!-- Description -->

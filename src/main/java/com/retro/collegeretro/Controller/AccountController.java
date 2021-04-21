@@ -140,8 +140,10 @@ public class AccountController {
             // change only if username is not already taken
             user.setUsername(username);
             userRepository.save(user);
-        } // if
-        return new RedirectView("/account/profile");
+            return new RedirectView("/account/profile");
+        } else {
+            return new RedirectView("/account/profile?usernameTaken#user-info");
+        }
     } // updateUsername
 
     @PostMapping("/user/card/add")

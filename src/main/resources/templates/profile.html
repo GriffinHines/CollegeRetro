@@ -18,6 +18,14 @@
                 return false;
             }
         }
+
+        function checkPW(input) {
+            if (input.value !== document.getElementById('password').value) {
+                input.setCustomValidity('Passwords must match');
+            } else {
+                input.setCustomValidity('');
+            }
+        }
     </script>
 </head>
 <body>
@@ -83,8 +91,8 @@
             </div>
 
             <!-- New card button -->
-            <button class="btn btn-primary mt-2 modal-toggle" data-modal-selector="#card-modal"><i
-                    class="fas fa-credit-card"></i> New card
+            <button class="btn btn-primary mt-2 modal-toggle" data-modal-selector="#card-modal">
+                <i class="fas fa-credit-card"></i> New card
             </button>
 
             <h2 class="card-title mt-3">Addresses</h2>
@@ -154,16 +162,6 @@
     </div>
 
 </main>
-
-<script>
-    function checkPW(input) {
-        if (input.value !== document.getElementById('password').value) {
-            input.setCustomValidity('Passwords must match');
-        } else {
-            input.setCustomValidity('');
-        }
-    }
-</script>
 
 </body>
 </html>

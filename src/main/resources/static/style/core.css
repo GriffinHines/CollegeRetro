@@ -90,6 +90,10 @@
 	color: white;
 	background-color: #428BCA;
 }
+.btn-secondary {
+	color: black;
+	background-color: #d7d7d7;
+}
 .btn-info {
 	color: white;
 	background-color: #5BC0DE;

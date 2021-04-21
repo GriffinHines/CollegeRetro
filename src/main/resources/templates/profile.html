@@ -9,9 +9,21 @@
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/591fc9484d.js" crossorigin="anonymous"></script>
     <script th:src="@{/script/core.js}"></script>
+    <script>
+        // This function validates the credit number to make sure that its a number, nonempty, and 16 digits
+        function validateCardNumber() {
+            var cardNum = document.forms["creditform"]["num"].value;
+            // var cardNum = document.getElementById("card-num").value;
+            if(cardNum.toString().length < 16 || cardNum.toString().length > 16 ) {
+                alert("Credit Card Number must be 16 digits!");
+                //$("carderr").firstChild.nodeValue = "Card Number must be 16 digits";
+                //document.getElementById("cardeer").innerHTML = "Card Number must be 16 digits!";
+                return false;
+            }
+        }
+    </script>
 </head>
 <body>
-
 <div th:replace="fragments/topnav :: navbar"></div>
 <main>
     <h1 class="text-title mt-3 text-center" th:text="${session.user.getUsername()} + '\'s Profile'"></h1>
@@ -37,12 +49,13 @@
         <modal id="card-modal" class="modal">
             <div class="modal-content card w-25 mx-auto bg-dark p-2">
                 <p class="card-title">Add a Credit Card</p>
-                <form action="/account/user/card/add" method="post" class="mt-2">
+                <form action="/account/user/card/add" onsubmit = "return validateCardNumber()" method="post" name="creditform" class="mt-2">
                     <label for="card-name">Full Name</label>
                     <input id="card-name" class="form-control" type="text" name="name" placeholder="Name on card"
                            required>
                     <label for="card-num" class="mt-2">Card Number</label>
-                    <input id="card-num" class="form-control" type="text" name="num" placeholder="Card Number" required>
+                    <input id="card-num"  class="form-control" type="number" name="num" placeholder="Card Number"
+                           step="1" ><i id="carderr"></i>
                     <label for="card-exp" class="mt-2">Expiration</label>
                     <div id="card-exp" class="flex">
                         <input class="form-control w-25" type="number" name="month" step="1" min="1" max="12"
@@ -75,8 +88,7 @@
                 class="fas fa-credit-card"></i> New card
         </button>
 
-    </div>
-    <div class="card bg-light p-2 w-25 mt-3 mx-auto">
+
         <h2 class="card-title">Addresses</h2>
 
         <!-- Form modal -->
@@ -110,7 +122,8 @@
             <p th:text="${address.getPrimaryLine()}"></p>
             <p th:if="${address.getOptionalLine() != null}" th:text="${address.getOptionalLine()}"></p>
             <p th:text="${address.getCity()} + ', ' + ${address.getState()} + ' ' + ${address.getZipCode()}"></p>
-            <a th:href="'/account/user/address/delete?id=' + ${address.getAddressId()}" style="color: red;"><i class="fas fa-trash-alt"></i> Remove</a>
+            <a th:href="'/account/user/address/delete?id=' + ${address.getAddressId()}" style="color: red;"><i
+                    class="fas fa-trash-alt"></i> Remove</a>
         </div>
 
         <!-- New address button -->

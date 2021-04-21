@@ -80,7 +80,7 @@ public class AccountController {
 
         // Email a verification link to the new user
         myEmailSender.setSubject("Verify your email address");
-        String verifyLink = "http://" + domainRoot + "account/verify?token=" + newUser.getVerificationToken();
+        String verifyLink = "http://" + domainRoot + "/account/verify?token=" + newUser.getVerificationToken();
         myEmailSender.sendTo(newUser.getEmail(), verifyLink);
 
         // Log the user in to their new account

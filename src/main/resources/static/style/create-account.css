@@ -51,6 +51,14 @@ input:focus {
     display: table;
 }
 
+a:link {
+    color: white;
+    text-decoration: white underline;
+}
+
+a:visited {
+    color: white;
+}
 #mountains {
     z-index: -1;
     position: fixed;

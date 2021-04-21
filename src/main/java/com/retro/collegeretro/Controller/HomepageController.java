@@ -40,4 +40,8 @@ public class HomepageController {
         return new RedirectView("/");
     }
 
+    @GetMapping("/privacy")
+        public String getPrivacyPolicy() {
+            return "privacy";
+    }
 }

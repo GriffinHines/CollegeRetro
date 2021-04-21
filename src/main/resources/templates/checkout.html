@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CollegeRetro - My Profile</title>
+    <link rel="stylesheet" th:href="@{/style/core.css}">
+    <link rel="stylesheet" th:href="@{/style/cart.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/591fc9484d.js" crossorigin="anonymous"></script>
+    <script th:src="@{/script/core.js}"></script>
+
+    <script>
+        // This function validates the credit number to make sure that its a number, nonempty, and 16 digits
+        function validateCardNumber(element) {
+            let cardNum = element.value;
+            if (cardNum.toString().length !== 16) {
+                element.setCustomValidity("Card length must be 16 digits");
+            } else {
+                element.setCustomValidity("");
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div th:replace="fragments/topnav :: navbar"></div>
+
+<div class="card bg-light w-25 my-3 mx-auto p-2">
+    <h1 class="card-title">Checkout</h1>
+
+    <!-- Shipping -->
+    <h2 class="text-subtitle mt-2">Shipping</h2>
+    <label class="mt-1 ml-2 block" for="shipping">Select a shipping address</label>
+    <select class="form-control ml-2" name="shipping" id="shipping">
+        <option th:each="address : ${addresses}" th:value="${address.getAddressId()}" th:text="${address.getPrimaryLine()}"></option>
+    </select>
+    <!-- New address button -->
+    <button class="btn btn-secondary mt-1 ml-2 modal-toggle" data-modal-selector="#address-modal">
+        <i class="fas fa-address-book"></i> New address
+    </button>
+    <!-- Form modal -->
+    <modal id="address-modal" class="modal">
+        <div class="modal-content card w-25 mx-auto bg-dark p-2">
+            <p class="card-title">Add an Address</p>
+            <form action="/account/user/address/add" method="post" class="mt-2">
+                <input type="hidden" name="redirect" value="/account/cart/checkout">
+                <label for="line-1">Address</label>
+                <input id="line-1" class="form-control" type="text" name="line1" placeholder="Address Line 1"
+                       required>
+                <input id="line-2" class="form-control" type="text" name="line2"
+                       placeholder="Address Line 2 (optional)">
+                <label for="city" class="mt-2">City</label>
+                <input id="city" class="form-control" type="text" name="city" placeholder="City" required>
+                <label for="state" class="mt-2">State</label>
+                <input id="state" class="form-control" type="text" name="state" placeholder="State (Abbreviation)"
+                       minlength="2" maxlength="2" required>
+                <label for="zip" class="mt-2">ZIP</label>
+                <input id="zip" class="form-control" type="text" name="zip" placeholder="ZIP Code" minlength="5"
+                       maxlength="10" required>
+                <div class="flex mt-2">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Add Address</button>
+                    <button class="btn modal-close ml-2"><i class="fas fa-times"></i> Cancel</button>
+                </div>
+            </form>
+        </div>
+    </modal>
+
+    <!-- Payment -->
+    <h2 class="text-subtitle mt-2">Payment</h2>
+    <label class="mt-1 ml-2 block" for="card">Select a credit card to pay with</label>
+    <select class="form-control ml-2" name="card" id="card">
+        <option th:each="card : ${cards}" th:value="${card.getCreditCardId()}" th:text="'**** **** **** ' + ${card.getCardNumber().substring(12)}"></option>
+    </select>
+    <label class="mt-1 ml-2 block" for="card-addr">Select an address associated with the card</label>
+    <select class="form-control ml-2" name="cardAddr" id="card-addr">
+        <option th:each="address : ${addresses}" th:value="${address.getAddressId()}" th:text="${address.getPrimaryLine()}"></option>
+    </select>
+    <!-- New card button -->
+    <button class="btn btn-secondary mt-1 ml-2 modal-toggle" data-modal-selector="#card-modal">
+        <i class="fas fa-credit-card"></i> New card
+    </button>
+    <!-- Form modal -->
+    <modal id="card-modal" class="modal">
+        <div class="modal-content card w-25 mx-auto bg-dark p-2">
+            <p class="card-title">Add a Credit Card</p>
+            <form action="/account/user/card/add" method="post" class="mt-2">
+                <input type="hidden" name="redirect" value="/account/cart/checkout">
+                <label for="card-name">Full Name</label>
+                <input id="card-name" class="form-control" type="text" name="name" placeholder="Name on card"
+                       required>
+                <label for="card-num" class="mt-2">Card Number</label>
+                <input id="card-num" class="form-control" type="number" name="num" placeholder="Card Number" step="1" onchange="validateCardNumber(this)">
+                <label for="card-exp" class="mt-2">Expiration</label>
+                <div id="card-exp" class="flex">
+                    <input class="form-control w-25" type="number" name="month" step="1" min="1" max="12"
+                           placeholder="Month" required>
+                    <input class="form-control w-25" type="number" name="year" step="1" min="2021" max="2100"
+                           placeholder="Year" required>
+                </div>
+                <label for="card-cvv" class="mt-2">CVV</label>
+                <input id="card-cvv" class="form-control" type="number" name="cvv" placeholder="CVV" minlength="3"
+                       maxlength="4" required>
+                <div class="flex mt-2">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Add Card</button>
+                    <button class="btn modal-close ml-2"><i class="fas fa-times"></i> Cancel</button>
+                </div>
+            </form>
+        </div>
+    </modal>
+
+    <!-- Price -->
+    <h2 class="text-subtitle mt-2">Totals</h2>
+    <div class="mt-2 ml-2 w-50">
+        <p class="flex space-between"><span>Subtotal</span><span th:text="${#numbers.formatCurrency(subtotal)}"></span></p>
+        <p class="flex space-between"><span>Taxes</span><span th:text="${#numbers.formatCurrency(subtotal * 0.07)}"></span></p>
+        <hr>
+        <p class="flex space-between"><strong>Total</strong><span th:text="${#numbers.formatCurrency(subtotal * 1.07)}"></span></p>
+    </div>
+    <div class="flex mt-2">
+        <button class="btn btn-primary">Place Order</button>
+        <a class="btn ml-2" href="/account/cart">Return to cart</a>
+    </div>
+</div>
+
+</body>
+</html>

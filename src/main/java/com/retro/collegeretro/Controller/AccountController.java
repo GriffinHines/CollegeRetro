@@ -140,30 +140,34 @@ public class AccountController {
             // change only if username is not already taken
             user.setUsername(username);
             userRepository.save(user);
-        } // if
-        return new RedirectView("/account/profile");
+            return new RedirectView("/account/profile");
+        } else {
+            return new RedirectView("/account/profile?usernameTaken#user-info");
+        }
     } // updateUsername
 
     @PostMapping("/user/card/add")
     public RedirectView addCard(@RequestParam String name, @RequestParam String num,
                                 @RequestParam int month, @RequestParam int year, @RequestParam int cvv,
-                                @SessionAttribute User user) {
+                                @SessionAttribute User user,
+                                @RequestParam(required = false, defaultValue = "/account/profile") String redirect) {
         user = userRepository.findById(user.getUserId()).get();
         CreditCard card = new CreditCard(name, num, month, year, cvv, user);
         user.getCreditCards().add(card);
         userRepository.save(user);
-        return new RedirectView("/account/profile");
+        return new RedirectView(redirect);
     }
 
     @PostMapping("/user/address/add")
     public RedirectView addAddress(@RequestParam String line1, @RequestParam(required = false) String line2,
                                    @RequestParam String city, @RequestParam String state, @RequestParam String zip,
-                                   @SessionAttribute User user) {
+                                   @SessionAttribute User user,
+                                   @RequestParam(required = false, defaultValue = "/account/profile") String redirect) {
         user = userRepository.findById(user.getUserId()).get();
         Address address = new Address(line1, line2, zip, city, state, user);
         user.getAddresses().add(address);
         userRepository.save(user);
-        return new RedirectView("/account/profile");
+        return new RedirectView(redirect);
     }
 
     @GetMapping("/user/card/delete")

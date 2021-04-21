@@ -12,13 +12,18 @@
     <script>
         // This function validates the credit number to make sure that its a number, nonempty, and 16 digits
         function validateCardNumber() {
-            var cardNum = document.forms["creditform"]["num"].value;
-            // var cardNum = document.getElementById("card-num").value;
+            let cardNum = document.forms["creditform"]["num"].value;
             if(cardNum.toString().length < 16 || cardNum.toString().length > 16 ) {
                 alert("Credit Card Number must be 16 digits!");
-                //$("carderr").firstChild.nodeValue = "Card Number must be 16 digits";
-                //document.getElementById("cardeer").innerHTML = "Card Number must be 16 digits!";
                 return false;
+            }
+        }
+
+        function checkPW(input) {
+            if (input.value !== document.getElementById('password').value) {
+                input.setCustomValidity('Passwords must match');
+            } else {
+                input.setCustomValidity('');
             }
         }
     </script>
@@ -27,139 +32,136 @@
 <div th:replace="fragments/topnav :: navbar"></div>
 <main>
     <h1 class="text-title mt-3 text-center" th:text="${session.user.getUsername()} + '\'s Profile'"></h1>
-    <div class="card bg-dark p-2 w-25 mt-3 mx-auto" id="listings">
-        <p class="card-title">Listings</p>
-        <p class="mt-2" th:if="${listings.size() == 0}">You currently have no listings.</p>
-        <p class="mt-2" style="color: forestgreen" th:if="${param.newListing != null}"><i class="fas fa-check-circle"></i> Your new listing was created successfully!</p>
-        <p class="mt-2" style="color: orangered" th:if="${param.closeListing != null}"><i class="fas fa-check-circle"></i> You closed the listing successfully.</p>
-        <hr>
-        <div class="mt-1 mb-1" th:each="listing : ${listings}">
-            <a th:href="'/listing/' + ${listing.getListingId()}" th:text="${listing.getListingName()}"></a>
-            <p th:text="'Status: ' + ${listing.isOpen() ? 'Open' : 'Closed'}"></p>
-            <p th:text="'There are ' + ${listing.getQuantity()} + ' items left.'" th:if="${listing.isOpen()}"></p>
-            <a class="btn btn-danger w-25" th:href="'/account/listing/close/' + ${listing.getListingId()}" th:if="${listing.isOpen()}"><i class="fas fa-store-alt-slash"></i> Close Listing</a>
-            <hr class="mt-1">
-        </div>
-        <a class="btn btn-success mt-2" href="/account/listing"><i class="fas fa-plus"></i> Create a Listing</a>
-    </div>
-    <div class="card bg-light p-2 w-25 mt-3 mx-auto">
-        <h2 class="card-title">Credit Cards</h2>
-
-        <!-- Form modal -->
-        <modal id="card-modal" class="modal">
-            <div class="modal-content card w-25 mx-auto bg-dark p-2">
-                <p class="card-title">Add a Credit Card</p>
-                <form action="/account/user/card/add" onsubmit = "return validateCardNumber()" method="post" name="creditform" class="mt-2">
-                    <label for="card-name">Full Name</label>
-                    <input id="card-name" class="form-control" type="text" name="name" placeholder="Name on card"
-                           required>
-                    <label for="card-num" class="mt-2">Card Number</label>
-                    <input id="card-num"  class="form-control" type="number" name="num" placeholder="Card Number"
-                           step="1" ><i id="carderr"></i>
-                    <label for="card-exp" class="mt-2">Expiration</label>
-                    <div id="card-exp" class="flex">
-                        <input class="form-control w-25" type="number" name="month" step="1" min="1" max="12"
-                               placeholder="Month" required>
-                        <input class="form-control w-25" type="number" name="year" step="1" min="2021" max="2100"
-                               placeholder="Year" required>
-                    </div>
-                    <label for="card-cvv" class="mt-2">CVV</label>
-                    <input id="card-cvv" class="form-control" type="number" name="cvv" placeholder="CVV" minlength="3"
-                           maxlength="4" required>
-                    <div class="flex mt-2">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Add Card</button>
-                        <button class="btn modal-close ml-2"><i class="fas fa-times"></i> Cancel</button>
-                    </div>
-                </form>
+    <div class="w-100 my-3 mx-auto flex space-between">
+        <div class="card bg-dark w-25 p-2 mx-auto" id="listings">
+            <p class="card-title">Listings</p>
+            <p class="mt-2" th:if="${listings.size() == 0}">You currently have no listings.</p>
+            <p class="mt-2" style="color: forestgreen" th:if="${param.newListing != null}"><i class="fas fa-check-circle"></i> Your new listing was created successfully!</p>
+            <p class="mt-2" style="color: orangered" th:if="${param.closeListing != null}"><i class="fas fa-check-circle"></i> You closed the listing successfully.</p>
+            <div class="mt-2 flex space-between" th:each="listing : ${listings}">
+                <div>
+                    <a th:href="'/listing/' + ${listing.getListingId()}" th:text="${listing.getListingName()}"></a>
+                    <p th:text="'Status: ' + ${listing.isOpen() ? 'Open' : 'Closed'}"></p>
+                    <p th:text="'There are ' + ${listing.getQuantity()} + ' item(s) left.'" th:if="${listing.isOpen()}"></p>
+                </div>
+                <a class="btn btn-danger w-25" th:href="'/account/listing/close/' + ${listing.getListingId()}" th:if="${listing.isOpen()}">
+                    <i class="fas fa-store-alt-slash"></i> Close Listing
+                </a>
             </div>
-        </modal>
-
-        <!-- List of cards -->
-        <ul class="mt-2">
-            <li th:each="card : ${cards}">
-                Card ending in <span th:text="${card.getCardNumber().substring(12)}"></span>
-                <span class="ml-5"><a th:href="'/account/user/card/delete?id=' + ${card.getCreditCardId()}"
-                                      style="color: red"><i class="fas fa-trash-alt"></i> Remove</a></span>
-            </li>
-        </ul>
-
-        <!-- New card button -->
-        <button class="btn btn-primary mt-2 modal-toggle" data-modal-selector="#card-modal"><i
-                class="fas fa-credit-card"></i> New card
-        </button>
-
-
-        <h2 class="card-title">Addresses</h2>
-
-        <!-- Form modal -->
-        <modal id="address-modal" class="modal">
-            <div class="modal-content card w-25 mx-auto bg-dark p-2">
-                <p class="card-title">Add an Address</p>
-                <form action="/account/user/address/add" method="post" class="mt-2">
-                    <label for="line-1">Address</label>
-                    <input id="line-1" class="form-control" type="text" name="line1" placeholder="Address Line 1"
-                           required>
-                    <input id="line-2" class="form-control" type="text" name="line2"
-                           placeholder="Address Line 2 (optional)">
-                    <label for="city" class="mt-2">City</label>
-                    <input id="city" class="form-control" type="text" name="city" placeholder="City" required>
-                    <label for="state" class="mt-2">State</label>
-                    <input id="state" class="form-control" type="text" name="state" placeholder="State (Abbreviation)"
-                           minlength="2" maxlength="2" required>
-                    <label for="zip" class="mt-2">ZIP</label>
-                    <input id="zip" class="form-control" type="text" name="zip" placeholder="ZIP Code" minlength="5"
-                           maxlength="10" required>
-                    <div class="flex mt-2">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Add Address</button>
-                        <button class="btn modal-close ml-2"><i class="fas fa-times"></i> Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </modal>
-
-        <!-- List of addresses -->
-        <div class="mt-2" th:each="address : ${addresses}">
-            <p th:text="${address.getPrimaryLine()}"></p>
-            <p th:if="${address.getOptionalLine() != null}" th:text="${address.getOptionalLine()}"></p>
-            <p th:text="${address.getCity()} + ', ' + ${address.getState()} + ' ' + ${address.getZipCode()}"></p>
-            <a th:href="'/account/user/address/delete?id=' + ${address.getAddressId()}" style="color: red;"><i
-                    class="fas fa-trash-alt"></i> Remove</a>
+            <a class="btn btn-success mt-2" href="/account/listing"><i class="fas fa-plus"></i> Create a Listing</a>
         </div>
+        <div class="card bg-light w-25 p-2 mx-auto">
+            <h2 class="card-title">Credit Cards</h2>
 
-        <!-- New address button -->
-        <button class="btn btn-primary mt-2 modal-toggle" data-modal-selector="#address-modal"><i
-                class="fas fa-address-book"></i> New address
-        </button>
+            <!-- Form modal -->
+            <modal id="card-modal" class="modal">
+                <div class="modal-content card w-25 mx-auto bg-dark p-2">
+                    <p class="card-title">Add a Credit Card</p>
+                    <form action="/account/user/card/add" onsubmit = "return validateCardNumber()" method="post" name="creditform" class="mt-2">
+                        <label for="card-name">Full Name</label>
+                        <input id="card-name" class="form-control" type="text" name="name" placeholder="Name on card"
+                               required>
+                        <label for="card-num" class="mt-2">Card Number</label>
+                        <input id="card-num"  class="form-control" type="number" name="num" placeholder="Card Number"
+                               step="1" ><i id="carderr"></i>
+                        <label for="card-exp" class="mt-2">Expiration</label>
+                        <div id="card-exp" class="flex">
+                            <input class="form-control w-25" type="number" name="month" step="1" min="1" max="12"
+                                   placeholder="Month" required>
+                            <input class="form-control w-25" type="number" name="year" step="1" min="2021" max="2100"
+                                   placeholder="Year" required>
+                        </div>
+                        <label for="card-cvv" class="mt-2">CVV</label>
+                        <input id="card-cvv" class="form-control" type="number" name="cvv" placeholder="CVV" minlength="3"
+                               maxlength="4" required>
+                        <div class="flex mt-2">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Add Card</button>
+                            <button class="btn modal-close ml-2"><i class="fas fa-times"></i> Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </modal>
+
+            <!-- List of cards -->
+            <div class="mt-2 flex space-between" th:each="card : ${cards}">
+                <span th:text="'Card ending in ' + ${card.getCardNumber().substring(12)}"></span>
+                <a th:href="'/account/user/card/delete?id=' + ${card.getCreditCardId()}" style="color: red">
+                    <i class="fas fa-trash-alt"></i> Remove
+                </a>
+            </div>
+
+            <!-- New card button -->
+            <button class="btn btn-primary mt-2 modal-toggle" data-modal-selector="#card-modal">
+                <i class="fas fa-credit-card"></i> New card
+            </button>
+
+            <h2 class="card-title mt-3">Addresses</h2>
+
+            <!-- Form modal -->
+            <modal id="address-modal" class="modal">
+                <div class="modal-content card w-25 mx-auto bg-dark p-2">
+                    <p class="card-title">Add an Address</p>
+                    <form action="/account/user/address/add" method="post" class="mt-2">
+                        <label for="line-1">Address</label>
+                        <input id="line-1" class="form-control" type="text" name="line1" placeholder="Address Line 1"
+                               required>
+                        <input id="line-2" class="form-control" type="text" name="line2"
+                               placeholder="Address Line 2 (optional)">
+                        <label for="city" class="mt-2">City</label>
+                        <input id="city" class="form-control" type="text" name="city" placeholder="City" required>
+                        <label for="state" class="mt-2">State</label>
+                        <input id="state" class="form-control" type="text" name="state" placeholder="State (Abbreviation)"
+                               minlength="2" maxlength="2" required>
+                        <label for="zip" class="mt-2">ZIP</label>
+                        <input id="zip" class="form-control" type="text" name="zip" placeholder="ZIP Code" minlength="5"
+                               maxlength="10" required>
+                        <div class="flex mt-2">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Add Address</button>
+                            <button class="btn modal-close ml-2"><i class="fas fa-times"></i> Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </modal>
+
+            <!-- List of addresses -->
+            <div class="mt-2 flex space-between" th:each="address : ${addresses}">
+                <div>
+                    <p th:text="${address.getPrimaryLine()}"></p>
+                    <p th:if="${address.getOptionalLine() != null}" th:text="${address.getOptionalLine()}"></p>
+                    <p th:text="${address.getCity()} + ', ' + ${address.getState()} + ' ' + ${address.getZipCode()}"></p>
+                </div>
+                <a th:href="'/account/user/address/delete?id=' + ${address.getAddressId()}" style="color: red;">
+                    <i class="fas fa-trash-alt"></i> Remove
+                </a>
+            </div>
+
+            <!-- New address button -->
+            <button class="btn btn-primary mt-2 modal-toggle" data-modal-selector="#address-modal"><i
+                    class="fas fa-address-book"></i> New address
+            </button>
+        </div>
+        <div class="card bg-light w-25 p-2 mx-auto" id="user-info">
+            <h2 class="card-title">User Info</h2>
+            <div class="card bg-danger mt-2 p-2" th:if="${param.usernameTaken != null}">That username is already taken!</div>
+            <h3 class="text-subtitle mt-2">Change Username</h3>
+            <form action="/account/user/username" method="post" class="mt-1">
+                <label for="username">New Username</label>
+                <input class="form-control" type="text" name="username" id="username"
+                       th:value="${session.user.getUsername()}">
+                <button class="btn btn-primary mt-1" type="submit"><i class="fas fa-edit"></i> Update</button>
+            </form>
+            <h2 class="text-subtitle mt-3">Change Password</h2>
+            <form action="#" class="mt-1">
+                <label>New Password</label>
+                <input class="form-control" type="password" id="password" name="newPassword" required>
+                <label>Confirm Password</label>
+                <input class="form-control" type="password" oninput="checkPW(this)" required>
+                <button class="btn mt-1" type="submit"><i class="fas fa-edit"></i> Update (Not implemented yet)</button>
+            </form>
+        </div>
     </div>
-    <div class="card bg-light p-2 w-25 mt-3 mx-auto">
-        <h2 class="card-title">User Info</h2>
-        <h3 class="text-subtitle mt-2">Change Username</h3>
-        <form action="/account/user/username" method="post" class="mt-1">
-            <label for="username">New Username</label>
-            <input class="form-control" type="text" name="username" id="username"
-                   th:value="${session.user.getUsername()}">
-            <button class="btn btn-primary mt-1" type="submit"><i class="fas fa-edit"></i> Update</button>
-        </form>
-        <h2 class="text-subtitle mt-3">Change Password</h2>
-        <form action="#" class="mt-1">
-            <label>New Password</label>
-            <input class="form-control" type="password" id="password" name="newPassword" required>
-            <label>Confirm Password</label>
-            <input class="form-control" type="password" oninput="checkPW(this)" required>
-            <button class="btn mt-1" type="submit"><i class="fas fa-edit"></i> Update (Not implemented yet)</button>
-        </form>
-    </div>
+
 </main>
-
-<script>
-    function checkPW(input) {
-        if (input.value !== document.getElementById('password').value) {
-            input.setCustomValidity('Passwords must match');
-        } else {
-            input.setCustomValidity('');
-        }
-    }
-</script>
 
 </body>
 </html>

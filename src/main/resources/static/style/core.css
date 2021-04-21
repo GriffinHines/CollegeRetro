@@ -58,6 +58,7 @@
 .w-100 { width: 100%; }
 .flex { display: flex; }
 .inline-flex { display: inline-flex; }
+.block { display: block; }
 .space-between { justify-content: space-between; }
 .text-center { text-align: center; }
 
@@ -88,6 +89,10 @@
 .btn-primary {
 	color: white;
 	background-color: #428BCA;
+}
+.btn-secondary {
+	color: black;
+	background-color: #d7d7d7;
 }
 .btn-info {
 	color: white;
@@ -135,6 +140,10 @@ a {
 .bg-success {
 	color: white;
 	background-color: #5CB85C;
+}
+.bg-danger {
+	color: white;
+	background-color: #D9534F;
 }
 
 /* Containers */

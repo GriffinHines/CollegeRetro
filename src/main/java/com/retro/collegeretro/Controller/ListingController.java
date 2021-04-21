@@ -36,6 +36,13 @@ public class ListingController {
             model.addAttribute("inCart", false);
             if (user != null) {
                 user = userRepository.findById(user.getUserId()).get();
+                if (user == null) {
+                    System.out.println("SOMETHING WENT TERRIBLY WRONG");
+                } else if (user.getCart() == null) {
+                    System.out.println("CART IS NULL");
+                } else if (user.getCart().getListings() == null) {
+                    System.out.println("CART LISTINGS IS NULL");
+                }
                 if (user.getCart().getListings().contains(listing)) {
                     model.addAttribute("inCart", true);
                 }

@@ -1,5 +1,6 @@
 package com.retro.collegeretro.Runners;
 
+import com.retro.collegeretro.Model.Cart;
 import com.retro.collegeretro.Model.Role;
 import com.retro.collegeretro.Model.User;
 import com.retro.collegeretro.Repository.UserRepository;
@@ -38,6 +39,12 @@ public class AdminCreator implements CommandLineRunner {
             log.info("Created a new admin with username=admin and password=password");
         } else {
             log.info("There is already an admin, so not creating one");
+            User admin = userRepository.findAllAdmins().get(0);
+            if (admin.getCart() == null) {
+                admin.setCart(new Cart());
+                admin.getCart().setUser(admin);
+                userRepository.save(admin);
+            }
         }
     }
 }

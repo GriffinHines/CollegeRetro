@@ -77,4 +77,13 @@ public class User {
     public void addRole(Role role) {
         roleList.add(new UserRole(this, role));
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }

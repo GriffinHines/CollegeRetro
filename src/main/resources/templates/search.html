@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CollegeRetro - Search</title>
     <link rel="stylesheet" th:href="@{/style/core.css}">
-    <link rel="stylesheet" th:href="@{/style/listing.css}">
+    <link rel="stylesheet" th:href="@{/style/searching.css}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/591fc9484d.js" crossorigin="anonymous"></script>
 </head>
@@ -13,11 +13,27 @@
     <div th:replace="fragments/topnav :: navbar"></div>
     <h2 th:text="${headerText}"></h2>
     <main>
-        <section>
-            <div th:each="listing : ${listings.toList()}" >
-                <div th:replace="fragments/listing :: listingCard(${listing})"></div>
-            </div>
-        </section>
+        <div th:each="listing : ${listings.toList()}" class="listing">
+            <div th:replace="fragments/listing :: listingCard(${listing})"></div>
+        </div>
     </main>
 </body>
+<footer>
+    <div class="web-logo">
+        <a href="/"><img th:src="@{/img/logo.svg}" alt="CollegeRetro Logo"></a>
+    </div>
+    <div class="copyright">
+        <h2>&copy; 2021 CollegeRetro. All rights reserved.</h2>
+    </div>
+    <div class="user-agreement">
+        <p>
+            Use of this site constitutes acceptance of our User Agreement (effective 1/1/2021)
+            and Privacy Policy (effective 1/1/2021). CollegeRetro may earn a portion of sales
+            from products that are purchased through our site as part of our Affiliate
+            Partnerships with retailers. Your Athens Privacy Rights (effective 1/1/2021).
+            The material on this site may not be reproduced, distributed, transmitted, cached
+            or otherwise used, except with prior written permission of CollegeRetro.
+        </p>
+    </div>
+</footer>
 </html>

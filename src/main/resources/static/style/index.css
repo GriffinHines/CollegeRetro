@@ -1,23 +1,147 @@
+* {
+    margin: 0;
+}
+
+body {
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
 main {
+    background: #EEE;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.header {
+    margin: 0;
+    position: relative;
+    padding: 15%;
+    background-position: center;
+    background-image: url(https://images.unsplash.com/photo-1616030423971-514105cddcee?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80);
+}
+
+.header h1 {
+    padding: 5px 0;
+    background: rgba(0,0,0,0.25);
+    margin: 0;
+    color: white;
+    font-size: 50px;
+    text-align: center;
+}
+
+#line1 {
+    background: #428BCA;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    width: 250px;
+    height: 3px;
+}
+
+#line3 {
+    background: #428BCA;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    width: 3px;
+    height: 100px;
+}
+
+#line2 {
+    background: #428BCA;
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    width: 250px;
+    height: 3px;
+}
+
+#line4 {
+    background: #428BCA;
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    width: 3px;
+    height: 100px;
+}
+
+.card-title {
+    padding-bottom: 5px;
+    width: 90%;
+    border-bottom: 3px solid #428BCA;
+    text-align: left;
+    margin: 0 5%;
+}
+
+.card-title a {
+    font-size: 25px;
+}
+
+.card-title a:visited {
+    color: #428BCA;
+}
+
+.card-title a:link {
+    color: #428BCA;
+}
+
+.card-title a:active {
+    color: black;
+}
+
+section {
+    display: flex;
+    flex-direction: row;
     justify-content: space-around;
 }
 
 section.card {
-    width: 40%;
+    width: 90%;
     margin: 2rem;
     padding: 1rem;
+    border: none;
 }
 
 section.card article {
-    border-bottom: solid 1px #777777;
-    padding-bottom: 0.5rem;
-    padding-top: 0.5rem;
-    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px gray;
 }
 
 section.card article p {
     font-weight: 700;
     padding-bottom: 0.125rem;
+}
+
+article a {
+    padding: 15px 0 0;
+    display: inline-block;
+    white-space: nowrap;
+    max-width: 20ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+article a:link {
+    color: #428BCA;
+}
+
+article a:visited {
+    color: #428BCA;
+}
+
+article a:active {
+    color: black;
+}
+
+img {
+    height: 150px;
+    width: 150px;
 }

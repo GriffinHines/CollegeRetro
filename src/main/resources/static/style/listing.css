@@ -1,0 +1,41 @@
+* {
+    background: #EEE;
+}
+
+.listing {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.basic-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 600px;
+}
+
+.basic-info img {
+    width: 300px;
+    height: 300px;
+}
+
+.basic-info h1 {
+    font-size: 20px;
+}
+
+.description {
+    padding: 20px;
+    margin-top: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.description h2 {
+    font-size: 20px;
+    border-bottom: 1px solid black;
+}
+
+.description p {
+    margin: 20px 0 10px;
+}

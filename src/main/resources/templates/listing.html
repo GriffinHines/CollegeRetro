@@ -4,31 +4,38 @@
     <meta charset="UTF-8">
     <title>CollegeRetro - Item</title>
     <link rel="stylesheet" th:href="@{/style/core.css}">
+    <link rel="stylesheet" th:href="@{/style/listing.css}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/591fc9484d.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div th:replace="fragments/topnav :: navbar"></div>
-<div class="w-50 mx-auto">
+<div class="listing w-50 mx-auto">
     <!-- Basic info -->
-    <img class="mt-5" th:src="${listing.getImageURL()}" height="300">
-    <h1 class="text-title" th:text="${listing.getListingName()}"></h1>
-    <div class="card bg-success w-100 mx-auto mt-2 mb-2 p-2" th:if="${param.cart != null}"><i class="fas fa-check"></i> Item added to cart successfully!</div>
-    <p class="text-subtitle" th:text="${#numbers.formatCurrency(listing.getPriceInCents() / 100)}"></p>
-    <a th:text="'Category: ' + ${listing.getCategory()}" th:href="'/search?cat=' + ${listing.getCategory()}"></a>
-    <p th:text="'Qty. ' + ${listing.getQuantity()}" th:if="${listing.getQuantity() > 0}"></p>
-    <p th:if="${listing.getQuantity() == 0}" style="color: red">This item is sold out! <span th:if="${inCart}">Don't worry, it's still in your cart.</span></p>
-    <p th:text="'Seller: ' + ${listing.getUser().getUsername()}"></p>
+    <div class="basic-info">
+        <img class="mt-5" th:src="${listing.getImageURL()}">
+        <h1 class="text-title" th:text="${listing.getListingName()}"></h1>
+        <div class="card bg-success w-100 mx-auto mt-2 mb-2 p-2" th:if="${param.cart != null}"><i class="fas fa-check"></i> Item added to cart successfully!</div>
+        <p class="text-subtitle" th:text="${#numbers.formatCurrency(listing.getPriceInCents() / 100)}"></p>
+        <a th:text="'Category: ' + ${listing.getCategory()}" th:href="'/search?cat=' + ${listing.getCategory()}"></a>
+        <p th:text="'Qty. ' + ${listing.getQuantity()}" th:if="${listing.getQuantity() > 0}"></p>
+        <p th:if="${listing.getQuantity() == 0}" style="color: red">This item is sold out! <span th:if="${inCart}">Don't worry, it's still in your cart.</span></p>
+        <p th:text="'Seller: ' + ${listing.getUser().getUsername()}"></p>
+    </div>
 
     <!-- Cart stuff -->
-    <p class="mt-2" th:if="${session.user == null && listing.getQuantity() > 0}"><strong><a href="/account/login">Login</a> to add this to your cart.</strong></p>
-    <a class="mt-2 btn btn-primary" th:href="'/listing/add/' + ${listing.getListingId()}" th:if="${session.user != null && !inCart && listing.getQuantity() > 0}"><i class="fas fa-cart-plus"></i> Add to Cart</a>
-    <p class="mt-2" th:if="${session.user != null && inCart}"><strong>This item is already in your cart!</strong></p>
+    <div class="cart">
+        <p class="mt-2" th:if="${session.user == null && listing.getQuantity() > 0}"><strong><a href="/account/login">Login</a> to add this to your cart.</strong></p>
+        <a class="mt-2 btn btn-primary" th:href="'/listing/add/' + ${listing.getListingId()}" th:if="${session.user != null && !inCart && listing.getQuantity() > 0}"><i class="fas fa-cart-plus"></i> Add to Cart</a>
+        <p class="mt-2" th:if="${session.user != null && inCart}"><strong>This item is already in your cart!</strong></p>
+    </div>
 
     <!-- Description -->
-    <p class="mt-4" th:text="${listing.getDescription()}" th:if="${listing.getDescription().length() > 0}"></p>
-    <p class="mt-4" th:if="${listing.getDescription().length() == 0}">This product has no description</p>
+    <div class="description">
+        <h2>About This Product</h2>
+        <p class="mt-4" th:text="${listing.getDescription()}" th:if="${listing.getDescription().length() > 0}"></p>
+        <p class="mt-4" th:if="${listing.getDescription().length() == 0}">This product has no description</p>
+    </div>
 </div>
-
 </body>
 </html>

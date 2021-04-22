@@ -12,49 +12,53 @@
 <body>
 <div th:replace="fragments/topnav :: navbar"></div>
 <main>
+    <div class="header">
+        <div id="line1"></div>
+        <div id="line3"></div>
+        <h1>Welcome To CollegeRetro</h1>
+        <div id="line2"></div>
+        <div id="line4"></div>
+    </div>
+    <header>
+        <h2 class="card-title"><a href="/search?cat=textbooks">Textbooks</a></h2>
+    </header>
     <section class="card">
-        <header>
-            <h2 class="card-title"><a href="/search?cat=textbooks">Textbooks</a></h2>
-        </header>
-
         <article th:each="textbook : ${textbooks}">
+            <a th:href="'/listing/' + ${textbook.getListingId()}"><img th:src="${textbook.getImageURL()}" th:alt="'Image of ' + ${textbook.getListingName()}"></a>
             <a th:text="${textbook.getListingName()}" th:href="'/listing/' + ${textbook.getListingId()}"></a>
-            <img th:src="${textbook.getImageURL()}" th:alt="'Image of ' + ${textbook.getListingName()}">
         </article>
     </section>
 
+    <header>
+        <h2 class="card-title"><a href="/search?cat=furniture">Dorm Furniture</a></h2>
+    </header>
     <section class="card">
-        <header>
-            <h2 class="card-title"><a href="/search?cat=furniture">Dorm Furniture</a></h2>
-        </header>
-
         <article th:each="furnitureItem : ${furniture}">
+            <a th:href="'/listing/' + ${furnitureItem.getListingId()}"><img th:src="${furnitureItem.getImageURL()}" th:alt="'Image of ' + ${furnitureItem.getListingName()}"></a>
             <a th:text="${furnitureItem.getListingName()}" th:href="'/listing/' + ${furnitureItem.getListingId()}"></a>
-            <img th:src="${furnitureItem.getImageURL()}" th:alt="'Image of ' + ${furnitureItem.getListingName()}">
         </article>
     </section>
 
+    <header>
+        <h2 class="card-title"><a href="/search?cat=appliances">Dorm Appliances</a></h2>
+    </header>
     <section class="card">
-        <header>
-            <h2 class="card-title"><a href="/search?cat=appliances">Dorm Appliances</a></h2>
-        </header>
-
         <article th:each="appliance : ${appliances}">
+            <a th:href="'/listing/' + ${appliance.getListingId()}"><img th:src="${appliance.getImageURL()}" th:alt="'Image of ' + ${appliance.getListingName()}"></a>
             <a th:text="${appliance.getListingName()}" th:href="'/listing/' + ${appliance.getListingId()}"></a>
-            <img th:src="${appliance.getImageURL()}" th:alt="'Image of ' + ${appliance.getListingName()}">
         </article>
     </section>
 
+    <header>
+        <h2 class="card-title"><a href="/search?cat=computing">Computing Devices & Accessories</a></h2>
+    </header>
     <section class="card">
-        <header>
-            <h2 class="card-title"><a href="/search?cat=computing">Computing Devices & Accessories</a></h2>
-        </header>
-
         <article th:each="computingItem : ${computing}">
+            <a th:href="'/listing/' + ${computingItem.getListingId()}"><img th:src="${computingItem.getImageURL()}" th:alt="'Image of ' + ${computingItem.getListingName()}"></a>
             <a th:text="${computingItem.getListingName()}" th:href="'/listing/' + ${computingItem.getListingId()}"></a>
-            <img th:src="${computingItem.getImageURL()}" th:alt="'Image of ' + ${computingItem.getListingName()}">
         </article>
     </section>
 </main>
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

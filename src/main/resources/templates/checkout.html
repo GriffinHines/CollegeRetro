@@ -90,27 +90,27 @@
         <!-- Shipping -->
         <h2 class="text-subtitle mt-2">Shipping</h2>
         <label class="mt-1 ml-2 block" for="shipping">Select a shipping address</label>
-        <select class="form-control ml-2" name="shipping" id="shipping">
+        <select class="form-control ml-2" name="shipping" id="shipping" required>
             <option th:each="address : ${addresses}" th:value="${address.getAddressId()}"
                     th:text="${address.getPrimaryLine()}"></option>
         </select>
-        <button class="btn btn-secondary mt-1 ml-2 modal-toggle" data-modal-selector="#address-modal">
+        <button type="button" class="btn btn-secondary mt-1 ml-2 modal-toggle" data-modal-selector="#address-modal">
             <i class="fas fa-address-book"></i> New address
         </button>
 
         <!-- Payment -->
         <h2 class="text-subtitle mt-2">Payment</h2>
         <label class="mt-1 ml-2 block" for="card">Select a credit card to pay with</label>
-        <select class="form-control ml-2" name="card" id="card">
+        <select class="form-control ml-2" name="card" id="card" required>
             <option th:each="card : ${cards}" th:value="${card.getCreditCardId()}"
                     th:text="'**** **** **** ' + ${card.getCardNumber().substring(12)}"></option>
         </select>
         <label class="mt-1 ml-2 block" for="card-addr">Select an address associated with the card</label>
-        <select class="form-control ml-2" name="cardAddr" id="card-addr">
+        <select class="form-control ml-2" name="cardAddr" id="card-addr" required>
             <option th:each="address : ${addresses}" th:value="${address.getAddressId()}"
                     th:text="${address.getPrimaryLine()}"></option>
         </select>
-        <button class="btn btn-secondary mt-1 ml-2 modal-toggle" data-modal-selector="#card-modal">
+        <button type="button" class="btn btn-secondary mt-1 ml-2 modal-toggle" data-modal-selector="#card-modal">
             <i class="fas fa-credit-card"></i> New card
         </button>
 

@@ -79,7 +79,7 @@ public class CartController {
 
         // Mark listings as inactive if the last one is bought
         for (Listing listing : user.getCart().getListings()) {
-            if (listing.getCarts().size() == 1) {
+            if (listing.getCarts().size() + listing.getQuantity() == 1) {
                 listing.setOpen(false);
             }
             listing.getCarts().remove(user.getCart());

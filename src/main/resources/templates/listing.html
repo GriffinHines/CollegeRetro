@@ -17,17 +17,17 @@
     <p class="text-subtitle" th:text="${#numbers.formatCurrency(listing.getPriceInCents() / 100)}"></p>
     <a th:text="'Category: ' + ${listing.getCategory()}" th:href="'/search?cat=' + ${listing.getCategory()}"></a>
     <p th:text="'Qty. ' + ${listing.getQuantity()}" th:if="${listing.getQuantity() > 0}"></p>
-    <p th:if="${listing.getQuantity() == 0}" style="color: red">This item is sold out! <span th:if="${inCart}">Don't worry, it's still in your cart.</span></p>
+    <p th:if="${listing.getQuantity() == 0}" style="color: red"><i class="fas fa-exclamation-triangle"></i> This item is sold out! <span th:if="${inCart}">Don't worry, it's still in your cart.</span></p>
     <p th:text="'Seller: ' + ${listing.getUser().getUsername()}"></p>
 
     <!-- Cart stuff -->
-    <p class="mt-2" th:if="${session.user == null && listing.getQuantity() > 0}"><strong><a href="/account/login">Login</a> to add this to your cart.</strong></p>
+    <p class="mt-2" th:if="${session.user == null && listing.getQuantity() > 0}"><strong><i class="fas fa-exclamation-circle"></i> <a href="/account/login">Login</a> to add this to your cart.</strong></p>
     <a class="mt-2 btn btn-primary" th:href="'/listing/add/' + ${listing.getListingId()}" th:if="${session.user != null && !inCart && listing.getQuantity() > 0}"><i class="fas fa-cart-plus"></i> Add to Cart</a>
-    <p class="mt-2" th:if="${session.user != null && inCart}"><strong>This item is already in your cart!</strong></p>
+    <p class="mt-2" th:if="${session.user != null && inCart}"><strong><i class="fas fa-exclamation-circle"></i> This item is already in your cart!</strong></p>
 
     <!-- Description -->
     <p class="mt-4" th:text="${listing.getDescription()}" th:if="${listing.getDescription().length() > 0}"></p>
-    <p class="mt-4" th:if="${listing.getDescription().length() == 0}">This product has no description</p>
+    <p class="mt-4" th:if="${listing.getDescription().length() == 0}"><i class="fas fa-info-circle"></i> This product has no description</p>
 </div>
 
 </body>

@@ -3,7 +3,7 @@
     <script src="https://kit.fontawesome.com/591fc9484d.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="listing card mx-auto bg-light p-1 w-50 mt-2" th:fragment="listingCard(listing)">
+<div class="listing card mx-auto bg-med p-1 w-50 mt-2" th:fragment="listingCard(listing)">
     <a class="card-title"
        th:href="'/listing/' + ${listing.getListingId()}"
        th:text="${listing.getListingName()} + ' (' + ${#numbers.formatCurrency(listing.getPriceInCents() / 100)} + ')'"></a>

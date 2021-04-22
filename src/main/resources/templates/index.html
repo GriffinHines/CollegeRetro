@@ -26,6 +26,7 @@
         <article th:each="textbook : ${textbooks}">
             <a th:href="'/listing/' + ${textbook.getListingId()}"><img th:src="${textbook.getImageURL()}" th:alt="'Image of ' + ${textbook.getListingName()}"></a>
             <a th:text="${textbook.getListingName()}" th:href="'/listing/' + ${textbook.getListingId()}"></a>
+            <p th:text="${#numbers.formatCurrency(textbook.getPriceInCents() / 100.0)}"></p>
         </article>
     </section>
 
@@ -36,6 +37,7 @@
         <article th:each="furnitureItem : ${furniture}">
             <a th:href="'/listing/' + ${furnitureItem.getListingId()}"><img th:src="${furnitureItem.getImageURL()}" th:alt="'Image of ' + ${furnitureItem.getListingName()}"></a>
             <a th:text="${furnitureItem.getListingName()}" th:href="'/listing/' + ${furnitureItem.getListingId()}"></a>
+            <p th:text="${#numbers.formatCurrency(furnitureItem.getPriceInCents() / 100.0)}"></p>
         </article>
     </section>
 
@@ -46,6 +48,7 @@
         <article th:each="appliance : ${appliances}">
             <a th:href="'/listing/' + ${appliance.getListingId()}"><img th:src="${appliance.getImageURL()}" th:alt="'Image of ' + ${appliance.getListingName()}"></a>
             <a th:text="${appliance.getListingName()}" th:href="'/listing/' + ${appliance.getListingId()}"></a>
+            <p th:text="${#numbers.formatCurrency(appliance.getPriceInCents() / 100.0)}"></p>
         </article>
     </section>
 
@@ -56,6 +59,7 @@
         <article th:each="computingItem : ${computing}">
             <a th:href="'/listing/' + ${computingItem.getListingId()}"><img th:src="${computingItem.getImageURL()}" th:alt="'Image of ' + ${computingItem.getListingName()}"></a>
             <a th:text="${computingItem.getListingName()}" th:href="'/listing/' + ${computingItem.getListingId()}"></a>
+            <p th:text="${#numbers.formatCurrency(computingItem.getPriceInCents() / 100.0)}"></p>
         </article>
     </section>
 </main>

@@ -16,7 +16,7 @@
         <img class="mt-5" th:src="${listing.getImageURL()}">
         <h1 class="text-title" th:text="${listing.getListingName()}"></h1>
         <div class="card bg-success w-100 mx-auto mt-2 mb-2 p-2" th:if="${param.cart != null}"><i class="fas fa-check"></i> Item added to cart successfully!</div>
-        <p class="text-subtitle" th:text="${#numbers.formatCurrency(listing.getPriceInCents() / 100)}"></p>
+        <p class="text-subtitle" th:text="${#numbers.formatCurrency(listing.getPriceInCents() / 100.0)}"></p>
         <a th:text="'Category: ' + ${listing.getCategory()}" th:href="'/search?cat=' + ${listing.getCategory()}"></a>
         <p th:text="'Qty. ' + ${listing.getQuantity()}" th:if="${listing.getQuantity() > 0}"></p>
         <p th:if="${listing.getQuantity() == 0}" style="color: red">This item is sold out! <span th:if="${inCart}">Don't worry, it's still in your cart.</span></p>
